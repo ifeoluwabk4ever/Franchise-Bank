@@ -59,18 +59,18 @@ const LoveLinkUserSchema = new mongoose.Schema({
       required: true,
       trim: true
    },
-   mothers_email: {
-      type: String,
-      required: true,
-      trim: true
-   },
-   mothers_gender: {
-      type: String,
-      required: true,
-      trim: true
-   },
    mothers_dob: {
       type: Date,
+      required: true,
+      trim: true
+   },
+   mothers_telephone: {
+      type: String,
+      required: true,
+      trim: true
+   },
+   telephone: {
+      type: String,
       required: true,
       trim: true
    },
@@ -82,20 +82,30 @@ const LoveLinkUserSchema = new mongoose.Schema({
    },
    account_balance: {
       type: Number,
-      required: true,
-      trim: true
+      trim: true,
+      default: 0
    },
    occupation: {
       type: String,
       required: true,
       trim: true
    },
-   acount_type: {
+   account_type: {
       type: ObjectId,
       required: true,
       ref: 'AccountType'
    },
-   acount_type_name: {
+   account_type_name: {
+      type: String,
+      required: true,
+      trim: true
+   },
+   account_category: {
+      type: ObjectId,
+      required: true,
+      ref: 'AccountCategory'
+   },
+   account_category_name: {
       type: String,
       required: true,
       trim: true
@@ -110,6 +120,18 @@ const LoveLinkUserSchema = new mongoose.Schema({
       required: true,
       trim: true
    },
+   history: {
+      type: Array,
+      default: []
+   },
+   username: {
+      type: String,
+      default: ''
+   },
+   password: {
+      type: String,
+      default: ''
+   }
 }, { timestamps: true })
 
 export default mongoose.model('LoveLinkUser', LoveLinkUserSchema)

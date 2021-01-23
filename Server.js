@@ -14,6 +14,7 @@ import connectDB from './Config/Db.js'
 import AccountTypeRoute from './Routes/AccountTypeRoute.js'
 import AccountCategoryRoute from './Routes/AccountCategoryRoute.js'
 import UserBVNRoute from './Routes/UserBVNRoute.js'
+import BankUsersRoute from './Routes/BankUsersRoutes.js'
 
 
 const app = express()
@@ -35,6 +36,7 @@ app.use(express.static(path.join(__dirname, 'Public')))
 app.use('/love-link', AccountTypeRoute)
 app.use('/love-link', AccountCategoryRoute)
 app.use('/love-link', UserBVNRoute)
+app.use('/love-link', BankUsersRoute)
 
 
 // Page not found
