@@ -2,7 +2,7 @@ import AccountTypeModel from '../Model/AccountTypeModel.js'
 import { validationResult } from 'express-validator';
 
 
-// route    /love-link/account-type
+// route    /franchise/account-type
 // desc     GET Get account type
 // access   Public
 export const getAccountType = async (req, res) => {
@@ -16,13 +16,13 @@ export const getAccountType = async (req, res) => {
    } catch (error) {
       console.log(error.message);
       return res.status(500).json({
-         msg: "Server Error"
+         msg: `Server Error: ${error.message}`
       })
    }
 }
 
 
-// route    /love-link/account-type
+// route    /franchise/account-type
 // desc     POST Add account type
 // access   Private Admin
 export const addAccountType = async (req, res) => {
@@ -34,14 +34,14 @@ export const addAccountType = async (req, res) => {
             msg: errors.array()
          })
       }
-      let { account_type, user_debit, non_user_debit } = req.body
+      let { account_type, user_debit, non_user_debit, profit_rate } = req.body
 
       let checkAccount = await AccountTypeModel.findOne({ account_type: account_type.toUpperCase() })
       if (checkAccount) return res.status(400).json({
          msg: `${account_type} exists...`
       })
 
-      let newAccountType = new AccountTypeModel({ account_type: account_type.toUpperCase(), user_debit: Number(user_debit), non_user_debit: Number(non_user_debit) })
+      let newAccountType = new AccountTypeModel({ account_type: account_type.toUpperCase(), user_debit: Number(user_debit).toFixed(2), non_user_debit: Number(non_user_debit).toFixed(2), profit_rate: Number(profit_rate).toFixed(2) })
       await newAccountType.save()
       res.json({
          msg: `${account_type} added`
@@ -49,12 +49,12 @@ export const addAccountType = async (req, res) => {
    } catch (error) {
       console.log(error.message);
       return res.status(500).json({
-         msg: "Server Error"
+         msg: `Server Error: ${error.message}`
       })
    }
 }
 
-// route    /love-link/account-type/user-debit/:account_slug
+// route    /franchise/account-type/user-debit/:account_slug
 // desc     PATCH Change user-debit value
 // access   Private Admin
 export const editUserDebitValue = async (req, res) => {
@@ -81,13 +81,13 @@ export const editUserDebitValue = async (req, res) => {
    } catch (error) {
       console.log(error.message);
       return res.status(500).json({
-         msg: "Server Error"
+         msg: `Server Error: ${error.message}`
       })
    }
 }
 
 
-// route    /love-link/account-type/non-user-debit/:account_slug
+// route    /franchise/account-type/non-user-debit/:account_slug
 // desc     PATCH Change non-user-debit value
 // access   Private Admin
 export const editNonUserDebitValue = async (req, res) => {
@@ -114,7 +114,7 @@ export const editNonUserDebitValue = async (req, res) => {
    } catch (error) {
       console.log(error.message);
       return res.status(500).json({
-         msg: "Server Error"
+         msg: `Server Error: ${error.message}`
       })
    }
 }

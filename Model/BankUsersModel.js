@@ -5,7 +5,7 @@ mongoose.plugin(slug)
 const { ObjectId } = mongoose.Schema
 
 
-const LoveLinkUserSchema = new mongoose.Schema({
+const FranchiseUserSchema = new mongoose.Schema({
    firstName: {
       type: String,
       required: true,
@@ -134,4 +134,4 @@ const LoveLinkUserSchema = new mongoose.Schema({
    }
 }, { timestamps: true })
 
-export default mongoose.model('LoveLinkUser', LoveLinkUserSchema)
+export default mongoose.model('FranchiseUser', FranchiseUserSchema)

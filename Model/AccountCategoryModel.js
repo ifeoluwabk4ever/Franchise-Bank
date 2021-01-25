@@ -19,9 +19,8 @@ const AccountCategorySchema = new mongoose.Schema({
    },
    user_limit: {
       type: Number,
-      required: true,
       trim: true,
-      default: null
+      default: 1
    },
 }, { timestamps: true })
 

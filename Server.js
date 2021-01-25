@@ -15,6 +15,8 @@ import AccountTypeRoute from './Routes/AccountTypeRoute.js'
 import AccountCategoryRoute from './Routes/AccountCategoryRoute.js'
 import UserBVNRoute from './Routes/UserBVNRoute.js'
 import BankUsersRoute from './Routes/BankUsersRoutes.js'
+import BankStaffRoute from './Routes/BankStaffRoutes.js'
+import TransactionTypeRoute from './Routes/TransactionTypeRoutes.js'
 
 
 const app = express()
@@ -32,11 +34,13 @@ app.use(express.static(path.join(__dirname, 'Public')))
 
 
 
-// Love Links Routes
-app.use('/love-link', AccountTypeRoute)
-app.use('/love-link', AccountCategoryRoute)
-app.use('/love-link', UserBVNRoute)
-app.use('/love-link', BankUsersRoute)
+// Franchise Routes
+app.use('/franchise/account-type', AccountTypeRoute)
+app.use('/franchise', AccountCategoryRoute)
+app.use('/franchise', TransactionTypeRoute)
+app.use('/franchise', UserBVNRoute)
+app.use('/franchise/account-user', BankUsersRoute)
+app.use('/franchise/staff', BankStaffRoute)
 
 
 // Page not found

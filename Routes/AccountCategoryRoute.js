@@ -9,8 +9,7 @@ router.route('/account-category')
    .get(getAccountCategory)
    .post(
       [
-         check('category', 'Category required').not().isEmpty(),
-         check('user_limit', 'User limit required').not().isEmpty()
+         check('category', 'Category required').not().isEmpty()
       ], addAccountCategory)
 
 

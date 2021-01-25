@@ -4,7 +4,7 @@ import { validationResult } from 'express-validator'
 
 
 
-// route    /love-link/account-category
+// route    /franchise/account-category
 // desc     POST Add account category
 // access   Private Bank Admin
 export const addAccountCategory = async (req, res) => {
@@ -26,7 +26,7 @@ export const addAccountCategory = async (req, res) => {
 
 
 
-      let newAccountCategory = new AccountCategoryModel({ category: category.toUpperCase(), user_limit: Number(user_limit), credit_limit: credit_limit ? Number(credit_limit) : '', debit_limit: debit_limit ? Number(debit_limit) : '' })
+      let newAccountCategory = new AccountCategoryModel({ category: category.toUpperCase(), user_limit: user_limit ? Number(user_limit) : 1, credit_limit: credit_limit ? Number(credit_limit).toFixed(2) : '', debit_limit: debit_limit ? Number(debit_limit).toFixed(2) : '' })
       await newAccountCategory.save()
 
       res.json({
@@ -35,13 +35,13 @@ export const addAccountCategory = async (req, res) => {
    } catch (error) {
       console.log(error.message);
       return res.status(500).json({
-         msg: 'Server Error'
+         msg: `Server Error: ${error.message}`
       })
    }
 }
 
 
-// route    /love-link/account-category
+// route    /franchise/account-category
 // desc     GET Get account category
 // access   Public
 export const getAccountCategory = async (req, res) => {
@@ -55,7 +55,7 @@ export const getAccountCategory = async (req, res) => {
    } catch (error) {
       console.log(error.message);
       return res.status(500).json({
-         msg: "Server Error"
+         msg: `Server Error: ${error.message}`
       })
    }
 }

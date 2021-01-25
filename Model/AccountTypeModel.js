@@ -21,6 +21,10 @@ const AccountTypeSchema = new mongoose.Schema({
       type: Number,
       required: true
    },
+   profit_rate: {
+      type: Number,
+      required: true
+   },
    non_user_debit: {
       type: Number,
       required: true

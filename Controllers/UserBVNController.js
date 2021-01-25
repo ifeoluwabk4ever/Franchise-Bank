@@ -3,7 +3,7 @@ import { validationResult } from 'express-validator'
 
 
 
-// route    /love-link/enroll/user-bvn
+// route    /franchise/enroll/user-bvn
 // desc     POST Add User to BVN  Enrollment
 // access   Private Bank Admin
 export const addUserBVN = async (req, res) => {
@@ -47,13 +47,13 @@ export const addUserBVN = async (req, res) => {
    } catch (error) {
       console.log(error.message);
       res.status(500).json({
-         msg: "Server Error"
+         msg: `Server Error: ${error.message}`
       })
    }
 }
 
 
-// route    /love-link/enroll/user-bvn
+// route    /franchise/enroll/user-bvn
 // desc     GET Get User BVN Detail and Verify if BVN exists
 // access   Public
 export const getUserBVNDetail = async (req, res) => {
@@ -79,7 +79,7 @@ export const getUserBVNDetail = async (req, res) => {
    } catch (error) {
       console.log(error.message);
       res.status(500).json({
-         msg: "Server Error"
+         msg: `Server Error: ${error.message}`
       })
    }
 }
