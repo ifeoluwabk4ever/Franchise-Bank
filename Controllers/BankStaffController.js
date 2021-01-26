@@ -32,6 +32,11 @@ export const addBankStaff = async (req, res) => {
          msg: `${account_number} does not exists...`
       })
 
+      let checkAccountNumber2 = await BankStaffModel.findOne({ account_number })
+      if (checkAccountNumber2) return res.status(400).json({
+         msg: `${account_number} exists for another staff...`
+      })
+
       let checkTelephone = await BankStaffModel.findOne({ telephone })
       if (checkTelephone) return res.status(400).json({
          msg: `${telephone} exists...`
@@ -50,13 +55,14 @@ export const addBankStaff = async (req, res) => {
       await newBankStaff.save()
 
       res.json({
-         msg: `${fullName} enrolled...`
+         msg: `${fullName} enrolled...`,
+         staffID
       })
 
    } catch (error) {
       console.log(error.message);
       return res.status(500).json({
-         msg: "Server Error"
+         msg: `Server Error: ${error.message}`
       })
    }
 }
@@ -67,7 +73,7 @@ export const addBankStaff = async (req, res) => {
 // access   Private Bank Staff
 export const getStaffDetails = async (req, res) => {
    try {
-      let user = await BankStaffModel.findById(req.staff.id).select('-password')
+      let user = await BankStaffModel.findById(req.bankStaff.id).select('-password')
 
       if (!user) return res.status(400).json({
          msg: "User does not exist..."
@@ -134,7 +140,7 @@ export const loginStaff = async (req, res) => {
 export const registerPassword = async (req, res) => {
    try {
       let errors = validationResult(req)
-      if (errors.isEmpty()) return res.status(400).json({
+      if (!errors.isEmpty()) return res.status(400).json({
          msg: errors.array()
       })
 
@@ -155,17 +161,19 @@ export const registerPassword = async (req, res) => {
       // Encrypt password
       let salt = await bcrypt.genSalt(10)
       // Save password
-      await bcrypt.hash(password, salt)
+      let savePassword = await bcrypt.hash(password, salt)
       // Save data in database
 
-      let updatedData = await BankStaffModel.findOneAndUpdate({ staffID }, { password })
+      let updatedData = await BankStaffModel.findOneAndUpdate({ staffID }, { password: savePassword })
+
+      let newUser = await BankStaffModel.findById(updatedData._id)
 
       // Create jwt to auth
-      const accesstoken = createAccessToken({ id: updatedData._id })
+      const accesstoken = createAccessToken({ id: newUser._id })
 
       res.json({
          token: accesstoken,
-         msg: `Welcome ${updatedData.lastName}`
+         msg: `Welcome ${newUser.fullName}`
       })
    } catch (error) {
       console.log(error.message);
@@ -194,7 +202,7 @@ export const getStaffID = () => {
    var semi = numb.reduce((r, a) => {
       return r += a
    }, '')
-   let finalValue = `LOVELINK${YearString}-${semi}`
+   let finalValue = `FRANCHISE${YearString}-${semi}`
 
    return finalValue
 }

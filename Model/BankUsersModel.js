@@ -131,6 +131,18 @@ const FranchiseUserSchema = new mongoose.Schema({
    password: {
       type: String,
       default: ''
+   },
+   pos_pin: {
+      type: String,
+      default: ''
+   },
+   ussd_pin: {
+      type: String,
+      default: ''
+   },
+   atm_detail: {
+      type: Object,
+      default: {}
    }
 }, { timestamps: true })
 

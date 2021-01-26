@@ -17,6 +17,7 @@ import UserBVNRoute from './Routes/UserBVNRoute.js'
 import BankUsersRoute from './Routes/BankUsersRoutes.js'
 import BankStaffRoute from './Routes/BankStaffRoutes.js'
 import TransactionTypeRoute from './Routes/TransactionTypeRoutes.js'
+import TransactionDetailsRoute from './Routes/TransactionDetailRoutes.js'
 
 
 const app = express()
@@ -41,6 +42,7 @@ app.use('/franchise', TransactionTypeRoute)
 app.use('/franchise', UserBVNRoute)
 app.use('/franchise/account-user', BankUsersRoute)
 app.use('/franchise/staff', BankStaffRoute)
+app.use('/franchise', TransactionDetailsRoute)
 
 
 // Page not found

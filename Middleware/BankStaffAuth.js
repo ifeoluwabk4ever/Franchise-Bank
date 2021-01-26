@@ -12,7 +12,7 @@ const bankStaff = async (req, res, next) => {
             msg: "Invalid Authentication, Unauthorized User"
          })
 
-         req.staff = user
+         req.bankStaff = user
          next()
       })
    } catch (error) {
