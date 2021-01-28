@@ -29,7 +29,7 @@ const MyDetails = ({ bankUser }) => {
                      <span className="mr-3">Account Number:</span> <span className="text-info">{bankUser.account_number}</span>
                   </h5>
                   <h5 className="d-flex justify-content-between align-content-center">
-                     <span className="mr-3">Balance:</span> <span className={`money ${bankUser.account_balance > 0 ? 'plus' : 'minus'}`}>{bankUser.account_balance > 0 ? '+' : '-'}&#8358;{numberWithCommas(bankUser.account_balance)}k</span>
+                     <span className="mr-3">Balance:</span> <span className={`money ${bankUser.account_balance > 0 ? 'plus' : bankUser.account_balance < 0 ? 'minus' : ''}`}>{bankUser.account_balance > 0 ? '+' : bankUser.account_balance < 0 ? '-' : ''}&#8358;{numberWithCommas(bankUser.account_balance)}k</span>
                   </h5>
                </div>
             </div>

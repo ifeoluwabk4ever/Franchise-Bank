@@ -8,6 +8,8 @@ export const AUTH_ERROR = 'AUTH_ERROR'
 export const SET_LOADING = 'SET_LOADING'
 export const TRANSFER_FUND = 'TRANSFER_FUND'
 export const TRANSFER_FUND_FAIL = 'TRANSFER_FUND_FAIL'
+export const VERIFY_TOKEN = 'VERIFY_TOKEN'
+export const VERIFY_TOKEN_FAIL = 'VERIFY_TOKEN_FAIL'
 
 
 //  Main Student Auth Action Types

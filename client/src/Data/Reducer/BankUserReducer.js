@@ -1,4 +1,4 @@
-import { AUTH_ERROR, LOGIN_FAIL, LOGIN_SUCCESS, REGISTER_FAIL, REGISTER_SUCCESS, SET_LOADING, USER_LOADED, LOGOUT, TRANSFER_FUND, TRANSFER_FUND_FAIL } from '../Actions/ActionTypes'
+import { AUTH_ERROR, LOGIN_FAIL, LOGIN_SUCCESS, REGISTER_FAIL, REGISTER_SUCCESS, SET_LOADING, USER_LOADED, LOGOUT, TRANSFER_FUND, TRANSFER_FUND_FAIL, VERIFY_TOKEN, VERIFY_TOKEN_FAIL } from '../Actions/ActionTypes'
 
 // Initial State
 const initialState = {
@@ -7,6 +7,7 @@ const initialState = {
    isUser: null,
    isLoggedIn: null,
    isTransfer: null,
+   isVerify: null,
    users: null
 }
 
@@ -46,6 +47,19 @@ export default (state = initialState, action) => {
             ...state,
             ...payload,
             isTransfer: false,
+            isLoading: false
+         }
+      case VERIFY_TOKEN:
+         return {
+            ...state,
+            ...payload,
+            isVerify: true
+         }
+      case VERIFY_TOKEN_FAIL:
+         return {
+            ...state,
+            ...payload,
+            isVerify: false,
             isLoading: false
          }
       case REGISTER_FAIL:

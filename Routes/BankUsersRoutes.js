@@ -1,7 +1,7 @@
 import express from 'express'
 import { check } from 'express-validator'
 
-import { addBankUser, addUserRegister, checkUser, getUserDetails, loginUsers } from '../Controllers/BankUsersController.js'
+import { addBankUser, addUserRegister, checkUser, getUserDetails, loginUsers, verifyToken, verifyUser } from '../Controllers/BankUsersController.js'
 import bankStaffAuth from '../Middleware/BankStaffAuth.js'
 import bankUsersAuth from '../Middleware/BankUserAuth.js'
 
@@ -26,7 +26,7 @@ router.route('/register-user')
          check('account_category', 'Please specify account category').not().isEmpty(),
          check('account_type', 'Please specify account type').not().isEmpty(),
          check('bvn_number', 'Please included BVN Number').not().isEmpty()
-      ], addBankUser)
+      ], bankStaffAuth, addBankUser)
    .patch(
       [
          check('username', 'Username required').not().isEmpty(),
@@ -34,6 +34,14 @@ router.route('/register-user')
          check('password', 'Password too weak, required to be 6 or more').isLength({ min: 6 })
       ], addUserRegister
    )
+
+router.post('/user-fullname', bankUsersAuth, verifyUser)
+router.post('/verify-token',
+   [
+      check('token', "Token required to be 6 digits").isLength({
+         min: 6, max: 6
+      })
+   ], verifyToken)
 
 router.post('/login-user',
    [

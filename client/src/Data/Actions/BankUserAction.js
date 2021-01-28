@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import setAuthToken from '../../Helpers/SetAuthToken'
-import { AUTH_ERROR, LOGIN_FAIL, LOGIN_SUCCESS, REGISTER_FAIL, REGISTER_SUCCESS, SET_LOADING, USER_LOADED, LOGOUT, TRANSFER_FUND_FAIL, TRANSFER_FUND } from './ActionTypes'
+import { AUTH_ERROR, LOGIN_FAIL, LOGIN_SUCCESS, REGISTER_FAIL, REGISTER_SUCCESS, SET_LOADING, USER_LOADED, LOGOUT, TRANSFER_FUND_FAIL, TRANSFER_FUND, VERIFY_TOKEN, VERIFY_TOKEN_FAIL } from './ActionTypes'
 
 
 // LoadUser Action
@@ -102,6 +102,36 @@ export let registerPasswordBankUser = ({ account_number, username, password }) =
    try {
       // Response
       let res = await axios.patch(`/franchise/account-user/register-user`, body, config)
+      dispatch({
+         type: VERIFY_TOKEN,
+         payload: res.data
+      })
+      dispatch(loadBankUser())
+      toast.success(res.data.msg)
+   } catch (err) {
+      let errors = err.response.data.error
+      if (errors) errors.forEach(error => toast.error(error.msg))
+
+      dispatch({ type: VERIFY_TOKEN_FAIL })
+   }
+}
+
+// User Personal Final Token Verification Action
+export let verifyTokenBankUser = ({ token }) => async dispatch => {
+   // Config header for axios
+   let config = {
+      headers: {
+         'Content-Type': 'application/json'
+      }
+   }
+
+   // Set body
+   let body = JSON.stringify({ token })
+
+   dispatch({ type: SET_LOADING })
+   try {
+      // Response
+      let res = await axios.post(`/franchise/account-user/verify-token`, body, config)
       dispatch({
          type: LOGIN_SUCCESS,
          payload: res.data

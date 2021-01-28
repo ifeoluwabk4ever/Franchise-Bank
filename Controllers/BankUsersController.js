@@ -135,6 +135,42 @@ export const checkUser = async (req, res) => {
    }
 }
 
+
+// route    /franchise/account-user/user-fullname
+// desc     POST Verify User account
+// access   Private Bank User
+export const verifyUser = async (req, res) => {
+   try {
+      let { account_number } = req.body
+
+      if (!account_number) return res.status(400).json({
+         error: [
+            { msg: "Please provide account number" }
+         ]
+      })
+
+      var user = await BankUsersModel.findOne({ account_number }).select('-password')
+
+      if (!user) return res.status(400).json({
+         error: [
+            { msg: `${account_number} does not exists` }
+         ]
+      })
+
+      res.json({
+         name: user.fullName
+      })
+
+   } catch (error) {
+      console.log(error.message);
+      return res.status(500).json({
+         error: [
+            { msg: `Server Error: ${error.message}` }
+         ]
+      })
+   }
+}
+
 // route    /franchise/account-user/register-user
 // desc     PATCH Add Username and password to User account
 // access   Private Bank User
@@ -168,21 +204,60 @@ export const addUserRegister = async (req, res) => {
          ]
       })
 
+      do {
+         var token = getToken()
+         var checkToken = await BankUsersModel.findOne({ token })
+      } while (checkToken);
+
+      await BankUsersModel.findOneAndUpdate({ account_number }, { token, initPassword: password, initUsername: username })
+
+      res.json({
+         msg: `Please check your phone number and fill in token sent there in`
+      })
+   } catch (error) {
+      console.log(error.message);
+      return res.status(500).json({
+         error: [
+            { msg: `Server Error: ${error.message}` }
+         ]
+      })
+   }
+}
+
+
+// route    /franchise/account-user/verify-token
+// desc     POST Verify token
+// access   Private Bank User
+export const verifyToken = async (req, res) => {
+   try {
+      let errors = validationResult(req)
+      if (!errors.isEmpty()) return res.status(400).json({
+         error: errors.array()
+      })
+
+      let { token } = req.body
+
+      let checkToken = await BankUsersModel.findOne({ token })
+
+      if (!checkToken) return res.status(400).json({
+         error: [
+            { msg: "Invalid token" }
+         ]
+      })
 
       // Create salt && hash
       // Encrypt password
       let salt = await bcrypt.genSalt(10)
       // Save password
-      let savePassword = await bcrypt.hash(password, salt)
+      let savePassword = await bcrypt.hash(checkToken.initPassword, salt)
       // Save data in database
 
-      let updatedData = await BankUsersModel.findOneAndUpdate({ account_number }, { username, password: savePassword })
+      let updatedData = await BankUsersModel.findByIdAndUpdate({ _id: checkToken._id }, { username: checkToken.initUsername, password: savePassword, token: '', initPassword: '', initUsername: '' })
 
       let newUser = await BankUsersModel.findById(updatedData._id)
 
       // Create jwt to auth
       const accesstoken = createAccessToken({ id: newUser._id })
-
       res.json({
          token: accesstoken,
          msg: `Welcome ${newUser.username}`
@@ -253,7 +328,7 @@ export const loginUsers = async (req, res) => {
 // access   Private User
 export const getUserDetails = async (req, res) => {
    try {
-      let user = await BankUsersModel.findById(req.bankUser.id).select("-password")
+      let user = await BankUsersModel.findById(req.bankUser.id).select("-password -token -initPassword -initUsername")
 
       if (!user) return res.status(400).json({
          error: [
@@ -308,6 +383,21 @@ export const getAccountNumber = () => {
       return r += a
    }, '')
    let finalValue = `0${YearString}${semi}`
+
+   return finalValue
+}
+
+export const getToken = () => {
+   let values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
+   var numb = []
+   for (let i = 1; i <= 6; i++) {
+      let randomIndex = Math.floor(Math.random() * values.length)
+      numb.push(values[randomIndex])
+   }
+   var semi = numb.reduce((r, a) => {
+      return r += a
+   }, '')
+   let finalValue = `${semi}`
 
    return finalValue
 }

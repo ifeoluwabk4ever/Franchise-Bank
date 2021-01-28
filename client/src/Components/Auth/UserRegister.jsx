@@ -1,37 +1,61 @@
 import React, { useState } from 'react'
-import { Card } from 'reactstrap'
+import { Card, Modal, ModalBody, ModalHeader } from 'reactstrap'
 import { connect } from 'react-redux'
 import { MoonLoader } from 'react-spinners'
 import { Redirect } from 'react-router-dom'
 
 
-import { loginBankUser } from '../../Data/Actions/BankUserAction'
+import { registerPasswordBankUser, verifyTokenBankUser } from '../../Data/Actions/BankUserAction'
 
-const UserRegister = ({ loginBankUser, isLoading, isUser, isLoggedIn }) => {
+const UserRegister = ({ registerPasswordBankUser, isLoading, isUser, isVerify, verifyTokenBankUser, isLoggedIn }) => {
 
    const [state, setState] = useState({
       username: '',
       password: '',
       account_number: ''
    });
-   const [callbackUserLogin, setCallbackUserLogin] = useState(false);
+   const [callbackUserRegister, setCallbackUserRegister] = useState(false);
+   const [callbackVerifyToken, setCallbackVerifyToken] = useState(false);
+   const [modal, setModal] = useState(false);
+   const [token, setToken] = useState('');
 
    let { username, password, account_number } = state
 
    const handleDataChange = input => e => {
       let { value } = e.target
-      setState({
-         ...state,
-         [input]: value
-      })
+      if (input === "token") {
+         setToken(value)
+      } else {
+         setState({
+            ...state,
+            [input]: value
+         })
+      }
    }
 
    const handleSubmit = async e => {
       e.preventDefault()
-      loginBankUser({ username, password, account_number })
-      setCallbackUserLogin(true)
+      registerPasswordBankUser({ username, password, account_number })
+      setCallbackUserRegister(true)
    }
-   if (isLoggedIn && isUser && callbackUserLogin) {
+
+   const toggle = () => {
+      setModal(!modal)
+   }
+
+   if (isVerify && callbackUserRegister) {
+      if (!modal) {
+         toggle()
+      }
+   }
+
+   const handleVerifyToken = async e => {
+      e.preventDefault()
+      verifyTokenBankUser({ token })
+      setCallbackVerifyToken(true)
+   }
+
+   if (isLoggedIn && isUser && callbackVerifyToken) {
       return <Redirect to="/my-details" />
    }
 
@@ -87,15 +111,43 @@ const UserRegister = ({ loginBankUser, isLoading, isUser, isLoggedIn }) => {
                   }
                </form>
             </Card>
+            <Modal isOpen={modal}>
+               <ModalHeader toggle={toggle}>
+                  <h1>Verify Token</h1>
+               </ModalHeader>
+               <ModalBody>
+                  <form onSubmit={handleVerifyToken}>
+                     <div className="form-floating mb-3">
+                        <input
+                           type="text"
+                           className="form-control"
+                           name="token"
+                           id="password"
+                           placeholder="Token"
+                           value={token}
+                           onChange={handleDataChange("token")}
+                        />
+                        <label htmlFor="token">Token:</label>
+                     </div>
+                     {isLoading ?
+                        <div className="my-3">
+                           <MoonLoader size={32} />
+                        </div>
+                        : <button type="submit" className="btn btn-dark text-capitalize">verify</button>
+                     }
+                  </form>
+               </ModalBody>
+            </Modal>
          </main>
       </div>
    )
 }
 
 const mapStateToProps = state => ({
+   isVerify: state.users.isVerify,
    isLoggedIn: state.users.isLoggedIn,
    isLoading: state.users.isLoading,
    isUser: state.users.isUser
 })
 
-export default connect(mapStateToProps, { loginBankUser })(UserRegister)
+export default connect(mapStateToProps, { registerPasswordBankUser, verifyTokenBankUser })(UserRegister)

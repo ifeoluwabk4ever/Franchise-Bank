@@ -133,7 +133,7 @@ html,
 }
 
 .user-login main {
-   width: 50%;
+   width: 40%;
 }
 
 .title-color1 {
@@ -142,7 +142,7 @@ html,
 
 @media screen and (max-width: 991px) {
    .user-login main {
-      width: 80% !important;
+      width: 70% !important;
    }
 }
 

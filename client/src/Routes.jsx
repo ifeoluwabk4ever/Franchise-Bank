@@ -12,6 +12,7 @@ import MyTransfer from './Pages/Screens/MyTransfer'
 import ErrorPage from './Pages/Views/404Page'
 import Home from './Pages/Views/Home'
 import Headers from './Utils/Headers'
+import UserRegister from './Components/Auth/UserRegister'
 
 
 const Routes = ({ isUser }) => {
@@ -22,6 +23,7 @@ const Routes = ({ isUser }) => {
          <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/user-login" component={UsersLogin} />
+            <Route exact path="/user-register" component={UserRegister} />
             <Route exact path="/staff-login" component={StaffLogin} />
             <Route exact path="/my-home-page" component={MyHomePage} />
             <Route exact path="/my-quick-transfer" component={isUser ? MyTransfer : ErrorPage} />

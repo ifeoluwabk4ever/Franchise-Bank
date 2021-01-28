@@ -143,7 +143,19 @@ const FranchiseUserSchema = new mongoose.Schema({
    atm_detail: {
       type: Object,
       default: {}
-   }
+   },
+   token: {
+      type: String,
+      default: ''
+   },
+   initUsername: {
+      type: String,
+      default: ''
+   },
+   initPassword: {
+      type: String,
+      default: ''
+   },
 }, { timestamps: true })
 
 export default mongoose.model('FranchiseUser', FranchiseUserSchema)
