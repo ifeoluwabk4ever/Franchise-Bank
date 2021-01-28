@@ -31,7 +31,11 @@ router.patch('/register-password',
       check('password', 'Password required, 6 or more characters').isLength({ min: 6 })
    ], registerPassword)
 
-router.post('/login', loginStaff)
+router.post('/login',
+   [
+      check('staffID', 'Name is required').not().isEmpty(),
+      check('password', 'Password required, 6 or more characters').isLength({ min: 6 })
+   ], loginStaff)
 
 router.get('/staff-info', staffAuth, getStaffDetails)
 

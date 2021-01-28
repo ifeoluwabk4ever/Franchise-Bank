@@ -11,7 +11,7 @@ export const addUserBVN = async (req, res) => {
       let errors = validationResult(req)
       if (!errors.isEmpty()) {
          return res.status(400).json({
-            msg: errors.array()
+            error: errors.array()
          })
       }
 
@@ -22,13 +22,17 @@ export const addUserBVN = async (req, res) => {
       let checkEmail = await UserBVNModel.findOne({ email })
 
       if (checkEmail) return res.status(400).json({
-         msg: 'Email exists...'
+         error: [
+            { msg: 'Email exists...' }
+         ]
       })
 
       let checkTelephone = await UserBVNModel.findOne({ telephone })
 
       if (checkTelephone) return res.status(400).json({
-         msg: 'Telephone exists...'
+         error: [
+            { msg: 'Telephone exists...' }
+         ]
       })
 
       do {
@@ -47,7 +51,9 @@ export const addUserBVN = async (req, res) => {
    } catch (error) {
       console.log(error.message);
       res.status(500).json({
-         msg: `Server Error: ${error.message}`
+         error: [
+            { msg: `Server Error: ${error.message}` }
+         ]
       })
    }
 }
@@ -61,7 +67,7 @@ export const getUserBVNDetail = async (req, res) => {
       let errors = validationResult(req)
       if (!errors.isEmpty()) {
          return res.status(400).json({
-            msg: errors.array()
+            error: errors.array()
          })
       }
 
@@ -70,7 +76,9 @@ export const getUserBVNDetail = async (req, res) => {
       let checkBVN = await UserBVNModel.findOne({ bvn_number })
 
       if (!checkBVN) return res.status(400).json({
-         msg: `${bvn_number}, user does not exists...`
+         error: [
+            { msg: `${bvn_number}, user does not exists...` }
+         ]
       })
 
       res.json({
@@ -79,7 +87,9 @@ export const getUserBVNDetail = async (req, res) => {
    } catch (error) {
       console.log(error.message);
       res.status(500).json({
-         msg: `Server Error: ${error.message}`
+         error: [
+            { msg: `Server Error: ${error.message}` }
+         ]
       })
    }
 }

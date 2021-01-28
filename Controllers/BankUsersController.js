@@ -16,7 +16,7 @@ export const addBankUser = async (req, res) => {
       let errors = validationResult(req)
       if (!errors.isEmpty()) {
          return res.status(400).json({
-            msg: errors.array()
+            error: errors.array()
          })
       }
 
@@ -28,27 +28,35 @@ export const addBankUser = async (req, res) => {
       let checkEmail = await BankUsersModel.findOne({ email })
 
       if (checkEmail) return res.status(400).json({
-         msg: `${email} exists`
+         error: [
+            { msg: `${email} exists` }
+         ]
       })
 
       let checkBVN = await UserBVNModel.findOne({ bvn_number })
 
       if (!checkBVN) return res.status(400).json({
-         msg: `${bvn_number} does not exist...`
+         error: [
+            { msg: `${bvn_number} does not exist...` }
+         ]
       })
       let bvn_id = checkBVN._id
 
       let checkType = await AccountTypeModel.findById(account_type)
 
       if (!checkType) return res.status(400).json({
-         msg: `${account_type} does not exist...`
+         error: [
+            { msg: `${account_type} does not exist...` }
+         ]
       })
       let account_type_name = checkType.account_type
 
       let checkCategory = await AccountCategoryModel.findById(account_category)
 
       if (!checkCategory) return res.status(400).json({
-         msg: `${account_category} does not exist...`
+         error: [
+            { msg: `${account_category} does not exist...` }
+         ]
       })
       let account_category_name = checkCategory.category
 
@@ -62,7 +70,9 @@ export const addBankUser = async (req, res) => {
       let verifyTelephone = await checkTelephone(account_type_name, telephone, account_category_name)
 
       if (verifyTelephone) return res.status(400).json({
-         msg: `${telephone} exist for this type of account`
+         error: [
+            { msg: `${telephone} exist for this type of account` }
+         ]
       })
 
 
@@ -77,7 +87,9 @@ export const addBankUser = async (req, res) => {
    } catch (error) {
       console.log(error.message);
       return res.status(500).json({
-         msg: `Server Error: ${error.message}`
+         error: [
+            { msg: `Server Error: ${error.message}` }
+         ]
       })
    }
 }
@@ -91,28 +103,34 @@ export const checkUser = async (req, res) => {
       let { email, account_number } = req.body
 
       if (!account_number && !email) return res.status(400).json({
-         msg: "Please provide either account number or email"
+         error: [
+            { msg: "Please provide either account number or email" }
+         ]
       })
 
-      var sortUser
+      var user
       if (account_number) {
-         sortUser = await BankUsersModel.findOne({ account_number }).select('-password')
+         user = await BankUsersModel.findOne({ account_number }).select('-password')
       } else {
-         sortUser = await BankUsersModel.findOne({ email }).select('-password')
+         user = await BankUsersModel.findOne({ email }).select('-password')
       }
 
-      if (!sortUser) return res.status(400).json({
-         msg: `${account_number ? account_number : email} does not exists`
+      if (!user) return res.status(400).json({
+         error: [
+            { msg: `${account_number ? account_number : email} does not exists` }
+         ]
       })
 
       res.json({
-         user: sortUser
+         user
       })
 
    } catch (error) {
       console.log(error.message);
       return res.status(500).json({
-         msg: `Server Error: ${error.message}`
+         error: [
+            { msg: `Server Error: ${error.message}` }
+         ]
       })
    }
 }
@@ -124,24 +142,30 @@ export const addUserRegister = async (req, res) => {
    try {
       let errors = validationResult(req)
       if (!errors.isEmpty()) return res.status(400).json({
-         msg: errors.array()
+         error: errors.array()
       })
 
       let { account_number, username, password } = req.body
 
       let checkAccountNumber = await BankUsersModel.findOne({ account_number })
       if (!checkAccountNumber) return res.status(400).json({
-         msg: `${account_number} does not exist...`
+         error: [
+            { msg: `${account_number} does not exist...` }
+         ]
       })
 
       let checkUserExist = await BankUsersModel.findOne({ username })
       if (checkUserExist) return res.status(400).json({
-         msg: `${username} already exist in database, please choose another username`
+         error: [
+            { msg: `${username} already exist in database, please choose another username` }
+         ]
       })
 
       let checkUserName = checkAccountNumber.username
       if (checkUserName) return res.status(400).json({
-         msg: `${checkAccountNumber.fullName} already added username and password`
+         error: [
+            { msg: `${checkAccountNumber.fullName} already added username and password` }
+         ]
       })
 
 
@@ -166,7 +190,9 @@ export const addUserRegister = async (req, res) => {
    } catch (error) {
       console.log(error.message);
       return res.status(500).json({
-         msg: `Server Error: ${error.message}`
+         error: [
+            { msg: `Server Error: ${error.message}` }
+         ]
       })
    }
 }
@@ -179,7 +205,7 @@ export const loginUsers = async (req, res) => {
    try {
       let errors = validationResult(req)
       if (!errors.isEmpty()) return res.status(400).json({
-         msg: errors.array()
+         error: errors.array()
       })
 
       let { username, password } = req.body
@@ -188,7 +214,9 @@ export const loginUsers = async (req, res) => {
 
       // If no user in db
       if (!userData) return res.status(400).json({
-         msg: 'User does not exist...'
+         error: [
+            { msg: 'User does not exist...' }
+         ]
       })
 
       // Know user found by email, comparing password
@@ -196,7 +224,9 @@ export const loginUsers = async (req, res) => {
 
       // If error
       if (!isMatch) return res.status(400).json({
-         msg: 'Invalid password...'
+         error: [
+            { msg: 'Invalid password...' }
+         ]
       })
 
 
@@ -210,7 +240,9 @@ export const loginUsers = async (req, res) => {
    } catch (error) {
       console.log(error.message);
       return res.status(500).json({
-         msg: `Server Error: ${error.message}`
+         error: [
+            { msg: `Server Error: ${error.message}` }
+         ]
       })
    }
 }
@@ -224,14 +256,18 @@ export const getUserDetails = async (req, res) => {
       let user = await BankUsersModel.findById(req.bankUser.id).select("-password")
 
       if (!user) return res.status(400).json({
-         msg: "User does not exist"
+         error: [
+            { msg: "User does not exist" }
+         ]
       })
 
       res.json({ user })
    } catch (error) {
       console.log(error.message);
       return res.status(500).json({
-         msg: `Server Error: ${error.message}`
+         error: [
+            { msg: `Server Error: ${error.message}` }
+         ]
       })
    }
 }

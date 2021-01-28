@@ -15,7 +15,7 @@ router.route('/transaction-type')
             let errors = validationResult(req)
             if (!errors.isEmpty()) {
                return res.status(400).json({
-                  msg: errors.array()
+                  error: errors.array()
                })
             }
 
@@ -23,12 +23,16 @@ router.route('/transaction-type')
 
             let checkTransaction = await TransactionTypeModel.findOne({ transaction: transaction.toUpperCase() })
             if (checkTransaction) return res.status(400).json({
-               msg: `${transaction} exists...`
+               error: [
+                  { msg: `${transaction} exists...` }
+               ]
             })
 
             let checkCode = await TransactionTypeModel.findOne({ code })
             if (checkCode) return res.status(400).json({
-               msg: `${code} exists...`
+               error: [
+                  { msg: `${code} exists...` }
+               ]
             })
 
             let newTransactionType = new TransactionTypeModel({ transaction: transaction.toUpperCase(), code })
@@ -36,7 +40,9 @@ router.route('/transaction-type')
          } catch (error) {
             console.log(error.message);
             return res.status(500).json({
-               msg: `Server Error: ${error.message}`
+               error: [
+                  { msg: `Server Error: ${error.message}` }
+               ]
             })
          }
       })
@@ -52,7 +58,9 @@ router.route('/transaction-type')
       } catch (error) {
          console.log(error.message);
          return res.status(500).json({
-            msg: `Server Error: ${error.message}`
+            error: [
+               { msg: `Server Error: ${error.message}` }
+            ]
          })
       }
    })

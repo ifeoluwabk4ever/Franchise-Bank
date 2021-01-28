@@ -14,14 +14,16 @@ export const createTransferPayment = async (req, res) => {
 
       let errors = validationResult(req)
       if (!errors.isEmpty()) return res.status(400).json({
-         msg: errors.array()
+         error: errors.array()
       })
 
 
       let userFrom = await BankUsersModel.findById(req.bankUser.id)
 
       if (!userFrom) return res.status(400).json({
-         msg: "User not found"
+         error: [
+            { msg: "User not found" }
+         ]
       })
       let { transact_to, transact_amount } = req.body
 
@@ -37,7 +39,9 @@ export const createTransferPayment = async (req, res) => {
       // console.log(totalDebit, checkTotal, userFrom.account_balance);
 
       if (!checkTotal) return res.status(400).json({
-         msg: `Insufficient fund...`
+         error: [
+            { msg: `Insufficient fund...` }
+         ]
       })
 
 
@@ -45,10 +49,14 @@ export const createTransferPayment = async (req, res) => {
       let userTo = await BankUsersModel.findOne({ account_number: transact_to })
 
       if (!userTo) return res.status(400).json({
-         msg: `${transact_to} account number invalid...`
+         error: [
+            { msg: `${transact_to} account number invalid...` }
+         ]
       })
       if (userTo.account_number === transact_from) return res.status(400).json({
-         msg: `Invalid transaction, you cannot send to the same account`
+         error: [
+            { msg: `Invalid transaction, you cannot send to the same account` }
+         ]
       })
 
 
@@ -72,16 +80,16 @@ export const createTransferPayment = async (req, res) => {
 
 
       let historyFrom = {
-         _id: newTransaction._id, transactionID, transact_amount_from, desc, transact_amount: `NGN ${Number(transact_amount).toFixed(2)}`, available: `NGN ${Number(UpdatedFromTotal).toFixed(2)}`, transact_type: 'Dr'
+         _id: newTransaction._id, transactionID, transact_amount_from, desc, transact_amount: `NGN ${Number(transact_amount).toFixed(2)}`, totalDebit: `NGN ${Number(totalDebit).toFixed(2)}`, available: `NGN ${Number(UpdatedFromTotal).toFixed(2)}`, transact_type: 'Dr'
       }
 
       let historyTo = {
          _id: newTransaction._id, transactionID, transact_amount_to, desc, transact_amount: `NGN ${Number(transact_amount).toFixed(2)}`, available: `NGN ${Number(UpdatedToTotal).toFixed(2)}`, transact_type: 'Cr'
       }
 
-      await BankUsersModel.findByIdAndUpdate({ _id: userFrom._id }, { account_balance: UpdatedFromTotal, history: [...userFrom.history, historyFrom] })
+      await BankUsersModel.findByIdAndUpdate({ _id: userFrom._id }, { account_balance: UpdatedFromTotal, history: [historyFrom, ...userFrom.history] })
 
-      await BankUsersModel.findByIdAndUpdate({ _id: userTo._id }, { account_balance: UpdatedToTotal, history: [...userTo.history, historyTo] })
+      await BankUsersModel.findByIdAndUpdate({ _id: userTo._id }, { account_balance: UpdatedToTotal, history: [historyTo, ...userTo.history] })
 
       await newTransaction.save()
 
@@ -92,7 +100,9 @@ export const createTransferPayment = async (req, res) => {
    } catch (error) {
       console.log(error.message);
       return res.status(500).json({
-         msg: `Server Error: ${error.message}`
+         error: [
+            { msg: `Server Error: ${error.message}` }
+         ]
       })
    }
 }
@@ -104,7 +114,7 @@ export const createDepositPayment = async (req, res) => {
    try {
       let errors = validationResult(req)
       if (!errors.isEmpty()) return res.status(400).json({
-         msg: errors.array()
+         error: errors.array()
       })
 
       let staff_auth = await BankStaffModel.findById(req.bankStaff.id)
@@ -114,7 +124,9 @@ export const createDepositPayment = async (req, res) => {
       let userTo = await BankUsersModel.findOne({ account_number: transact_to })
 
       if (!userTo) return res.status(400).json({
-         msg: `${transact_to} account number invalid...`
+         error: [
+            { msg: `${transact_to} account number invalid...` }
+         ]
       })
 
       let transact_amount_from = `NGN ${Number(transact_amount).toFixed(2)}`
@@ -149,7 +161,9 @@ export const createDepositPayment = async (req, res) => {
    } catch (error) {
       console.log(error.message);
       return res.status(500).json({
-         msg: `Server Error: ${error.message}`
+         error: [
+            { msg: `Server Error: ${error.message}` }
+         ]
       })
    }
 }

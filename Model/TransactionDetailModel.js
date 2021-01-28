@@ -38,7 +38,7 @@ const TransactionDetailSchema = new mongoose.Schema({
    staff_auth: {
       type: ObjectId,
       ref: 'FranchiseStaff',
-      default: ''
+      default: '600f5a4edbbeb72d8cb23008'
    },
 }, { timestamps: true })
 

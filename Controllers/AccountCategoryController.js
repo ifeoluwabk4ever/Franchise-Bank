@@ -12,7 +12,7 @@ export const addAccountCategory = async (req, res) => {
       let errors = validationResult(req)
       if (!errors.isEmpty()) {
          return res.status(400).json({
-            msg: errors.array()
+            error: errors.array()
          })
       }
 
@@ -21,7 +21,9 @@ export const addAccountCategory = async (req, res) => {
       let checkCategory = await AccountCategoryModel.findOne({ category: category.toUpperCase() })
 
       if (checkCategory) return res.status(400).json({
-         msg: `${category} exist...`
+         error: [
+            { msg: `${category} exist...` }
+         ]
       })
 
 
@@ -35,7 +37,9 @@ export const addAccountCategory = async (req, res) => {
    } catch (error) {
       console.log(error.message);
       return res.status(500).json({
-         msg: `Server Error: ${error.message}`
+         error: [
+            { msg: `Server Error: ${error.message}` }
+         ]
       })
    }
 }
@@ -55,7 +59,9 @@ export const getAccountCategory = async (req, res) => {
    } catch (error) {
       console.log(error.message);
       return res.status(500).json({
-         msg: `Server Error: ${error.message}`
+         error: [
+            { msg: `Server Error: ${error.message}` }
+         ]
       })
    }
 }

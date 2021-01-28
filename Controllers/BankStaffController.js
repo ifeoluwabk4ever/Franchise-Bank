@@ -14,7 +14,7 @@ export const addBankStaff = async (req, res) => {
       let errors = validationResult(req)
       if (!errors.isEmpty()) {
          return res.status(400).json({
-            msg: errors.array()
+            error: errors.array()
          })
       }
 
@@ -24,22 +24,30 @@ export const addBankStaff = async (req, res) => {
 
       let checkEmail = await BankStaffModel.findOne({ email })
       if (checkEmail) return res.status(400).json({
-         msg: `${email} exists...`
+         error: [
+            { msg: `${email} exists...` }
+         ]
       })
 
       let checkAccountNumber = await BankUsersModel.findOne({ account_number })
       if (!checkAccountNumber) return res.status(400).json({
-         msg: `${account_number} does not exists...`
+         error: [
+            { msg: `${account_number} does not exists...` }
+         ]
       })
 
       let checkAccountNumber2 = await BankStaffModel.findOne({ account_number })
       if (checkAccountNumber2) return res.status(400).json({
-         msg: `${account_number} exists for another staff...`
+         error: [
+            { msg: `${account_number} exists for another staff...` }
+         ]
       })
 
       let checkTelephone = await BankStaffModel.findOne({ telephone })
       if (checkTelephone) return res.status(400).json({
-         msg: `${telephone} exists...`
+         error: [
+            { msg: `${telephone} exists...` }
+         ]
       })
 
       let account_id = checkAccountNumber._id
@@ -62,7 +70,9 @@ export const addBankStaff = async (req, res) => {
    } catch (error) {
       console.log(error.message);
       return res.status(500).json({
-         msg: `Server Error: ${error.message}`
+         error: [
+            { msg: `Server Error: ${error.message}` }
+         ]
       })
    }
 }
@@ -76,14 +86,18 @@ export const getStaffDetails = async (req, res) => {
       let user = await BankStaffModel.findById(req.bankStaff.id).select('-password')
 
       if (!user) return res.status(400).json({
-         msg: "User does not exist..."
+         msg: [
+            { msg: "User does not exist..." }
+         ]
       })
 
       res.json({ user })
    } catch (error) {
       console.log(error.message);
       return res.json({
-         msg: `Server Error: ${error.message}`
+         msg: [
+            { msg: `Server Error: ${error.message}` }
+         ]
       })
    }
 }
@@ -95,8 +109,8 @@ export const getStaffDetails = async (req, res) => {
 export const loginStaff = async (req, res) => {
    try {
       let errors = validationResult(req)
-      if (errors.isEmpty()) return res.status(400).json({
-         msg: errors.array()
+      if (!errors.isEmpty()) return res.status(400).json({
+         error: errors.array()
       })
 
       let { staffID, password } = req.body
@@ -106,7 +120,9 @@ export const loginStaff = async (req, res) => {
 
       // If no user in db
       if (!user) return res.status(400).json({
-         msg: 'User does not exist...'
+         error: [
+            { msg: 'User does not exist...' }
+         ]
       })
 
       // Know user found by email, comparing password
@@ -114,7 +130,9 @@ export const loginStaff = async (req, res) => {
 
       // If error
       if (!isMatch) return res.status(400).json({
-         msg: 'Invalid password...'
+         error: [
+            { msg: 'Invalid password...' }
+         ]
       })
 
 
@@ -128,20 +146,22 @@ export const loginStaff = async (req, res) => {
    } catch (error) {
       console.log(error.message);
       return res.status(500).json({
-         msg: `Server Error: ${error.message}`
+         error: [
+            { msg: `Server Error: ${error.message}` }
+         ]
       })
    }
 }
 
 
 // route    /franchise/staff/register-password
-// desc     POST Register Staff password
+// desc     PATCH Register Staff password
 // access   Public
 export const registerPassword = async (req, res) => {
    try {
       let errors = validationResult(req)
       if (!errors.isEmpty()) return res.status(400).json({
-         msg: errors.array()
+         error: errors.array()
       })
 
       let { staffID, password } = req.body
@@ -149,12 +169,16 @@ export const registerPassword = async (req, res) => {
       let checkStaffID = await BankStaffModel.findOne({ staffID })
 
       if (!checkStaffID) return res.status(400).json({
-         msg: `${staffID} invalid...`
+         error: [
+            { msg: `${staffID} invalid...` }
+         ]
       })
 
       let verifyPassword = checkStaffID.password
       if (verifyPassword) return res.status(400).json({
-         msg: `${checkStaffID.fullName} has an existing password`
+         error: [
+            { msg: `${checkStaffID.fullName} has an existing password` }
+         ]
       })
 
       // Create salt && hash
@@ -178,7 +202,9 @@ export const registerPassword = async (req, res) => {
    } catch (error) {
       console.log(error.message);
       return res.status(400).json({
-         msg: `Server Error: ${error.message}`
+         error: [
+            { msg: `Server Error: ${error.message}` }
+         ]
       })
    }
 }

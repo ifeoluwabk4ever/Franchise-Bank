@@ -16,7 +16,9 @@ export const getAccountType = async (req, res) => {
    } catch (error) {
       console.log(error.message);
       return res.status(500).json({
-         msg: `Server Error: ${error.message}`
+         error: [
+            { msg: `Server Error: ${error.message}` }
+         ]
       })
    }
 }
@@ -31,14 +33,16 @@ export const addAccountType = async (req, res) => {
       let errors = validationResult(req)
       if (!errors.isEmpty()) {
          return res.status(400).json({
-            msg: errors.array()
+            error: errors.array()
          })
       }
       let { account_type, user_debit, non_user_debit, profit_rate } = req.body
 
       let checkAccount = await AccountTypeModel.findOne({ account_type: account_type.toUpperCase() })
       if (checkAccount) return res.status(400).json({
-         msg: `${account_type} exists...`
+         error: [
+            { msg: `${account_type} exists...` }
+         ]
       })
 
       let newAccountType = new AccountTypeModel({ account_type: account_type.toUpperCase(), user_debit: Number(user_debit).toFixed(2), non_user_debit: Number(non_user_debit).toFixed(2), profit_rate: Number(profit_rate).toFixed(2) })
@@ -49,7 +53,9 @@ export const addAccountType = async (req, res) => {
    } catch (error) {
       console.log(error.message);
       return res.status(500).json({
-         msg: `Server Error: ${error.message}`
+         error: [
+            { msg: `Server Error: ${error.message}` }
+         ]
       })
    }
 }
@@ -62,14 +68,16 @@ export const editUserDebitValue = async (req, res) => {
       let errors = validationResult(req)
       if (!errors.isEmpty()) {
          return res.status(400).json({
-            msg: errors.array()
+            error: errors.array()
          })
       }
       let { account_slug } = req.params
 
       let checkParams = await AccountTypeModel.findOne({ account_slug })
       if (!checkParams) return res.status(400).json({
-         msg: `${account_slug} does not exist...`
+         error: [
+            { msg: `${account_slug} does not exist...` }
+         ]
       })
       let { user_debit } = req.body
 
@@ -81,7 +89,9 @@ export const editUserDebitValue = async (req, res) => {
    } catch (error) {
       console.log(error.message);
       return res.status(500).json({
-         msg: `Server Error: ${error.message}`
+         error: [
+            { msg: `Server Error: ${error.message}` }
+         ]
       })
    }
 }
@@ -95,14 +105,16 @@ export const editNonUserDebitValue = async (req, res) => {
       let errors = validationResult(req)
       if (!errors.isEmpty()) {
          return res.status(400).json({
-            msg: errors.array()
+            error: errors.array()
          })
       }
       let { account_slug } = req.params
 
       let checkParams = await AccountTypeModel.findOne({ account_slug })
       if (!checkParams) return res.status(400).json({
-         msg: `${account_slug} does not exist...`
+         error: [
+            { msg: `${account_slug} does not exist...` }
+         ]
       })
       let { non_user_debit } = req.body
 
@@ -114,7 +126,9 @@ export const editNonUserDebitValue = async (req, res) => {
    } catch (error) {
       console.log(error.message);
       return res.status(500).json({
-         msg: `Server Error: ${error.message}`
+         error: [
+            { msg: `Server Error: ${error.message}` }
+         ]
       })
    }
 }
