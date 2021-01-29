@@ -14,6 +14,7 @@ import Home from './Pages/Views/Home'
 import Headers from './Utils/Headers'
 import UserRegister from './Components/Auth/UserRegister'
 import MyInfo from './Pages/Screens/MyInfo'
+import StaffRegister from './Components/Auth/StaffRegister'
 
 
 const Routes = ({ isUser }) => {
@@ -25,6 +26,7 @@ const Routes = ({ isUser }) => {
             <Route exact path="/" component={Home} />
             <Route exact path="/user-login" component={UsersLogin} />
             <Route exact path="/user-register" component={UserRegister} />
+            <Route exact path="/staff-register" component={StaffRegister} />
             <Route exact path="/staff-login" component={StaffLogin} />
             <Route exact path="/my-home-page" component={MyHomePage} />
             <Route exact path="/my-quick-transfer" component={isUser ? MyTransfer : ErrorPage} />

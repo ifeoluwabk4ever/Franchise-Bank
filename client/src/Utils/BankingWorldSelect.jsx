@@ -18,17 +18,21 @@ const BankingWorldSelect = () => {
             <ModalBody>
                <div className="d-flex justify-content-between align-content-center">
                   <NavLink
-                     className="btn btn-primary"
+                     className="btn btn-primary text-uppercase"
                      href="/user-register"
                   >New User</NavLink>
                   <NavLink
-                     className="btn btn-primary"
+                     className="btn btn-primary text-uppercase"
                      href="/user-login"
                   >User</NavLink>
                   <NavLink
-                     className="btn btn-primary"
+                     className="btn btn-primary text-uppercase"
                      href="/staff-login"
                   >Staff</NavLink>
+                  <NavLink
+                     className="btn btn-primary text-uppercase"
+                     href="/staff-register"
+                  >new Staff</NavLink>
                </div>
             </ModalBody>
          </Modal>
