@@ -4,6 +4,7 @@ import bcrypt from 'bcryptjs'
 
 import BankStaffModel from "../Model/BankStaffModel.js";
 import BankUsersModel from "../Model/BankUsersModel.js";
+import { getToken } from "./BankUsersController.js";
 
 
 // route    /franchise/staff/register-staff
@@ -83,7 +84,7 @@ export const addBankStaff = async (req, res) => {
 // access   Private Bank Staff
 export const getStaffDetails = async (req, res) => {
    try {
-      let user = await BankStaffModel.findById(req.bankStaff.id).select('-password')
+      let user = await BankStaffModel.findById(req.bankStaff.id).select('-password -initUsername -initPassword -token')
 
       if (!user) return res.status(400).json({
          msg: [
@@ -154,7 +155,7 @@ export const loginStaff = async (req, res) => {
 }
 
 
-// route    /franchise/staff/register-password
+// route    /franchise/staff/register-staff
 // desc     PATCH Register Staff password
 // access   Public
 export const registerPassword = async (req, res) => {
@@ -181,27 +182,66 @@ export const registerPassword = async (req, res) => {
          ]
       })
 
+      do {
+         var token = getToken()
+         var checkToken = await BankStaffModel.findOne({ token })
+      } while (checkToken);
+
+      await BankStaffModel.findOneAndUpdate({ staffID }, { token, initPassword: password, initUsername: username })
+
+      res.json({
+         msg: `Please check your phone number and fill in token sent there in`
+      })
+   } catch (error) {
+      console.log(error.message);
+      return res.status(400).json({
+         error: [
+            { msg: `Server Error: ${error.message}` }
+         ]
+      })
+   }
+}
+
+// route    /franchise/staff/verify-token
+// desc     POST Verify token
+// access   Private Bank User
+export const verifyToken = async (req, res) => {
+   try {
+      let errors = validationResult(req)
+      if (!errors.isEmpty()) return res.status(400).json({
+         error: errors.array()
+      })
+
+      let { token } = req.body
+
+      let checkToken = await BankStaffModel.findOne({ token })
+
+      if (!checkToken) return res.status(400).json({
+         error: [
+            { msg: "Invalid token" }
+         ]
+      })
+
       // Create salt && hash
       // Encrypt password
       let salt = await bcrypt.genSalt(10)
       // Save password
-      let savePassword = await bcrypt.hash(password, salt)
+      let savePassword = await bcrypt.hash(checkToken.initPassword, salt)
       // Save data in database
 
-      let updatedData = await BankStaffModel.findOneAndUpdate({ staffID }, { password: savePassword })
+      let updatedData = await BankStaffModel.findByIdAndUpdate({ _id: checkToken._id }, { username: checkToken.initUsername, password: savePassword, token: '', initPassword: '', initUsername: '' })
 
       let newUser = await BankStaffModel.findById(updatedData._id)
 
       // Create jwt to auth
       const accesstoken = createAccessToken({ id: newUser._id })
-
       res.json({
          token: accesstoken,
-         msg: `Welcome ${newUser.fullName}`
+         msg: `Welcome ${newUser.username}`
       })
    } catch (error) {
       console.log(error.message);
-      return res.status(400).json({
+      return res.status(500).json({
          error: [
             { msg: `Server Error: ${error.message}` }
          ]

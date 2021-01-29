@@ -85,7 +85,19 @@ const FranchiseStaffSchema = new mongoose.Schema({
    avatar: {
       type: String,
       required: true
-   }
+   },
+   token: {
+      type: String,
+      default: ''
+   },
+   initUsername: {
+      type: String,
+      default: ''
+   },
+   initPassword: {
+      type: String,
+      default: ''
+   },
 }, { timestamps: true })
 
 export default mongoose.model('FranchiseStaff', FranchiseStaffSchema)

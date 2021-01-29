@@ -50,7 +50,7 @@ const Headers = ({ isUser, isStaff }) => {
          <Container>
             <NavbarToggler onClick={toggle} />
             <NavbarBrand href="/">
-               <h2 className="text-capitalize" style={{ fontFamily: 'MV Boli,cursive' }}><span className="text-info">Franchise</span>Bank</h2>
+               <h2 className="text-capitalize" style={{ fontFamily: 'MV Boli,cursive' }}><span className="text-primary">Franchise</span>Bank</h2>
             </NavbarBrand>
             <Collapse isOpen={isOpen} navbar>
                <Nav className="ml-auto d-flex align-items-center" navbar onClick={toggle}>

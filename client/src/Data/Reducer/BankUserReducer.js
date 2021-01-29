@@ -31,6 +31,13 @@ export default (state = initialState, action) => {
             ...payload,
             isLoggedIn: true
          }
+      case REGISTER_FAIL:
+      case LOGIN_FAIL:
+         return {
+            ...state,
+            isLoggedIn: false,
+            isLoading: false
+         }
       case SET_LOADING:
          return {
             ...state,
@@ -62,8 +69,6 @@ export default (state = initialState, action) => {
             isVerify: false,
             isLoading: false
          }
-      case REGISTER_FAIL:
-      case LOGIN_FAIL:
       case AUTH_ERROR:
       case LOGOUT:
          // Remove token in local Storage
@@ -73,6 +78,8 @@ export default (state = initialState, action) => {
             token: null,
             users: null,
             isUser: false,
+            isTransfer: false,
+            isVerify: false,
             isLoggedIn: false,
             isLoading: false
          }

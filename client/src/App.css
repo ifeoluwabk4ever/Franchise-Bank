@@ -136,15 +136,28 @@ html,
    width: 40%;
 }
 
+.my-info {
+   width: 50%;
+}
+
 .title-color1 {
    background: var(--clr-primary-1);
 }
 
 @media screen and (max-width: 991px) {
-   .user-login main {
+
+   .user-login main,
+   .my-info {
       width: 70% !important;
    }
 }
+
+@media screen and (max-width: 768px) {
+   .my-info {
+      width: 90% !important;
+   }
+}
+
 
 .user-login h2 {
    font-size: clamp(2rem, 4vw, 5rem);

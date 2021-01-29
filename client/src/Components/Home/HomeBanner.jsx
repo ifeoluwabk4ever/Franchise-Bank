@@ -14,9 +14,9 @@ const HomeBanner = () => {
                <div className="d-flex carousel-opac">
                   <div className="d-flex justify-content-center align-content-center my-auto text-white banner-opac">
                      <div className="p-4 my-auto">
-                        <h1 className="text-uppercase mb-4"><span className="text-info">franchise financial</span> institute</h1>
+                        <h1 className="text-uppercase mb-4"><span className="text-primary">franchise financial</span> institute</h1>
                         <p className="mb-4 text-white-50">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odit nulla quaerat fuga quidem, voluptatum consequatur vel? Quibusdam tenetur sequi rem reprehenderit libero accusantium vero ipsa?</p>
-                        <Link to="/products" className="btn btn-info text-uppercase">about us</Link>
+                        <Link to="/products" className="btn btn-primary text-uppercase">about us</Link>
                      </div>
                   </div>
                </div>
@@ -25,9 +25,9 @@ const HomeBanner = () => {
                <div className="d-flex carousel-opac">
                   <div className="d-flex justify-content-center align-content-center my-auto text-white banner-opac">
                      <div className="p-4 my-auto">
-                        <h1 className="text-uppercase mb-4"><span className="text-info">share</span> in our <span className="text-info">accolades</span></h1>
+                        <h1 className="text-uppercase mb-4"><span className="text-primary">share</span> in our <span className="text-primary">accolades</span></h1>
                         <p className="mb-4 text-white-50">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odit nulla quaerat fuga quidem, voluptatum consequatur vel? Quibusdam tenetur sequi rem reprehenderit libero accusantium vero ipsa?</p>
-                        <Link to="/products" className="btn btn-info text-uppercase">achievements</Link>
+                        <Link to="/products" className="btn btn-primary text-uppercase">achievements</Link>
                      </div>
                   </div>
                </div>
@@ -36,9 +36,9 @@ const HomeBanner = () => {
                <div className="d-flex carousel-opac">
                   <div className="d-flex justify-content-center align-content-center my-auto text-white banner-opac">
                      <div className="p-4 my-auto">
-                        <h1 className="text-uppercase mb-4"><span className="text-info">checkout</span> on our <span className="text-info">latest offer</span></h1>
+                        <h1 className="text-uppercase mb-4"><span className="text-primary">checkout</span> on our <span className="text-primary">latest offer</span></h1>
                         <p className="mb-4 text-white-50">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odit nulla quaerat fuga quidem, voluptatum consequatur vel? Quibusdam tenetur sequi rem reprehenderit libero accusantium vero ipsa?</p>
-                        <Link to="/products" className="btn btn-info text-uppercase">promo</Link>
+                        <Link to="/products" className="btn btn-primary text-uppercase">promo</Link>
                      </div>
                   </div>
                </div>

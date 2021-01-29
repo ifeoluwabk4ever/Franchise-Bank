@@ -1,4 +1,4 @@
-import { STAFF_AUTH_ERROR, STAFF_LOGIN_FAIL, STAFF_LOGIN_SUCCESS, STAFF_REGISTER_FAIL, STAFF_REGISTER_SUCCESS, STAFF_SET_LOADING, STAFF_USER_LOADED, LOGOUT } from '../Actions/ActionTypes'
+import { STAFF_AUTH_ERROR, STAFF_LOGIN_FAIL, STAFF_LOGIN_SUCCESS, STAFF_REGISTER_FAIL, STAFF_REGISTER_SUCCESS, STAFF_SET_LOADING, STAFF_USER_LOADED, LOGOUT, STAFF_DEPOSIT_FUND_FAIL, STAFF_VERIFY_TOKEN, STAFF_VERIFY_TOKEN_FAIL, STAFF_DEPOSIT_FUND } from '../Actions/ActionTypes'
 
 // Initial State
 const initialState = {
@@ -6,6 +6,8 @@ const initialState = {
    isLoading: null,
    isStaff: null,
    isLoggedIn: null,
+   isDeposit: null,
+   isVerify: null,
    bankStaff: null
 }
 
@@ -29,13 +31,44 @@ export default (state = initialState, action) => {
             ...payload,
             isLoggedIn: true
          }
+      case STAFF_REGISTER_FAIL:
+      case STAFF_LOGIN_FAIL:
+         return {
+            ...state,
+            isLoggedIn: false,
+            isLoading: false
+         }
+      case STAFF_DEPOSIT_FUND:
+         return {
+            ...state,
+            ...payload,
+            isDeposit: true
+         }
+      case STAFF_DEPOSIT_FUND_FAIL:
+         return {
+            ...state,
+            ...payload,
+            isDeposit: false,
+            isLoading: false
+         }
+      case STAFF_VERIFY_TOKEN:
+         return {
+            ...state,
+            ...payload,
+            isVerify: true
+         }
+      case STAFF_VERIFY_TOKEN_FAIL:
+         return {
+            ...state,
+            ...payload,
+            isVerify: false,
+            isLoading: false
+         }
       case STAFF_SET_LOADING:
          return {
             ...state,
             isLoading: true
          }
-      case STAFF_REGISTER_FAIL:
-      case STAFF_LOGIN_FAIL:
       case STAFF_AUTH_ERROR:
       case LOGOUT:
          // Remove token in local Storage
@@ -45,6 +78,8 @@ export default (state = initialState, action) => {
             token: null,
             bankStaff: null,
             isStaff: false,
+            isDeposit: false,
+            isVerify: false,
             isLoggedIn: false,
             isLoading: false
          }

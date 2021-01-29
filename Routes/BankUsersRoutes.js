@@ -36,6 +36,7 @@ router.route('/register-user')
    )
 
 router.post('/user-fullname', bankUsersAuth, verifyUser)
+
 router.post('/verify-token',
    [
       check('token', "Token required to be 6 digits").isLength({

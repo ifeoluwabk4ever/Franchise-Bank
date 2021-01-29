@@ -23,10 +23,10 @@ const MyDetails = ({ bankUser }) => {
             <div className="d-flex justify-content-end align-content-center mb-3">
                <div>
                   <h5 className="d-flex justify-content-between align-content-center">
-                     <span className="mr-3">Account Name:</span> <span className="text-info">{bankUser.fullName}</span>
+                     <span className="mr-3">Account Name:</span> <span className="text-primary">{bankUser.fullName}</span>
                   </h5>
                   <h5 className="d-flex justify-content-between align-content-center">
-                     <span className="mr-3">Account Number:</span> <span className="text-info">{bankUser.account_number}</span>
+                     <span className="mr-3">Account Number:</span> <span className="text-primary">{bankUser.account_number}</span>
                   </h5>
                   <h5 className="d-flex justify-content-between align-content-center">
                      <span className="mr-3">Balance:</span> <span className={`money ${bankUser.account_balance > 0 ? 'plus' : bankUser.account_balance < 0 ? 'minus' : ''}`}>{bankUser.account_balance > 0 ? '+' : bankUser.account_balance < 0 ? '-' : ''}&#8358;{numberWithCommas(bankUser.account_balance)}k</span>
@@ -35,7 +35,7 @@ const MyDetails = ({ bankUser }) => {
             </div>
             <div className="w-75 mx-auto">
                <hr />
-               <MyQuickHandle cssprop="home-option main-view" />
+               <MyQuickHandle cssprop="main-view" />
             </div>
             <div className="w-75 mx-auto">
                <hr />

@@ -325,10 +325,10 @@ export const loginUsers = async (req, res) => {
 
 // route    /franchise/account-user/user-info
 // desc     GET Get User detail
-// access   Private User
+// access   Private Bank User
 export const getUserDetails = async (req, res) => {
    try {
-      let user = await BankUsersModel.findById(req.bankUser.id).select("-password -token -initPassword -initUsername")
+      let user = await BankUsersModel.findById(req.bankUser.id).select("-password -token -initPassword -initUsername -ussd_pin -pos_pin")
 
       if (!user) return res.status(400).json({
          error: [

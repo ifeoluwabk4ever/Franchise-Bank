@@ -5,21 +5,20 @@ import { MoonLoader } from 'react-spinners'
 import { Redirect } from 'react-router-dom'
 
 
-import { registerPasswordBankUser, verifyTokenBankUser } from '../../Data/Actions/BankUserAction'
+import { registerPasswordBankStaff, verifyTokenBankUser } from '../../Data/Actions/BankStaffAction'
 
-const UserRegister = ({ registerPasswordBankUser, isLoading, isUser, isVerify, verifyTokenBankUser, isLoggedIn }) => {
+const StaffRegister = ({ registerPasswordBankStaff, isLoading, isStaff, isVerify, verifyTokenBankUser, isLoggedIn }) => {
 
    const [state, setState] = useState({
-      username: '',
-      password: '',
-      account_number: ''
+      staffID: '',
+      password: ''
    });
-   const [callbackUserRegister, setCallbackUserRegister] = useState(false);
-   const [callbackVerifyToken, setCallbackVerifyToken] = useState(false);
+   const [callbackStaffRegister, setCallbackStaffRegister] = useState(false);
+   const [callbackStaffVerifyToken, setCallbackStaffVerifyToken] = useState(false);
    const [modal, setModal] = useState(false);
    const [token, setToken] = useState('');
 
-   let { username, password, account_number } = state
+   let { staffID, password } = state
 
    const handleDataChange = input => e => {
       let { value } = e.target
@@ -35,15 +34,15 @@ const UserRegister = ({ registerPasswordBankUser, isLoading, isUser, isVerify, v
 
    const handleSubmit = async e => {
       e.preventDefault()
-      registerPasswordBankUser({ username, password, account_number })
-      setCallbackUserRegister(true)
+      registerPasswordBankStaff({ staffID, password })
+      setCallbackStaffRegister(true)
    }
 
    const toggle = () => {
       setModal(!modal)
    }
 
-   if (isVerify && callbackUserRegister) {
+   if (isVerify && callbackStaffRegister) {
       if (!modal) {
          toggle()
       }
@@ -52,11 +51,11 @@ const UserRegister = ({ registerPasswordBankUser, isLoading, isUser, isVerify, v
    const handleVerifyToken = async e => {
       e.preventDefault()
       verifyTokenBankUser({ token })
-      setCallbackVerifyToken(true)
+      setCallbackStaffVerifyToken(true)
    }
 
-   if (isLoggedIn && isUser && callbackVerifyToken) {
-      return <Redirect to="/my-details" />
+   if (isLoggedIn && isStaff && callbackStaffVerifyToken) {
+      return <Redirect to="/my-staff-details" />
    }
 
    return (
@@ -71,25 +70,13 @@ const UserRegister = ({ registerPasswordBankUser, isLoading, isUser, isVerify, v
                      <input
                         type="text"
                         className="form-control"
-                        name="account_number"
-                        id="account_number"
-                        placeholder="Account Number"
-                        value={account_number}
-                        onChange={handleDataChange("account_number")}
+                        name="staffID"
+                        id="staffID"
+                        placeholder="StaffID"
+                        value={staffID}
+                        onChange={handleDataChange("staffID")}
                      />
-                     <label htmlFor="account_number">Account Number</label>
-                  </div>
-                  <div className="form-floating mb-3">
-                     <input
-                        type="text"
-                        className="form-control"
-                        name="username"
-                        id="username"
-                        placeholder="Username"
-                        value={username}
-                        onChange={handleDataChange("username")}
-                     />
-                     <label htmlFor="username">Username</label>
+                     <label htmlFor="staffID">StaffID</label>
                   </div>
                   <div className="form-floating mb-3">
                      <input
@@ -144,10 +131,10 @@ const UserRegister = ({ registerPasswordBankUser, isLoading, isUser, isVerify, v
 }
 
 const mapStateToProps = state => ({
-   isVerify: state.users.isVerify,
-   isLoggedIn: state.users.isLoggedIn,
-   isLoading: state.users.isLoading,
-   isUser: state.users.isUser
+   isVerify: state.staff.isVerify,
+   isLoggedIn: state.staff.isLoggedIn,
+   isLoading: state.staff.isLoading,
+   isStaff: state.staff.isStaff
 })
 
-export default connect(mapStateToProps, { registerPasswordBankUser, verifyTokenBankUser })(UserRegister)
+export default connect(mapStateToProps, { registerPasswordBankStaff, verifyTokenBankUser })(StaffRegister)
