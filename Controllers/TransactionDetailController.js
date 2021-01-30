@@ -80,11 +80,11 @@ export const createTransferPayment = async (req, res) => {
 
 
       let historyFrom = {
-         _id: newTransaction._id, transactionID, transact_amount_from, desc, transact_amount: `NGN ${Number(transact_amount).toFixed(2)}`, totalDebit: `NGN ${Number(totalDebit).toFixed(2)}`, available: `NGN ${Number(UpdatedFromTotal).toFixed(2)}`, transact_type: 'Dr'
+         _id: newTransaction._id, transactionID, transact_amount_from, desc, transact_amount: `NGN ${Number(transact_amount).toFixed(2)}`, totalDebit: `NGN ${Number(totalDebit).toFixed(2)}`, available: `NGN ${Number(UpdatedFromTotal).toFixed(2)}`, transact_type: 'Dr', time: newTransaction.createdAt
       }
 
       let historyTo = {
-         _id: newTransaction._id, transactionID, transact_amount_to, desc, transact_amount: `NGN ${Number(transact_amount).toFixed(2)}`, available: `NGN ${Number(UpdatedToTotal).toFixed(2)}`, transact_type: 'Cr'
+         _id: newTransaction._id, transactionID, transact_amount_to, desc, transact_amount: `NGN ${Number(transact_amount).toFixed(2)}`, available: `NGN ${Number(UpdatedToTotal).toFixed(2)}`, transact_type: 'Cr', time: newTransaction.createdAt
       }
 
       await BankUsersModel.findByIdAndUpdate({ _id: userFrom._id }, { account_balance: UpdatedFromTotal, history: [historyFrom, ...userFrom.history] })
@@ -106,6 +106,7 @@ export const createTransferPayment = async (req, res) => {
       })
    }
 }
+
 
 // route    /franchise/deposit-money
 // desc     POST Deposit money to another user from cashier
@@ -147,7 +148,7 @@ export const createDepositPayment = async (req, res) => {
       let UpdatedToTotal = Number(Number(userTo.account_balance) + Number(transact_amount)).toFixed(2)
 
       let historyTo = {
-         _id: newTransaction._id, transactionID, transact_amount_to, desc, transact_amount: `NGN ${Number(transact_amount).toFixed(2)}`, available: `NGN ${Number(UpdatedToTotal).toFixed(2)}`, transact_type: 'Cr'
+         _id: newTransaction._id, transactionID, transact_amount_to, desc, transact_amount: `NGN ${Number(transact_amount).toFixed(2)}`, available: `NGN ${Number(UpdatedToTotal).toFixed(2)}`, transact_type: 'Cr', time: newTransaction.createdAt
       }
 
       await BankUsersModel.findByIdAndUpdate({ _id: userTo._id }, { account_balance: UpdatedToTotal, history: [...userTo.history, historyTo] })

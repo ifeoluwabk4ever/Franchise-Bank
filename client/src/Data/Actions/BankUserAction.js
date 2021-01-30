@@ -26,7 +26,7 @@ export let loadBankUser = () => async dispatch => {
 
 
 // Register Action
-export let registerBankUser = ({ firstName, lastName, email, telephone, dob, avatar, department, password }) => async dispatch => {
+export let registerBankUser = ({ firstName, lastName, email, telephone, dob, address, occupation, gender, bvn_number, account_category, account_type, mothers_firstName, mothers_lastName, mothers_telephone, avatar }) => async dispatch => {
    // Config header for axios
    let config = {
       headers: {
@@ -35,7 +35,7 @@ export let registerBankUser = ({ firstName, lastName, email, telephone, dob, ava
    }
 
    // Set body
-   let body = JSON.stringify({ firstName, lastName, email, telephone, dob, avatar, department, password })
+   let body = JSON.stringify({ firstName, lastName, email, telephone, dob, address, occupation, gender, bvn_number, account_category, account_type, mothers_firstName, mothers_lastName, mothers_telephone, avatar })
 
    dispatch({ type: SET_LOADING })
    try {
@@ -43,7 +43,7 @@ export let registerBankUser = ({ firstName, lastName, email, telephone, dob, ava
       let res = await axios.post(`/franchise/account-user/register-user`, body, config)
       dispatch({
          type: REGISTER_SUCCESS,
-         payload: res.data
+         payload: res.data.account_number
       })
       dispatch(loadBankUser())
       toast.success(res.data.msg)

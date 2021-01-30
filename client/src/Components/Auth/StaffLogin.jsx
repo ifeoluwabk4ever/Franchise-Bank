@@ -5,6 +5,7 @@ import { MoonLoader } from 'react-spinners'
 
 
 import { loginBankStaff } from '../../Data/Actions/BankStaffAction'
+import { Redirect } from 'react-router-dom'
 
 const StaffLogin = ({ isLoggedIn, isStaff, loginBankStaff, isLoading }) => {
 
@@ -12,6 +13,7 @@ const StaffLogin = ({ isLoggedIn, isStaff, loginBankStaff, isLoading }) => {
       staffID: '',
       password: ''
    });
+   const [callbackStaffLogin, setCallbackStaffLogin] = useState(false);
 
    let { staffID, password } = state
 
@@ -26,14 +28,17 @@ const StaffLogin = ({ isLoggedIn, isStaff, loginBankStaff, isLoading }) => {
    const handleSubmit = async e => {
       e.preventDefault()
       loginBankStaff({ staffID, password })
+
+      setCallbackStaffLogin(true)
    }
 
-   if (isLoggedIn && isStaff) {
+   if (isLoggedIn && isStaff && callbackStaffLogin) {
       console.log('Okay');
+      return <Redirect to="/" />
    }
 
    return (
-      <div className="d-flex align-content-center justify-content-center user-login main-view" style={{ height: '80vh' }}>
+      <div className="d-flex align-content-center justify-content-center user-login main-view gen-height">
          <main className="m-auto">
             <Card className="shadow p-4">
                <div className="my-5">

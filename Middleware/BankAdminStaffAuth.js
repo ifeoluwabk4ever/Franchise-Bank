@@ -8,7 +8,9 @@ const BankAdminStaffAuth = async (req, res, next) => {
 
       if (user.role !== "AdminStaff") {
          return res.status(403).json({
-            error: 'Unauthorized User, Access denied'
+            error: [
+               { msg: 'Unauthorized User, Access denied' }
+            ]
          })
       }
 
@@ -16,7 +18,9 @@ const BankAdminStaffAuth = async (req, res, next) => {
    } catch (error) {
       console.log(error.message);
       res.status(500).json({
-         msg: `Server Error: ${error.message}`
+         error: [
+            { msg: `Server Error: ${error.message}` }
+         ]
       })
    }
 }

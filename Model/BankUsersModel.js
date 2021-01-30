@@ -59,11 +59,6 @@ const FranchiseUserSchema = new mongoose.Schema({
       required: true,
       trim: true
    },
-   mothers_dob: {
-      type: Date,
-      required: true,
-      trim: true
-   },
    mothers_telephone: {
       type: String,
       required: true,

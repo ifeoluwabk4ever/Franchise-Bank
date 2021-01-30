@@ -59,7 +59,7 @@ const StaffRegister = ({ registerPasswordBankStaff, isLoading, isStaff, isVerify
    }
 
    return (
-      <div className="d-flex align-content-center justify-content-center user-login main-view" style={{ height: '80vh' }}>
+      <div className="d-flex align-content-center justify-content-center user-login main-view gen-height">
          <main className="m-auto">
             <Card className="shadow p-4">
                <div className="my-5">

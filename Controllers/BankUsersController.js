@@ -20,7 +20,7 @@ export const addBankUser = async (req, res) => {
          })
       }
 
-      let { lastName, firstName, dob, email, gender, telephone, address, mothers_lastName, mothers_firstName, mothers_dob, mothers_telephone, avatar, occupation, bvn_number, account_type, account_category } = req.body
+      let { lastName, firstName, dob, email, gender, telephone, address, mothers_lastName, mothers_firstName, mothers_telephone, avatar, occupation, bvn_number, account_type, account_category } = req.body
 
       let fullName = `${lastName} ${firstName}`
       let mothers_fullName = `${mothers_lastName} ${mothers_firstName}`
@@ -76,7 +76,7 @@ export const addBankUser = async (req, res) => {
       })
 
 
-      let newBankUser = new BankUsersModel({ lastName: lastName.toUpperCase(), firstName: firstName.toUpperCase(), dob, email, gender: gender.toLowerCase(), telephone, address, mothers_lastName: mothers_lastName.toUpperCase(), mothers_firstName: mothers_firstName.toUpperCase(), mothers_dob, mothers_telephone, avatar, occupation: occupation.toUpperCase(), bvn_id, account_type, account_category, bvn_number, account_type_name, account_category_name, account_number, mothers_fullName: mothers_fullName.toUpperCase(), fullName: fullName.toUpperCase(), telephone })
+      let newBankUser = new BankUsersModel({ lastName: lastName.toUpperCase(), firstName: firstName.toUpperCase(), dob, email, gender: gender.toLowerCase(), telephone, address, mothers_lastName: mothers_lastName.toUpperCase(), mothers_firstName: mothers_firstName.toUpperCase(), mothers_telephone, avatar, occupation: occupation.toUpperCase(), bvn_id, account_type, account_category, bvn_number, account_type_name, account_category_name, account_number, mothers_fullName: mothers_fullName.toUpperCase(), fullName: fullName.toUpperCase(), telephone })
 
       await newBankUser.save()
       res.json({

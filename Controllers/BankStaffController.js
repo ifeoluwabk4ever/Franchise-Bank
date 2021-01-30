@@ -87,7 +87,7 @@ export const getStaffDetails = async (req, res) => {
       let user = await BankStaffModel.findById(req.bankStaff.id).select('-password -initUsername -initPassword -token')
 
       if (!user) return res.status(400).json({
-         msg: [
+         error: [
             { msg: "User does not exist..." }
          ]
       })
@@ -96,7 +96,7 @@ export const getStaffDetails = async (req, res) => {
    } catch (error) {
       console.log(error.message);
       return res.json({
-         msg: [
+         error: [
             { msg: `Server Error: ${error.message}` }
          ]
       })

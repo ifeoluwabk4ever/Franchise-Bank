@@ -18,6 +18,7 @@ import BankUsersRoute from './Routes/BankUsersRoutes.js'
 import BankStaffRoute from './Routes/BankStaffRoutes.js'
 import TransactionTypeRoute from './Routes/TransactionTypeRoutes.js'
 import TransactionDetailsRoute from './Routes/TransactionDetailRoutes.js'
+import ImageUploadRoute from './Routes/ImageUpload.js'
 
 
 const app = express()
@@ -37,12 +38,13 @@ app.use(express.static(path.join(__dirname, 'Public')))
 
 // Franchise Routes
 app.use('/franchise/account-type', AccountTypeRoute)
-app.use('/franchise', AccountCategoryRoute)
+app.use('/franchise/account-category', AccountCategoryRoute)
 app.use('/franchise', TransactionTypeRoute)
 app.use('/franchise', UserBVNRoute)
 app.use('/franchise/account-user', BankUsersRoute)
 app.use('/franchise/staff', BankStaffRoute)
 app.use('/franchise', TransactionDetailsRoute)
+app.use('/franchise', ImageUploadRoute)
 
 
 // Page not found

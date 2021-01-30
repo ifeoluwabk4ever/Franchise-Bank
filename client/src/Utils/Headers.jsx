@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 
 import BankingWorldSelect from './BankingWorldSelect'
 import Logout from './Logout'
-
+import logo from '../Images/Franchise.png'
 const Headers = ({ isUser, isStaff }) => {
 
    const [isOpen, setIsOpen] = useState(false)
@@ -15,12 +15,26 @@ const Headers = ({ isUser, isStaff }) => {
       setIsOpen(!isOpen)
    }
 
+   const staffLinks = (
+      <Fragment>
+         <NavItem className="text-white-50 text-capitalize animate2 navList">
+            <NavLink href="/full-user-register">user registration</NavLink>
+         </NavItem>
+         <NavItem className="text-white-50 text-capitalize animate2 navList">
+            <NavLink href="/full-staff-register">staff registration</NavLink>
+         </NavItem>
+         <NavItem className="text-white-50 text-capitalize animate2 navList">
+            <NavLink href="/check user">check user</NavLink>
+         </NavItem>
+      </Fragment>
+   )
+
    const mainLinks = (
       <Fragment>
          <NavItem className="text-white-50 text-capitalize animate2 navList">
             <NavLink href="/">Home</NavLink>
          </NavItem>
-         {
+         {!isStaff ?
             <Fragment>
                <NavItem className="text-white-50 text-capitalize animate2 navList">
                   <NavLink href="/about-us">about us</NavLink>
@@ -28,11 +42,12 @@ const Headers = ({ isUser, isStaff }) => {
                <NavItem className="text-white-50 text-capitalize animate2 navList">
                   <NavLink href="/contact-us">contact us</NavLink>
                </NavItem>
-               <NavItem className="text-white-50 text-capitalize animate2 navList">
-                  <BankingWorldSelect />
-               </NavItem>
             </Fragment>
+            : (staffLinks)
          }
+         <NavItem className="text-white-50 text-capitalize animate2 navList">
+            <BankingWorldSelect />
+         </NavItem>
       </Fragment>
    )
 
@@ -44,17 +59,23 @@ const Headers = ({ isUser, isStaff }) => {
       </Fragment>
    )
 
+
    return (
       <Navbar dark sticky="top" style={{ background: '#063251' }} expand="lg"
          className="shadow">
          <Container>
             <NavbarToggler onClick={toggle} />
-            <NavbarBrand href="/">
-               <h2 className="text-capitalize" style={{ fontFamily: 'MV Boli,cursive' }}><span className="text-primary">Franchise</span>Bank</h2>
-            </NavbarBrand>
+            <div className="d-flex align-items-center">
+               <NavbarBrand href="/">
+                  <img src={logo} alt="Franchise" className="main-logo" />
+               </NavbarBrand>
+               <NavbarBrand href="/">
+                  <h2 className="text-capitalize animate2" style={{ fontFamily: 'MV Boli,cursive' }}><span className="text-primary">Franchise</span>Bank</h2>
+               </NavbarBrand>
+            </div>
             <Collapse isOpen={isOpen} navbar>
                <Nav className="ml-auto d-flex align-items-center" navbar onClick={toggle}>
-                  {mainLinks}{(isUser || isStaff) && authLinks}
+                  {mainLinks}{(isUser || isStaff) ? authLinks : null}
                </Nav>
             </Collapse>
          </Container>

@@ -5,7 +5,7 @@ import { addAccountCategory, getAccountCategory } from '../Controllers/AccountCa
 
 const router = express.Router()
 
-router.route('/account-category')
+router.route('/')
    .get(getAccountCategory)
    .post(
       [

@@ -4,12 +4,16 @@ const bankUsers = async (req, res, next) => {
    try {
       let token = req.header("x-auth-token")
       if (!token) return res.status(400).json({
-         msg: "No token , authorization denied"
+         error: [
+            { msg: "No token , authorization denied" }
+         ]
       })
 
       jwt.verify(token, process.env.Jwt_Secret_Users, (err, user) => {
          if (err) return res.status(400).json({
-            msg: "Invalid Authentication, Unauthorized User"
+            error: [
+               { msg: "Invalid Authentication, Unauthorized User" }
+            ]
          })
 
          req.bankUser = user
@@ -17,7 +21,9 @@ const bankUsers = async (req, res, next) => {
       })
    } catch (error) {
       return res.status(500).json({
-         msg: error.message
+         error: [
+            { msg: `Server Error: ${error.message}` }
+         ]
       })
    }
 }

@@ -8,6 +8,8 @@ const initialState = {
    isLoggedIn: null,
    isTransfer: null,
    isVerify: null,
+   isAdded: null,
+   addedMsg: null,
    users: null
 }
 
@@ -23,6 +25,19 @@ export default (state = initialState, action) => {
             isLoading: false
          }
       case REGISTER_SUCCESS:
+         return {
+            ...state,
+            isLoading: false,
+            isAdded: true,
+            addedMsg: payload
+         }
+      case REGISTER_FAIL:
+         return {
+            ...state,
+            isLoading: false,
+            isAdded: false,
+            addedMsg: null
+         }
       case LOGIN_SUCCESS:
          // Set token in local Storage
          localStorage.setItem('token', payload.token)
@@ -31,7 +46,6 @@ export default (state = initialState, action) => {
             ...payload,
             isLoggedIn: true
          }
-      case REGISTER_FAIL:
       case LOGIN_FAIL:
          return {
             ...state,

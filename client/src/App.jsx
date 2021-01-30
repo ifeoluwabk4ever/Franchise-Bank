@@ -14,6 +14,8 @@ import store from './Data/Store'
 import setAuthToken from './Helpers/SetAuthToken'
 import { loadBankUser } from './Data/Actions/BankUserAction'
 import { loadBankStaff } from './Data/Actions/BankStaffAction'
+import { getAccTypes } from './Data/Actions/AccountTypesAction'
+import { getAccCategory } from './Data/Actions/AccountCategoryAction'
 import Routes from './Routes'
 import DataProvider from './Data/Context'
 
@@ -28,6 +30,8 @@ const App = () => {
    useEffect(() => {
       store.dispatch(loadBankUser())
       store.dispatch(loadBankStaff())
+      store.dispatch(getAccTypes())
+      store.dispatch(getAccCategory())
    }, [])
 
 
