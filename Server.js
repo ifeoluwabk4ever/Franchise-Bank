@@ -19,6 +19,7 @@ import BankStaffRoute from './Routes/BankStaffRoutes.js'
 import TransactionTypeRoute from './Routes/TransactionTypeRoutes.js'
 import TransactionDetailsRoute from './Routes/TransactionDetailRoutes.js'
 import ImageUploadRoute from './Routes/ImageUpload.js'
+import UserATMRoute from './Routes/UserATMRoutes.js'
 
 
 const app = express()
@@ -39,10 +40,11 @@ app.use(express.static(path.join(__dirname, 'Public')))
 // Franchise Routes
 app.use('/franchise/account-type', AccountTypeRoute)
 app.use('/franchise/account-category', AccountCategoryRoute)
-app.use('/franchise', TransactionTypeRoute)
-app.use('/franchise', UserBVNRoute)
 app.use('/franchise/account-user', BankUsersRoute)
 app.use('/franchise/staff', BankStaffRoute)
+app.use('/franchise/atm', UserATMRoute)
+app.use('/franchise', TransactionTypeRoute)
+app.use('/franchise', UserBVNRoute)
 app.use('/franchise', TransactionDetailsRoute)
 app.use('/franchise', ImageUploadRoute)
 

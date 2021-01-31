@@ -2,7 +2,6 @@ import mongoose from 'mongoose'
 import slug from 'mongoose-slug-generator'
 
 mongoose.plugin(slug)
-const { ObjectId } = mongoose.Schema
 
 
 const TransactionDetailSchema = new mongoose.Schema({
@@ -35,10 +34,9 @@ const TransactionDetailSchema = new mongoose.Schema({
       type: String,
       required: true
    },
-   staff_auth: {
-      type: ObjectId,
-      ref: 'FranchiseStaff',
-      default: '600f5a4edbbeb72d8cb23008'
+   auth: {
+      type: String,
+      required: true
    },
 }, { timestamps: true })
 

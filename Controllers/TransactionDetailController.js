@@ -72,7 +72,7 @@ export const createTransferPayment = async (req, res) => {
 
 
       let newTransaction = new TransactionDetailModel({
-         transactionID, transact_amount_from, transact_amount_to, desc, transact_from, transact_to, transact_amount: Number(transact_amount).toFixed(2)
+         transactionID, transact_amount_from, transact_amount_to, desc, transact_from, transact_to, transact_amount: Number(transact_amount).toFixed(2), auth: userFrom._id
       })
 
       let UpdatedFromTotal = Number(Number(userFrom.account_balance) - Number(totalDebit)).toFixed(2)
@@ -142,7 +142,7 @@ export const createDepositPayment = async (req, res) => {
 
 
       let newTransaction = new TransactionDetailModel({
-         transactionID, transact_amount_from, transact_amount_to, desc, transact_from, transact_to, transact_amount: Number(transact_amount).toFixed(2), staff_auth: staff_auth._id
+         transactionID, transact_amount_from, transact_amount_to, desc, transact_from, transact_to, transact_amount: Number(transact_amount).toFixed(2), auth: staff_auth._id
       })
 
       let UpdatedToTotal = Number(Number(userTo.account_balance) + Number(transact_amount)).toFixed(2)

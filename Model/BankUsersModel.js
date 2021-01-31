@@ -127,17 +127,25 @@ const FranchiseUserSchema = new mongoose.Schema({
       type: String,
       default: ''
    },
-   pos_pin: {
+   atm_pin: {
+      type: String,
+      default: ''
+   },
+   atm_number: {
+      type: String,
+      default: ''
+   },
+   atm_expiry: {
+      type: String,
+      default: ''
+   },
+   atm_cvv: {
       type: String,
       default: ''
    },
    ussd_pin: {
       type: String,
       default: ''
-   },
-   atm_detail: {
-      type: Object,
-      default: {}
    },
    token: {
       type: String,

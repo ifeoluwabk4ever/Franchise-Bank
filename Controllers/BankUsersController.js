@@ -62,7 +62,7 @@ export const addBankUser = async (req, res) => {
 
       var account_number
       do {
-         account_number = getAccountNumber()
+         account_number = getAccountNumber(account_type_name)
 
          var checkAccountNumber = await BankUsersModel.findOne({ account_number })
       } while (checkAccountNumber)
@@ -328,7 +328,7 @@ export const loginUsers = async (req, res) => {
 // access   Private Bank User
 export const getUserDetails = async (req, res) => {
    try {
-      let user = await BankUsersModel.findById(req.bankUser.id).select("-password -token -initPassword -initUsername -ussd_pin -pos_pin")
+      let user = await BankUsersModel.findById(req.bankUser.id).select("-password -token -initPassword -initUsername -ussd_pin -atm_pin, -atm_cvv, -atm_expiry")
 
       if (!user) return res.status(400).json({
          error: [
@@ -346,6 +346,51 @@ export const getUserDetails = async (req, res) => {
       })
    }
 }
+
+// route    /franchise/account-user/atm-pin
+// desc     POST Add atm pin
+// access   Private Bank User
+export const addUserATMPin = async (req, res) => {
+   try {
+      let errors = validationResult(req)
+      if (!errors.isEmpty()) return res.status(400).json({
+         error: errors.array()
+      })
+
+      let { atm_pin, atm_number } = req.body
+
+      let user = await BankUsersModel.findOne({ atm_number })
+
+      if (!user) return res.status(400).json({
+         error: [
+            { msg: `User nt found` }
+         ]
+      })
+
+      let checkPin = user.atm_pin
+      if (checkPin) return res.status(400).json({
+         error: [
+            { msg: `${user.fullName} already registered a pin to atm` }
+         ]
+      })
+
+      let updatedData = await BankUsersModel.findByIdAndUpdate({ _id: user._id }, { atm_pin })
+
+      res.json({
+         msg: `${updatedData.fullName} atm pin added`
+      })
+
+   } catch (error) {
+      console.log(error.message);
+      return res.status(500).json({
+         error: [
+            { msg: `Server Error: ${error.message}` }
+         ]
+      })
+   }
+}
+
+
 
 const createAccessToken = user => {
    return jwt.sign(user, process.env.Jwt_Secret_Users, { expiresIn: '2h' })
@@ -370,19 +415,29 @@ const checkTelephone = async (type, tele, category) => {
    }
 }
 
-export const getAccountNumber = () => {
+export const getAccountNumber = type => {
    let values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
    let YearValue = new Date().getFullYear().toString()
    let YearString = YearValue.substr(2)
    var numb = []
-   for (let i = 1; i <= 7; i++) {
+   for (let i = 1; i <= 6; i++) {
       let randomIndex = Math.floor(Math.random() * values.length)
       numb.push(values[randomIndex])
    }
    var semi = numb.reduce((r, a) => {
       return r += a
    }, '')
-   let finalValue = `0${YearString}${semi}`
+
+   var prefix
+
+   if (type === 'SAVINGS') {
+      prefix = 0
+   } else if (type === 'CURRENT') {
+      prefix = 1
+   } else if (type === 'FIXED-DEPOSIT') {
+      prefix = 2
+   }
+   let finalValue = `0${prefix}${YearString}${semi}`
 
    return finalValue
 }
