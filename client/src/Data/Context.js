@@ -5,7 +5,7 @@ export const GlobalState = createContext()
 const DataProvider = ({ children }) => {
    var isMobile = /iPhone| iPod| iPad| Andriod/i.test(navigator.userAgent)
 
-   var isMobileWidth = window.innerWidth <= 800
+   var isMobileWidth = window.innerWidth < 768
 
    let isMobileScreen = isMobileWidth || isMobile
 

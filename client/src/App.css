@@ -53,6 +53,10 @@ html,
 }
 
 .mobile-height {
+   height: 89vh !important;
+}
+
+.mobile-home-height {
    height: 100vh !important;
 }
 
@@ -121,7 +125,6 @@ html,
 }
 
 .error-page {
-   height: 81vh;
    position: relative;
    text-align: center;
 }

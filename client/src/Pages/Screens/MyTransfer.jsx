@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext, Fragment } from 'react'
 import { Card } from 'reactstrap'
 import { connect } from 'react-redux'
 import { MoonLoader } from 'react-spinners'
@@ -9,8 +9,11 @@ import { toast } from 'react-toastify'
 
 import { numberWithCommas } from '../../Utils/Misc/Format'
 import { createUserPayment } from '../../Data/Actions/BankUserAction';
+import { GlobalState } from '../../Data/Context'
+import MobileNavbar from './MobileNavbar'
 
 const MyTransfer = ({ createUserPayment, isLoading, isUser, isTransfer }) => {
+   const { isMobileScreen } = useContext(GlobalState)
 
    const [state, setState] = useState({
       transact_to: '',
@@ -82,47 +85,50 @@ const MyTransfer = ({ createUserPayment, isLoading, isUser, isTransfer }) => {
 
 
    return (
-      <div className="d-flex align-content-center justify-content-center user-login main-view" style={{ height: '80vh' }}>
-         <main className="m-auto">
-            <Card className="shadow p-4">
-               <div className="my-5">
-                  <h2 className="text-center text-capitalize">Banking with ease</h2>
-               </div>
-               <form onSubmit={handleSubmit}>
-                  <div className="form-floating mb-3">
-                     <input
-                        type="text"
-                        className="form-control"
-                        name="transact_to"
-                        id="transact_to"
-                        placeholder="Transfer To"
-                        value={transact_to}
-                        onChange={handleDataChange("transact_to")}
-                     />
-                     <label htmlFor="transact_to">Account Number:</label>
+      <Fragment>
+         {isMobileScreen && <MobileNavbar />}
+         <div className={`d-flex align-content-center justify-content-center user-login main-view ${isMobileScreen ? 'mobile-height' : 'gen-height'}`}>
+            <main className="m-auto">
+               <Card className="shadow p-4">
+                  <div className="my-5">
+                     <h2 className="text-center text-capitalize">Banking with ease</h2>
                   </div>
-                  <div className="form-floating mb-3">
-                     <input
-                        type="number"
-                        className="form-control"
-                        name="transact_amount"
-                        id="transact_amount"
-                        placeholder="Amount"
-                        value={transact_amount}
-                        onChange={handleDataChange("transact_amount")}
-                     />
-                     <label htmlFor="transact_amount">Amount:</label>
-                  </div>
-                  {isLoading || loading ?
-                     <div className="my-3">
-                        <MoonLoader size={32} />
+                  <form onSubmit={handleSubmit}>
+                     <div className="form-floating mb-3">
+                        <input
+                           type="text"
+                           className="form-control"
+                           name="transact_to"
+                           id="transact_to"
+                           placeholder="Transfer To"
+                           value={transact_to}
+                           onChange={handleDataChange("transact_to")}
+                        />
+                        <label htmlFor="transact_to">Account Number:</label>
                      </div>
-                     : <button type="submit" className="btn btn-dark text-capitalize">send</button>
-                  }
-               </form>
-            </Card>
-         </main>
-      </div>
+                     <div className="form-floating mb-3">
+                        <input
+                           type="number"
+                           className="form-control"
+                           name="transact_amount"
+                           id="transact_amount"
+                           placeholder="Amount"
+                           value={transact_amount}
+                           onChange={handleDataChange("transact_amount")}
+                        />
+                        <label htmlFor="transact_amount">Amount:</label>
+                     </div>
+                     {isLoading || loading ?
+                        <div className="my-3">
+                           <MoonLoader size={32} />
+                        </div>
+                        : <button type="submit" className="btn btn-dark text-capitalize">send</button>
+                     }
+                  </form>
+               </Card>
+            </main>
+         </div>
+      </Fragment>
    )
 }
 const mapStateToProps = state => ({
