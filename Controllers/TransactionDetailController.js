@@ -8,7 +8,7 @@ import TransactionDetailModel from "../Model/TransactionDetailModel.js";
 
 // route    /franchise/send-money
 // desc     POST Transfer money to another user
-// access   Private User
+// access   Private User Mobile/Web App
 export const createTransferPayment = async (req, res) => {
    try {
 
@@ -111,7 +111,7 @@ export const createTransferPayment = async (req, res) => {
 
 // route    /franchise/deposit-money
 // desc     POST Deposit money to another user from cashier
-// access   Private Staff
+// access   Private Bank Staff
 export const createDepositPayment = async (req, res) => {
    try {
       let errors = validationResult(req)
@@ -170,7 +170,76 @@ export const createDepositPayment = async (req, res) => {
    }
 }
 
+
 // route    /franchise/withdraw-money
+// desc     POST Withdraw money by user from cashier
+// access   Private Bank Staff
+export const createWithdrawalPayment = async (req, res) => {
+   try {
+      let errors = validationResult(req)
+      if (!errors.isEmpty()) return res.status(400).json({
+         error: errors.array()
+      })
+
+      let staff_auth = await BankStaffModel.findById(req.bankStaff.id)
+
+      let { account_number, transact_amount } = req.body
+
+      let userFrom = await BankUsersModel.findOne({ account_number })
+
+      if (!userFrom) return res.status(400).json({
+         error: [
+            { msg: `${account_number} account number invalid...` }
+         ]
+      })
+
+      let checkTotal = userFrom.account_balance > transact_amount
+
+      if (!checkTotal) return res.status(400).json({
+         error: [
+            { msg: `Insufficient fund...` }
+         ]
+      })
+
+      let desc = `Bank Withdrawal  FROM ${userFrom.fullName} of NGN ${Number(transact_amount).toFixed(2)}`
+
+      do {
+         var transactionID = getTransactionID('Withdrawal')
+         var checkTransactionID = await TransactionDetailModel.findOne({ transactionID })
+      } while (checkTransactionID);
+
+
+      let newTransaction = new TransactionDetailModel({
+         transactionID, transact_amount_from: 'Nil', transact_amount_to: 'Nil', desc, transact_from: 'Nill', transact_to: 'Nil', transact_amount: Number(transact_amount).toFixed(2), auth: staff_auth._id
+      })
+
+      let UpdatedFromTotal = Number(Number(userFrom.account_balance) - Number(transact_amount)).toFixed(2)
+
+
+      let historyFrom = {
+         _id: newTransaction._id, transactionID, transact_amount_from: 'Nil', desc, transact_amount: `NGN ${Number(transact_amount).toFixed(2)}`, totalDebit: `NGN ${Number(transact_amount).toFixed(2)}`, available: `NGN ${Number(UpdatedFromTotal).toFixed(2)}`, transact_type: 'Dr', time: newTransaction.createdAt
+      }
+      await newTransaction.save()
+
+      await BankUsersModel.findByIdAndUpdate({ _id: userFrom._id }, { account_balance: UpdatedFromTotal, history: [historyFrom, ...userFrom.history] })
+
+
+      res.json({
+         msg: `Transaction Successful`
+      })
+
+   } catch (error) {
+      console.log(error.message);
+      return res.status(500).json({
+         error: [
+            { msg: `Server Error: ${error.message}` }
+         ]
+      })
+   }
+}
+
+
+// route    /franchise/atm/withdraw-money
 // desc     POST Withdraw money to using atm
 // access   Private User ATM Access
 export const createWithdrawPaymentWithATM = async (req, res) => {
@@ -239,7 +308,129 @@ export const createWithdrawPaymentWithATM = async (req, res) => {
 }
 
 
-// route    /franchise/atm-send-money
+// route    /franchise/withdraw-airtime
+// desc     POST Recharge phone number
+// access   Private User Mobile/Web App
+export const createWithdrawPaymentAirtime = async (req, res) => {
+   try {
+      let errors = validationResult(req)
+      if (!errors.isEmpty()) return res.status(400).json({
+         error: errors.array()
+      })
+
+      let auth = await BankUsersModel.findById(req.bankUser.id)
+
+      let { transact_amount } = req.body
+
+      let userDebit = auth.account_balance > transact_amount
+
+      if (!userDebit) return res.status(400).json({
+         error: [
+            { msg: `Insuffient fund...` }
+         ]
+      })
+
+      let desc = `Airtime ${auth.telephone} of NGN ${transact_amount}`
+
+      do {
+         var transactionID = getTransactionID('Airtime')
+         var checkTransactionID = await TransactionDetailModel.findOne({ transactionID })
+      } while (checkTransactionID);
+
+
+      let newTransaction = new TransactionDetailModel({
+         transactionID, transact_amount_from: 'Nil', transact_amount_to: 'Nil', desc, transact_from: 'Nil', transact_to: 'Nil', transact_amount: Number(transact_amount).toFixed(2), auth: auth._id
+      })
+
+      let updatedTotal = Number(Number(auth.account_balance) - Number(transact_amount)).toFixed(2)
+
+      let historyFrom = {
+         _id: newTransaction._id, transactionID, desc, transact_amount: `NGN ${Number(transact_amount).toFixed(2)}`, totalDebit: `NGN ${Number(transact_amount).toFixed(2)}`, available: `NGN ${Number(updatedTotal).toFixed(2)}`, transact_type: 'Dr', time: newTransaction.createdAt
+      }
+
+      await newTransaction.save()
+
+      await BankUsersModel.findByIdAndUpdate({ _id: auth._id }, { account_balance: updatedTotal, history: [historyFrom, ...auth.history] })
+
+
+      res.json({
+         msg: `Airtime Recharge Success`
+      })
+
+
+   } catch (error) {
+      console.log(error.message);
+      return res.status(500).json({
+         error: [
+            { msg: `Server Error: ${error.message}` }
+         ]
+      })
+   }
+}
+
+
+// route    /franchise/atm/withdraw-airtime
+// desc     POST Recharge phone number
+// access   Private User ATM Access
+export const createWithdrawPaymentAirtimeWithATM = async (req, res) => {
+   try {
+      let errors = validationResult(req)
+      if (!errors.isEmpty()) return res.status(400).json({
+         error: errors.array()
+      })
+
+      let auth = await BankUsersModel.findById(req.posBankUser.id)
+
+      let { transact_amount } = req.body
+
+      let userDebit = auth.account_balance > transact_amount
+
+      if (!userDebit) return res.status(400).json({
+         error: [
+            { msg: `Insuffient fund...` }
+         ]
+      })
+
+      let desc = `Airtime ${auth.telephone} of NGN ${transact_amount}`
+
+      do {
+         var transactionID = getTransactionID('Airtime')
+         var checkTransactionID = await TransactionDetailModel.findOne({ transactionID })
+      } while (checkTransactionID);
+
+
+      let newTransaction = new TransactionDetailModel({
+         transactionID, transact_amount_from: 'Nil', transact_amount_to: 'Nil', desc, transact_from: 'Nil', transact_to: 'Nil', transact_amount: Number(transact_amount).toFixed(2), auth: auth._id
+      })
+
+      let updatedTotal = Number(Number(auth.account_balance) - Number(transact_amount)).toFixed(2)
+
+      let historyFrom = {
+         _id: newTransaction._id, transactionID, desc, transact_amount: `NGN ${Number(transact_amount).toFixed(2)}`, totalDebit: `NGN ${Number(transact_amount).toFixed(2)}`, available: `NGN ${Number(updatedTotal).toFixed(2)}`, transact_type: 'Dr', time: newTransaction.createdAt
+      }
+
+      await newTransaction.save()
+
+      await BankUsersModel.findByIdAndUpdate({ _id: auth._id }, { account_balance: updatedTotal, history: [historyFrom, ...auth.history] })
+
+
+      res.json({
+         msg: `Airtime Recharge Success`
+      })
+
+
+   } catch (error) {
+      console.log(error.message);
+      return res.status(500).json({
+         error: [
+            { msg: `Server Error: ${error.message}` }
+         ]
+      })
+   }
+}
+
+
+// route    /franchise/atm/send-money
 // desc     POST Transfer money to another user
 // access   Private User ATM Access
 export const createTransferPaymentWithATM = async (req, res) => {
@@ -341,7 +532,7 @@ export const createTransferPaymentWithATM = async (req, res) => {
    }
 }
 
-// route    /franchise/atm-online-payment
+// route    /franchise/atm/online-payment
 // desc     POST PAy money to using atm
 // access   Private User ATM Access
 export const createOnlinePaymentWithATM = async (req, res) => {

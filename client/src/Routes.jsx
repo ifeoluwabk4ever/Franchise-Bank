@@ -32,10 +32,10 @@ const Routes = ({ isUser }) => {
             <Route exact path="/" component={!isMobileScreen ? Home : MobileHome} />
             <Route exact path="/user-login" component={UsersLogin} />
             <Route exact path="/user-register" component={UserRegister} />
-            <Route exact path="/full-user-register" component={FullUserRegistration} />
-            <Route exact path="/staff-register" component={StaffRegister} />
-            <Route exact path="/full-staff-register" component={FullStaffRegistration} />
-            <Route exact path="/staff-login" component={StaffLogin} />
+            <Route exact path="/full-user-register" component={!isMobileScreen ? FullUserRegistration : ErrorPage} />
+            <Route exact path="/staff-register" component={!isMobileScreen ? StaffRegister : ErrorPage} />
+            <Route exact path="/full-staff-register" component={!isMobileScreen ? FullStaffRegistration : ErrorPage} />
+            <Route exact path="/staff-login" component={!isMobileScreen ? StaffLogin : ErrorPage} />
             <Route exact path="/my-quick-transfer" component={isUser ? MyTransfer : ErrorPage} />
             <Route exact path="/my-user-info" component={isUser ? MyInfo : ErrorPage} />
             <Route exact path="/my-details" component={isUser ? MyDetails : ErrorPage} />

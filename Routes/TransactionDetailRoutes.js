@@ -1,6 +1,6 @@
 import express from 'express'
 import { check } from 'express-validator'
-import { createDepositPayment, createOnlinePaymentWithATM, createTransferPayment, createTransferPaymentWithATM, createWithdrawPaymentWithATM } from '../Controllers/TransactionDetailController.js'
+import { createDepositPayment, createOnlinePaymentWithATM, createTransferPayment, createTransferPaymentWithATM, createWithdrawalPayment, createWithdrawPaymentWithATM, createWithdrawPaymentAirtime, createWithdrawPaymentAirtimeWithATM } from '../Controllers/TransactionDetailController.js'
 import bankStaffAuth from '../Middleware/BankStaffAuth.js'
 import bankUsersAuth from '../Middleware/BankUserAuth.js'
 import bankUsersPos from '../Middleware/BankUserPOSAuth.js'
@@ -25,7 +25,29 @@ router.post('/deposit-money',
    ],
    createDepositPayment)
 
-router.post('/withdraw-money-atm',
+router.post('/withdraw-money',
+   bankStaffAuth,
+   [
+      check('account_number', "Please specify account to withdraw from").notEmpty(),
+      check('transact_amount', "Please specify amount to be deposited").notEmpty()
+   ],
+   createWithdrawalPayment)
+
+router.post('/withdraw-airtime',
+   bankUsersAuth,
+   [
+      check('transact_amount', "Please specify amount to be recharged").notEmpty()
+   ],
+   createWithdrawPaymentAirtime)
+
+router.post('/atm/withdraw-airtime',
+   bankUsersPos,
+   [
+      check('transact_amount', "Please specify amount to be recharged").notEmpty()
+   ],
+   createWithdrawPaymentAirtimeWithATM)
+
+router.post('/atm/withdraw-money',
    bankUsersPos,
    [
       check('account_type', "Please specify Account Type").not().isEmpty(),
@@ -33,7 +55,7 @@ router.post('/withdraw-money-atm',
    ],
    createWithdrawPaymentWithATM)
 
-router.post('/atm-send-money',
+router.post('/atm/send-money',
    bankUsersPos,
    [
       check('transact_to', "Please specify account to transact with").not().isEmpty(),
@@ -41,7 +63,7 @@ router.post('/atm-send-money',
    ],
    createTransferPaymentWithATM)
 
-router.post('/atm-online-payment',
+router.post('/atm/online-payment',
    [
       check('atm_number', "ATM Number required").notEmpty(),
       check('atm_expiry', "ATM expiry required").notEmpty(),
