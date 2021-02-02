@@ -52,16 +52,28 @@ html,
    background: var(--clr-grey-9) !important;
 }
 
+.mobile-height {
+   height: 100vh !important;
+}
+
+.gen-height {
+   height: 80.9vh;
+}
+
+.mobile-home-bg h1 {
+   font-size: 3.5rem;
+   color: var(--clr-grey-9);
+}
+
+.mobile-home-bg,
 .slide1 {
    height: 100%;
    background: linear-gradient(hsla(209, 34%, 30%, 0.473), hsla(211, 27%, 70%, 0.473)), url(./Images/bg4.jpg) center/cover no-repeat fixed !important;
-
 }
 
 .slide2 {
    height: 100%;
    background: linear-gradient(hsla(209, 34%, 30%, 0.473), hsla(211, 27%, 70%, 0.473)), url(./Images/bg13.jpg) center/cover no-repeat fixed !important;
-
 }
 
 .slide3 {
@@ -80,14 +92,10 @@ html,
    background: var(--clr-primary-1) !important;
 }
 
-.gen-height {
-   height: 81vh;
-}
-
 .home-panel {
    display: grid;
    grid-template-columns: 1fr;
-   height: 81vh;
+   height: 80.9vh;
 }
 
 .banner-opac {
@@ -124,11 +132,11 @@ html,
 }
 
 .error-page h1 {
-   font-size: 10rem;
+   font-size: clamp(7rem, 5vw, 10rem);
 }
 
 .error-page p {
-   font-size: 2rem;
+   font-size: clamp(1rem, 3vw, 2rem);
    color: #333;
 }
 
@@ -232,6 +240,10 @@ html,
    place-items: center;
    text-align: center;
    background: rgba(0, 0, 0, 0.1);
+}
+
+.mobile-home-option p {
+   color: var(--clr-grey-9);
 }
 
 .home-option>div div {

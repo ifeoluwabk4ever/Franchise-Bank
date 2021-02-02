@@ -1,13 +1,15 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Card, Modal, ModalBody, ModalHeader } from 'reactstrap'
 import { connect } from 'react-redux'
 import { MoonLoader } from 'react-spinners'
 import { Redirect } from 'react-router-dom'
 
 
+import { GlobalState } from '../../Data/Context'
 import { registerPasswordBankUser, verifyTokenBankUser } from '../../Data/Actions/BankUserAction'
 
 const UserRegister = ({ registerPasswordBankUser, isLoading, isUser, isVerify, verifyTokenBankUser, isLoggedIn }) => {
+   const { isMobileScreen } = useContext(GlobalState)
 
    const [state, setState] = useState({
       username: '',
@@ -60,7 +62,7 @@ const UserRegister = ({ registerPasswordBankUser, isLoading, isUser, isVerify, v
    }
 
    return (
-      <div className="d-flex align-content-center justify-content-center user-login main-view gen-height">
+      <div className={`d-flex align-content-center justify-content-center user-login main-view ${isMobileScreen ? 'mobile-height' : 'gen-height'}`}>
          <main className="m-auto">
             <Card className="shadow p-4">
                <div className="my-5">

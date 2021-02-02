@@ -30,7 +30,7 @@ const UserATMSchema = new mongoose.Schema({
       type: Date,
       required: true,
    },
-   atm_ccv: {
+   atm_cvv: {
       type: String,
       required: true,
       length: 3

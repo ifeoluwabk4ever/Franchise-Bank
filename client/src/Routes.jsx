@@ -1,13 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Switch, Route } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import { connect } from 'react-redux'
 
 
+import { GlobalState } from './Data/Context'
 import StaffLogin from './Components/Auth/StaffLogin'
 import UsersLogin from './Components/Auth/UsersLogin'
 import MyDetails from './Pages/Screens/MyDetails'
-import MyHomePage from './Pages/Screens/MyHomePage'
 import MyTransfer from './Pages/Screens/MyTransfer'
 import ErrorPage from './Pages/Views/404Page'
 import Home from './Pages/Views/Home'
@@ -18,28 +18,30 @@ import StaffRegister from './Components/Auth/StaffRegister'
 import Footer from './Utils/Footer'
 import FullUserRegistration from './Components/Auth/Authentication/FullUserRegistration'
 import FullStaffRegistration from './Components/Auth/Authentication/FullStaffRegistration'
+import MobileHome from './Pages/Views/MobileHome'
 
 
 const Routes = ({ isUser }) => {
+   const { isMobileScreen } = useContext(GlobalState)
+
    return (
       <div className="main-bg">
-         <Headers />
+         {!isMobileScreen && <Headers />}
          <ToastContainer />
          <Switch>
-            <Route exact path="/" component={Home} />
+            <Route exact path="/" component={!isMobileScreen ? Home : MobileHome} />
             <Route exact path="/user-login" component={UsersLogin} />
             <Route exact path="/user-register" component={UserRegister} />
             <Route exact path="/full-user-register" component={FullUserRegistration} />
             <Route exact path="/staff-register" component={StaffRegister} />
             <Route exact path="/full-staff-register" component={FullStaffRegistration} />
             <Route exact path="/staff-login" component={StaffLogin} />
-            <Route exact path="/my-home-page" component={MyHomePage} />
             <Route exact path="/my-quick-transfer" component={isUser ? MyTransfer : ErrorPage} />
             <Route exact path="/my-user-info" component={isUser ? MyInfo : ErrorPage} />
             <Route exact path="/my-details" component={isUser ? MyDetails : ErrorPage} />
             <Route component={ErrorPage} />
          </Switch>
-         <Footer />
+         {!isMobileScreen && <Footer />}
       </div>
    )
 }

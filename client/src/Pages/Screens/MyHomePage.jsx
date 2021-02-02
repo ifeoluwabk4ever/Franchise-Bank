@@ -1,19 +1,26 @@
 import React from 'react'
-import { ButtonGroup, Button, Navbar } from 'reactstrap'
+import { Link } from 'react-router-dom'
+import { ButtonGroup, Navbar } from 'reactstrap'
 import MyQuickHandle from './MyQuickHandle'
 
 const MyHomePage = () => {
+
+
    return (
       <div>
-         <MyQuickHandle />
-         <Navbar fixed="bottom" className="p-0">
+         <MyQuickHandle cssprop="mobile-home-option" />
+         <Navbar fixed="bottom" className="py-0 px-5">
             <ButtonGroup className="w-100">
-               <Button className="text-capitalize mr-2" color="primary">
+               <Link
+                  className="text-capitalize mr-5 btn btn-primary"
+                  to="/user-register">
                   sign in
-            </Button>
-               <Button className="text-capitalize ml-2" color="primary">
+                  </Link>
+               <Link
+                  className="text-capitalize ml-5 btn btn-primary"
+                  to="/user-login">
                   log in
-            </Button>
+               </Link>
             </ButtonGroup>
          </Navbar>
       </div>

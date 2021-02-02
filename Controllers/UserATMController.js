@@ -16,7 +16,7 @@ export const registerUserATM = async (req, res) => {
       })
 
       let staff_auth = await BankStaffModel.findById(req.bankStaff.id)
-      let { account_number, card_type, bvn_number } = req.body
+      let { account_number, card_type } = req.body
 
       let user = await BankUsersModel.findOne({ account_number })
 
@@ -32,7 +32,7 @@ export const registerUserATM = async (req, res) => {
          let dateNow = new Date()
          var checkDate = user.atm_expiry > dateNow
 
-         if (!checkDate) return res.status(400).json({
+         if (checkDate) return res.status(400).json({
             error: [
                { msg: `User ATM yet to expiry` }
             ]
@@ -48,14 +48,16 @@ export const registerUserATM = async (req, res) => {
       } while (checkATMNumber);
 
 
-      let newUserATM = new UserATMModel({ staff_auth: staff_auth._id, account_number, user_auth: user._id, fullName: user.fullName, card_type, bvn_number, atm_cvv, atm_number, atm_expiry })
-
-      await BankUsersModel.findByIdAndUpdate({ _id: user._id }, { atm_number, atm_expiry, atm_cvv, card_type, atm_pin: '' })
+      let newUserATM = new UserATMModel({ staff_auth: staff_auth._id, account_number, user_auth: user._id, fullName: user.fullName, card_type, atm_cvv, atm_number, atm_expiry })
 
       await newUserATM.save()
 
+      await BankUsersModel.findByIdAndUpdate({ _id: user._id }, { atm_number, atm_expiry, atm_cvv, card_type, atm_pin: '' })
+
+
       res.json({
-         msg: `${fullName} atm detail updated`
+         msg: `${user.fullName} atm detail updated`,
+         atm_number
       })
    } catch (error) {
       console.log(error.message);
@@ -73,6 +75,11 @@ export const registerUserATM = async (req, res) => {
 // access   Private Bank Staff
 export const destroyUserATM = async (req, res) => {
    try {
+      let errors = validationResult(req)
+      if (!errors.isEmpty()) return res.status(400).json({
+         error: errors.array()
+      })
+
       let { account_number } = req.body
 
       let checkAccount = await BankUsersModel.findOne({ account_number })

@@ -1,7 +1,7 @@
 import express from 'express'
 import { check } from 'express-validator'
 
-import { addBankUser, addUserRegister, checkUser, getUserDetails, loginUsers, verifyToken, verifyUser } from '../Controllers/BankUsersController.js'
+import { addBankUser, addUserATMPin, addUserRegister, checkUser, getUserDetails, loginUsers, loginUsersWithATMPin, verifyToken, verifyUser } from '../Controllers/BankUsersController.js'
 import bankStaffAuth from '../Middleware/BankStaffAuth.js'
 import bankUsersAuth from '../Middleware/BankUserAuth.js'
 
@@ -52,6 +52,22 @@ router.post('/login-user',
 router.route('/user-info')
    .post(bankStaffAuth, checkUser)
    .get(bankUsersAuth, getUserDetails)
+
+router.post('/atm-pin',
+   [
+      check('atm_number', 'ATM number required').notEmpty(),
+      check('atm_pin', 'ATM pin required, length of 4').isLength({
+         min: 4, max: 4
+      })
+   ], addUserATMPin)
+
+router.post('/login-atm-pin',
+   [
+      check('atm_number', 'ATM number required').notEmpty(),
+      check('atm_pin', 'ATM pin required, length of 4').isLength({
+         min: 4, max: 4
+      })
+   ], loginUsersWithATMPin)
 
 
 export default router

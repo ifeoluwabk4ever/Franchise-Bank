@@ -69,7 +69,7 @@ const Headers = ({ isUser, isStaff }) => {
                <NavbarBrand href="/">
                   <img src={logo} alt="Franchise" className="main-logo" />
                </NavbarBrand>
-               <NavbarBrand href="/">
+               <NavbarBrand href="/" className="d-none d-lg-block">
                   <h2 className="text-capitalize animate2" style={{ fontFamily: 'MV Boli,cursive' }}><span className="text-primary">Franchise</span>Bank</h2>
                </NavbarBrand>
             </div>

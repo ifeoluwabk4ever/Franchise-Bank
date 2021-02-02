@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { connect } from 'react-redux'
 import { Container } from 'reactstrap'
 
@@ -6,19 +6,15 @@ import { Container } from 'reactstrap'
 import { numberWithCommas } from '../../Utils/Misc/Format'
 import MyQuickHandle from './MyQuickHandle'
 import MyTransactionHistory from './MyTransactionHistory'
+import { GlobalState } from '../../Data/Context'
 
 const MyDetails = ({ bankUser }) => {
 
-   // let transit = []
-
-
-   // let myHistory = bankUser.history.copyWithin(4, 0, 4)
-   // console.log(myHistory);
-   // transit
+   const { isMobileScreen } = useContext(GlobalState)
 
 
    return (
-      <div style={{ height: '89vh', overflowY: 'auto' }} className="gen-bg">
+      <div style={{ overflowY: 'auto' }} className={`gen-bg ${isMobileScreen ? 'mobile-height' : 'gen-height'}`}>
          <Container className="py-3 main-view">
             <div className="d-flex justify-content-end align-content-center mb-3">
                <div>

@@ -136,7 +136,7 @@ const FranchiseUserSchema = new mongoose.Schema({
       default: ''
    },
    atm_expiry: {
-      type: String,
+      type: Date,
       default: ''
    },
    atm_cvv: {

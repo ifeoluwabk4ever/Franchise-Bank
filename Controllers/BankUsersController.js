@@ -363,7 +363,7 @@ export const addUserATMPin = async (req, res) => {
 
       if (!user) return res.status(400).json({
          error: [
-            { msg: `User nt found` }
+            { msg: `User not found` }
          ]
       })
 
@@ -374,7 +374,14 @@ export const addUserATMPin = async (req, res) => {
          ]
       })
 
-      let updatedData = await BankUsersModel.findByIdAndUpdate({ _id: user._id }, { atm_pin })
+      // Create salt && hash
+      // Encrypt password
+      let salt = await bcrypt.genSalt(10)
+      // Save password
+      let saveAtmPin = await bcrypt.hash(atm_pin, salt)
+      // Save data in database
+
+      let updatedData = await BankUsersModel.findByIdAndUpdate({ _id: user._id }, { atm_pin: saveAtmPin })
 
       res.json({
          msg: `${updatedData.fullName} atm pin added`
@@ -391,9 +398,72 @@ export const addUserATMPin = async (req, res) => {
 }
 
 
+// route    /franchise/account-user/login-atm-pin
+// desc     POST Login User to Use ATM
+// access   Public
+export const loginUsersWithATMPin = async (req, res) => {
+   try {
+      let errors = validationResult(req)
+      if (!errors.isEmpty()) return res.status(400).json({
+         error: errors.array()
+      })
+
+      let { atm_pin, atm_number } = req.body
+
+      let userData = await BankUsersModel.findOne({ atm_number })
+
+      // If no user in db
+      if (!userData) return res.status(400).json({
+         error: [
+            { msg: 'User does not exist...' }
+         ]
+      })
+
+      let dateNow = new Date()
+      var checkDate = userData.atm_expiry > dateNow
+
+      if (!checkDate) return res.status(400).json({
+         error: [
+            { msg: `ATM card has expired...` }
+         ]
+      })
+
+      // Know user found by email, comparing atm_pin
+      let isMatch = await bcrypt.compare(atm_pin, userData.atm_pin)
+
+      // If error
+      if (!isMatch) return res.status(400).json({
+         error: [
+            { msg: 'Invalid ATM Pin...' }
+         ]
+      })
+
+
+      // If login success, create accesstoken and refreshtoken
+      const accesstoken = createATMAccessToken({ id: userData._id })
+
+      res.json({
+         token: accesstoken,
+         msg: `Welcome ${userData.fullName}`
+      })
+   } catch (error) {
+      console.log(error.message);
+      return res.status(500).json({
+         error: [
+            { msg: `Server Error: ${error.message}` }
+         ]
+      })
+   }
+}
+
+
 
 const createAccessToken = user => {
    return jwt.sign(user, process.env.Jwt_Secret_Users, { expiresIn: '2h' })
+}
+
+const createATMAccessToken = user => {
+   return jwt.sign(user, process.env.Jwt_Secret_Users_ATM, { expiresIn: '2h' })
 }
 
 
