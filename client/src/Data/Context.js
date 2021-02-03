@@ -9,8 +9,23 @@ const DataProvider = ({ children }) => {
 
    let isMobileScreen = isMobileWidth || isMobile
 
+   var timeOfDay
+
+   let time = new Date().getHours()
+
+   if (time >= 0 && time <= 11) {
+      timeOfDay = "Good morning"
+   } else if (time >= 12 && time <= 15) {
+      timeOfDay = "Good afternoon"
+   } else if (time >= 16 && time <= 18) {
+      timeOfDay = "Good evening"
+   } else {
+      timeOfDay = "Good night"
+   }
+   console.log(timeOfDay, time);
+
    const state = {
-      isMobileScreen
+      isMobileScreen, timeOfDay
    }
    return (
       <GlobalState.Provider value={state}>

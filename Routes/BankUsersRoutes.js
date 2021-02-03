@@ -1,7 +1,7 @@
 import express from 'express'
 import { check } from 'express-validator'
 
-import { addBankUser, addUserATMPin, addUserRegister, checkUser, getUserDetails, loginUsers, loginUsersWithATMPin, verifyToken, verifyUser } from '../Controllers/BankUsersController.js'
+import { addBankUser, addUserATMPin, addUserRegister, checkUser, generateToken, getAccountManager, getUserDetails, loginUsers, loginUsersWithATMPin, verifyToken, verifyUser } from '../Controllers/BankUsersController.js'
 import bankStaffAuth from '../Middleware/BankStaffAuth.js'
 import bankUsersAuth from '../Middleware/BankUserAuth.js'
 
@@ -35,6 +35,10 @@ router.route('/register-user')
    )
 
 router.post('/user-fullname', bankUsersAuth, verifyUser)
+
+router.get('/soft-token', bankUsersAuth, generateToken)
+
+router.get('/my-manager', bankUsersAuth, getAccountManager)
 
 router.post('/verify-token',
    [

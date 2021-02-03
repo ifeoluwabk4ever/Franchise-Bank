@@ -1,16 +1,20 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useContext } from 'react'
 import { Container, Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap'
 import { connect } from 'react-redux'
 
 import logo from '../../Images/Franchise.png'
 import Logout from '../../Utils/Logout'
+import { GlobalState } from '../../Data/Context'
 
 
 const MobileNavbar = ({ isUser, bankUser }) => {
+
+   const { timeOfDay } = useContext(GlobalState)
+
    const authLinks = (
       <Fragment>
-         <NavItem className="text-white-50 animate2 navList mr-3">
-            <NavLink href="#">{isUser && `Welcome, ${bankUser.firstName}`}</NavLink>
+         <NavItem className="text-white-50 animate2 navList mr-3 text-capitalize">
+            <NavLink href="#">{isUser && `${timeOfDay}, ${bankUser.firstName}`}</NavLink>
          </NavItem>
          <NavItem className="text-white-50 animate2 navList">
             <Logout />

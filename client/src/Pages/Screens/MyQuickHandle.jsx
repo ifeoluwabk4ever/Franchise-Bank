@@ -1,6 +1,11 @@
 import React from 'react'
-import { BiTransferAlt, FaUser, BiWalletAlt, GiBanknote, BsPhone, BsInfoCircleFill } from 'react-icons/all'
+import { BiTransferAlt, FaUser, GiBanknote, BsInfoCircleFill } from 'react-icons/all'
 import { NavLink } from 'reactstrap'
+
+
+import MySoftToken from './MySoftToken'
+import MyQuickAirtime from './MyQuickAirtime'
+
 
 const MyQuickHandle = ({ cssprop }) => {
    return (
@@ -23,19 +28,11 @@ const MyQuickHandle = ({ cssprop }) => {
                <p className="text-capitalize">other bank transfer</p>
             </div>
             <div>
-               <NavLink href="/my-quick-airtime">
-                  <div>
-                     <BsPhone color="#0d6efd" size={24} />
-                  </div>
-               </NavLink>
+               <MyQuickAirtime />
                <p className="text-capitalize">quick airtime</p>
             </div>
             <div>
-               <NavLink href="/my-soft-token">
-                  <div>
-                     <BiWalletAlt color="#0d6efd" size={24} />
-                  </div>
-               </NavLink>
+               <MySoftToken />
                <p className="text-capitalize">soft token</p>
             </div>
             <div>

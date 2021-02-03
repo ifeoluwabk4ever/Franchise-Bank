@@ -11,17 +11,17 @@ const router = express.Router()
 router.post('/send-money',
    bankUsersAuth,
    [
-      check('transact_to', "Please specify account to transact with").not().isEmpty(),
-      check('transact_amount', "Please specify amount to be sent").not().isEmpty()
+      check('transact_to', "Please specify account to transact with").notEmpty(),
+      check('transact_amount', "Please specify amount to be sent").notEmpty()
    ],
    createTransferPayment)
 
 router.post('/deposit-money',
    bankStaffAuth,
    [
-      check('transact_to', "Please specify account to deposit to").not().isEmpty(),
-      check('transact_from', "Please specify depositor's name").not().isEmpty(),
-      check('transact_amount', "Please specify amount to be deposited").not().isEmpty()
+      check('transact_to', "Please specify account to deposit to").notEmpty(),
+      check('transact_from', "Please specify depositor's name").notEmpty(),
+      check('transact_amount', "Please specify amount to be deposited").notEmpty()
    ],
    createDepositPayment)
 
@@ -50,16 +50,17 @@ router.post('/atm/withdraw-airtime',
 router.post('/atm/withdraw-money',
    bankUsersPos,
    [
-      check('account_type', "Please specify Account Type").not().isEmpty(),
-      check('transact_amount', "Please specify amount to be deposited").not().isEmpty()
+      check('account_type', "Please specify Account Type").notEmpty(),
+      check('transact_amount', "Please specify amount to be deposited").notEmpty()
    ],
    createWithdrawPaymentWithATM)
 
 router.post('/atm/send-money',
    bankUsersPos,
    [
-      check('transact_to', "Please specify account to transact with").not().isEmpty(),
-      check('transact_amount', "Please specify amount to be sent").not().isEmpty()
+      check('transact_to', "Please specify account to transact with").notEmpty(),
+      check('account_type', "Please specify Account Type").notEmpty(),
+      check('transact_amount', "Please specify amount to be sent").notEmpty(),
    ],
    createTransferPaymentWithATM)
 

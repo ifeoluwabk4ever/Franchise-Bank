@@ -253,9 +253,9 @@ export const createWithdrawPaymentWithATM = async (req, res) => {
 
       let { transact_amount, account_type } = req.body
 
-      let userType = auth.account_type !== account_type
+      let userType = auth.account_type_name !== account_type.toUpperCase()
 
-      if (!userType) return res.status(400).json({
+      if (userType) return res.status(400).json({
          error: [
             { msg: `Account type invalid...` }
          ]
@@ -449,8 +449,23 @@ export const createTransferPaymentWithATM = async (req, res) => {
             { msg: "User not found" }
          ]
       })
-      let { transact_to, transact_amount } = req.body
+      let { account_type, transact_to, transact_amount } = req.body
 
+      let userTo = await BankUsersModel.findOne({ account_number: transact_to })
+
+      if (!userTo) return res.status(400).json({
+         error: [
+            { msg: `${transact_to} account number invalid...` }
+         ]
+      })
+
+      let userFromType = userFrom.account_type_name !== account_type.toUpperCase()
+
+      if (userFromType) return res.status(400).json({
+         error: [
+            { msg: `Account type invalid...` }
+         ]
+      })
 
       let accType = userFrom.account_type
 
@@ -470,13 +485,7 @@ export const createTransferPaymentWithATM = async (req, res) => {
 
 
       let transact_from = userFrom.account_number
-      let userTo = await BankUsersModel.findOne({ account_number: transact_to })
 
-      if (!userTo) return res.status(400).json({
-         error: [
-            { msg: `${transact_to} account number invalid...` }
-         ]
-      })
       if (userTo.account_number === transact_from) return res.status(400).json({
          error: [
             { msg: `Invalid transaction, you cannot send to the same account` }

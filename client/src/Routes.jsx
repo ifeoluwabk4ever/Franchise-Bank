@@ -19,6 +19,7 @@ import Footer from './Utils/Footer'
 import FullUserRegistration from './Components/Auth/Authentication/FullUserRegistration'
 import FullStaffRegistration from './Components/Auth/Authentication/FullStaffRegistration'
 import MobileHome from './Pages/Views/MobileHome'
+import MyAccountManager from './Pages/Screens/MyAccountManager'
 
 
 const Routes = ({ isUser }) => {
@@ -39,6 +40,7 @@ const Routes = ({ isUser }) => {
             <Route exact path="/my-quick-transfer" component={isUser ? MyTransfer : ErrorPage} />
             <Route exact path="/my-user-info" component={isUser ? MyInfo : ErrorPage} />
             <Route exact path="/my-details" component={isUser ? MyDetails : ErrorPage} />
+            <Route exact path="/my-account-manager" component={isUser ? MyAccountManager : ErrorPage} />
             <Route component={ErrorPage} />
          </Switch>
          {!isMobileScreen && <Footer />}

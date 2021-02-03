@@ -159,6 +159,11 @@ const FranchiseUserSchema = new mongoose.Schema({
       type: String,
       default: ''
    },
+   manager: {
+      type: ObjectId,
+      ref: 'FranchiseStaff',
+      required: true
+   }
 }, { timestamps: true })
 
 export default mongoose.model('FranchiseUser', FranchiseUserSchema)

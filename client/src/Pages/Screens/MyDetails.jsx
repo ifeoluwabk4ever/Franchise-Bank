@@ -20,13 +20,16 @@ const MyDetails = ({ bankUser }) => {
             <div className={`py-3 ${isMobileScreen ? 'px-5' : 'container'} main-view`}>
                <div className="d-flex justify-content-end align-content-center mb-3">
                   <div>
-                     <h5 className="d-flex justify-content-between align-content-center">
+                     <h5 className="d-flex justify-content-between align-content-center text-capitalize">
                         <span className="mr-3">Account Name:</span> <span className="text-primary">{bankUser.fullName}</span>
                      </h5>
-                     <h5 className="d-flex justify-content-between align-content-center">
+                     <h5 className="d-flex justify-content-between align-content-center text-capitalize">
                         <span className="mr-3">Account Number:</span> <span className="text-primary">{bankUser.account_number}</span>
                      </h5>
-                     <h5 className="d-flex justify-content-between align-content-center">
+                     <h5 className="d-flex justify-content-between align-content-center text-capitalize">
+                        <span className="mr-3">Account type:</span> <span className="text-primary text-uppercase">{bankUser.account_type_name} Account</span>
+                     </h5>
+                     <h5 className="d-flex justify-content-between align-content-center text-capitalize">
                         <span className="mr-3">Balance:</span> <span className={`money ${bankUser.account_balance > 0 ? 'plus' : bankUser.account_balance < 0 ? 'minus' : ''}`}>{bankUser.account_balance > 0 ? '+' : bankUser.account_balance < 0 ? '-' : ''}&#8358;{numberWithCommas(bankUser.account_balance)}k</span>
                      </h5>
                   </div>

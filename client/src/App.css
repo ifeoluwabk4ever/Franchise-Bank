@@ -65,7 +65,6 @@ html,
 }
 
 .mobile-home-bg h1 {
-   font-size: 3.5rem;
    color: var(--clr-grey-9);
 }
 
@@ -112,6 +111,7 @@ html,
 
 .banner-opac h1,
 .about-us h1,
+.mobile-home-bg h1,
 .contact-page h1 {
    font-size: clamp(2rem, 3.5vw, 4.5rem);
 }
@@ -219,11 +219,12 @@ html,
 }
 
 .list li {
-   background-color: var(--clr-white);
+   background-color: var(--clr-grey-8);
    box-shadow: var(--box-shadow);
    color: var(--clr-black);
    display: flex;
    justify-content: space-between;
+   align-items: center;
    position: relative;
    padding: 10px;
    margin: 10px 0;

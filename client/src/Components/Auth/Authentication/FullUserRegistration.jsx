@@ -34,6 +34,7 @@ const initialState = {
 const FullUserRegistration = ({ isLoading, allTypes, allCategory, isAdded, registerBankUser, addedMsg }) => {
    const [data, setData] = useState(initialState);
    const { firstName, lastName, email, telephone, dob, address, occupation, gender, bvn_number, account_category, account_type, mothers_firstName, mothers_lastName, mothers_telephone } = data
+   const initAvatar = gender === 'Male' ? 'avatar3.png' : 'avatar6.png'
 
    const handleDataChange = input => e => {
       setData({ ...data, [input]: e.target.value })
@@ -41,7 +42,7 @@ const FullUserRegistration = ({ isLoading, allTypes, allCategory, isAdded, regis
    const [images, setImages] = useState(false)
    let [loading, setLoading] = useState(false)
    let [callbackFullUserReg, setCallbackFullUserReg] = useState(false)
-   let [avatar, setAvatar] = useState('avatar3.png')
+   let [avatar, setAvatar] = useState(initAvatar)
 
    let styleUpload = {
       display: images ? "block" : "none"

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import setAuthToken from '../../Helpers/SetAuthToken'
-import { AUTH_ERROR, LOGIN_FAIL, LOGIN_SUCCESS, REGISTER_FAIL, REGISTER_SUCCESS, SET_LOADING, USER_LOADED, LOGOUT, TRANSFER_FUND_FAIL, TRANSFER_FUND, VERIFY_TOKEN, VERIFY_TOKEN_FAIL } from './ActionTypes'
+import { AUTH_ERROR, LOGIN_FAIL, LOGIN_SUCCESS, REGISTER_FAIL, REGISTER_SUCCESS, SET_LOADING, USER_LOADED, LOGOUT, TRANSFER_FUND_FAIL, TRANSFER_FUND, VERIFY_TOKEN, VERIFY_TOKEN_FAIL, GENERATE_TOKEN, GENERATE_TOKEN_FAIL, GET_AIRTIME, GET_AIRTIME_FAIL, GET_MY_MANAGER, GET_MY_MANAGER_FAIL } from './ActionTypes'
 
 
 // LoadUser Action
@@ -173,6 +173,67 @@ export let createUserPayment = ({ transact_to, transact_amount }) => async dispa
       if (errors) errors.forEach(error => toast.error(error.msg))
 
       dispatch({ type: TRANSFER_FUND_FAIL })
+   }
+}
+
+// Loading Airtime
+export let loadUserAirtime = ({ transact_amount }) => async dispatch => {
+   // Config header for axios
+   let config = {
+      headers: {
+         'Content-Type': 'application/json'
+      }
+   }
+
+   // Set body
+   let body = JSON.stringify({ transact_amount })
+
+   dispatch({ type: SET_LOADING })
+   try {
+      // Response
+      let res = await axios.post(`/franchise/withdraw-airtime`, body, config)
+      dispatch({
+         type: GET_AIRTIME,
+         payload: res.data
+      })
+      dispatch(loadBankUser())
+      toast.success(res.data.msg)
+   } catch (err) {
+      let errors = err.response.data.error
+      if (errors) errors.forEach(error => toast.error(error.msg))
+
+      dispatch({ type: GET_AIRTIME_FAIL })
+   }
+}
+
+// User Generate Token Action
+export let getGeneratedToken = () => async dispatch => {
+   try {
+      let res = await axios.get(`/franchise/account-user/soft-token`)
+      dispatch({
+         type: GENERATE_TOKEN,
+         payload: res.data.token
+      })
+      dispatch(loadBankUser())
+   } catch (err) {
+      let errors = err.response.data.error
+      if (errors) errors.forEach(error => toast.error(error.msg))
+      dispatch({ type: GENERATE_TOKEN_FAIL })
+   }
+}
+// User Gets Manager Action
+export let getMyManager = () => async dispatch => {
+   try {
+      let res = await axios.get(`/franchise/account-user/my-manager`)
+      dispatch({
+         type: GET_MY_MANAGER,
+         payload: res.data.manager
+      })
+      dispatch(loadBankUser())
+   } catch (err) {
+      let errors = err.response.data.error
+      if (errors) errors.forEach(error => console.log(error.msg))
+      dispatch({ type: GET_MY_MANAGER_FAIL })
    }
 }
 

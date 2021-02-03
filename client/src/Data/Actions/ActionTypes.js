@@ -8,8 +8,14 @@ export const AUTH_ERROR = 'AUTH_ERROR'
 export const SET_LOADING = 'SET_LOADING'
 export const TRANSFER_FUND = 'TRANSFER_FUND'
 export const TRANSFER_FUND_FAIL = 'TRANSFER_FUND_FAIL'
+export const GENERATE_TOKEN = 'GENERATE_TOKEN'
+export const GENERATE_TOKEN_FAIL = 'GENERATE_TOKEN_FAIL'
 export const VERIFY_TOKEN = 'VERIFY_TOKEN'
 export const VERIFY_TOKEN_FAIL = 'VERIFY_TOKEN_FAIL'
+export const GET_AIRTIME = 'GET_AIRTIME'
+export const GET_AIRTIME_FAIL = 'GET_AIRTIME_FAIL'
+export const GET_MY_MANAGER = 'GET_MY_MANAGER'
+export const GET_MY_MANAGER_FAIL = 'GET_MY_MANAGER_FAIL'
 
 
 //  Main Student Auth Action Types

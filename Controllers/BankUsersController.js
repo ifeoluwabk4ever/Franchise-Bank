@@ -5,6 +5,7 @@ import UserBVNModel from "../Model/UserBVNModel.js"
 import { validationResult } from 'express-validator'
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken"
+import BankStaffModel from "../Model/BankStaffModel.js";
 
 
 
@@ -19,6 +20,8 @@ export const addBankUser = async (req, res) => {
             error: errors.array()
          })
       }
+
+      let manager = await BankStaffModel.findById(req.bankStaff.id)
 
       let { lastName, firstName, dob, email, gender, telephone, address, mothers_lastName, mothers_firstName, mothers_telephone, avatar, occupation, bvn_number, account_type, account_category } = req.body
 
@@ -76,7 +79,7 @@ export const addBankUser = async (req, res) => {
       })
 
 
-      let newBankUser = new BankUsersModel({ lastName: lastName.toUpperCase(), firstName: firstName.toUpperCase(), dob, email, gender: gender.toLowerCase(), telephone, address, mothers_lastName: mothers_lastName.toUpperCase(), mothers_firstName: mothers_firstName.toUpperCase(), mothers_telephone, avatar, occupation: occupation.toUpperCase(), bvn_id, account_type, account_category, bvn_number, account_type_name, account_category_name, account_number, mothers_fullName: mothers_fullName.toUpperCase(), fullName: fullName.toUpperCase(), telephone })
+      let newBankUser = new BankUsersModel({ lastName: lastName.toUpperCase(), firstName: firstName.toUpperCase(), dob, email, gender: gender.toLowerCase(), telephone, address, mothers_lastName: mothers_lastName.toUpperCase(), mothers_firstName: mothers_firstName.toUpperCase(), mothers_telephone, avatar, occupation: occupation.toUpperCase(), bvn_id, account_type, account_category, bvn_number, account_type_name, account_category_name, account_number, mothers_fullName: mothers_fullName.toUpperCase(), fullName: fullName.toUpperCase(), telephone, manager: manager._id })
 
       await newBankUser.save()
       res.json({
@@ -456,6 +459,54 @@ export const loginUsersWithATMPin = async (req, res) => {
    }
 }
 
+
+// route    /franchise/account-user/soft-token
+// desc     GET Generate soft token for user transaction
+// access   Private User Mobile/App Access
+export const generateToken = async (req, res) => {
+   try {
+      let user = await BankUsersModel.findById(req.bankUser.id)
+
+      do {
+         var token = getToken()
+         var checkToken = await BankUsersModel.findOne({ token })
+      } while (checkToken);
+
+      await BankUsersModel.findByIdAndUpdate({ _id: user._id }, { token })
+
+      res.json({ token })
+   } catch (error) {
+      console.log(error.message);
+      return res.status(500).json({
+         error: [
+            { msg: `Server Error: ${error.message}` }
+         ]
+      })
+   }
+}
+
+
+// route    /franchise/account-user/my-manager
+// desc     GET Generate my account manager
+// access   Private User Mobile/App Access
+export const getAccountManager = async (req, res) => {
+   try {
+      let user = await BankUsersModel.findById(req.bankUser.id)
+
+      let myManager = user.manager
+      let manager = await BankStaffModel.findById(myManager).select('-password -initUsername -initPassword -token')
+
+      res.json({ manager })
+
+   } catch (error) {
+      console.log(error.message);
+      return res.status(500).json({
+         error: [
+            { msg: `Server Error: ${error.message}` }
+         ]
+      })
+   }
+}
 
 
 const createAccessToken = user => {

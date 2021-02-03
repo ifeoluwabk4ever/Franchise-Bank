@@ -12,7 +12,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import './App.css';
 import store from './Data/Store'
 import setAuthToken from './Helpers/SetAuthToken'
-import { loadBankUser } from './Data/Actions/BankUserAction'
+import { loadBankUser, getMyManager } from './Data/Actions/BankUserAction'
 import { loadBankStaff } from './Data/Actions/BankStaffAction'
 import { getAccTypes } from './Data/Actions/AccountTypesAction'
 import { getAccCategory } from './Data/Actions/AccountCategoryAction'
@@ -29,6 +29,7 @@ if (localStorage.token) {
 const App = () => {
    useEffect(() => {
       store.dispatch(loadBankUser())
+      store.dispatch(getMyManager())
       store.dispatch(loadBankStaff())
       store.dispatch(getAccTypes())
       store.dispatch(getAccCategory())
