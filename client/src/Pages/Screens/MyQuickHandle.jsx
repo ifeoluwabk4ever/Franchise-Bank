@@ -17,7 +17,7 @@ const MyQuickHandle = ({ cssprop }) => {
                      <BiTransferAlt color="#0d6efd" size={24} />
                   </div>
                </NavLink>
-               <p className="text-capitalize">inter-bank transfer</p>
+               <p className="text-capitalize">inter bank transfer</p>
             </div>
             <div>
                <NavLink href="/my-other-bank-transfer">
