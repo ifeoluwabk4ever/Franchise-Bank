@@ -163,6 +163,10 @@ const FranchiseUserSchema = new mongoose.Schema({
       type: ObjectId,
       ref: 'FranchiseStaff',
       required: true
+   },
+   avatar: {
+      type: String,
+      required: true
    }
 }, { timestamps: true })
 

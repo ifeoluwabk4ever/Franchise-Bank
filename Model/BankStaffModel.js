@@ -90,13 +90,14 @@ const FranchiseStaffSchema = new mongoose.Schema({
       type: String,
       default: ''
    },
-   initUsername: {
-      type: String,
-      default: ''
-   },
    initPassword: {
       type: String,
       default: ''
+   },
+   enrolled_by: {
+      type: Object,
+      required: true,
+      ref: 'FranchiseStaff'
    },
 }, { timestamps: true })
 

@@ -214,8 +214,10 @@ html,
 
 .list {
    list-style-type: none;
-   padding: 0;
-   margin-bottom: 40px;
+   padding: 0 1rem 0 0;
+   margin-bottom: 1rem;
+   max-height: 30rem;
+   overflow: auto;
 }
 
 .list li {
@@ -246,8 +248,20 @@ html,
    background: rgba(0, 0, 0, 0.1);
 }
 
+.home-option>div:hover {
+   box-shadow: var(--light-shadow);
+   padding: 0 1rem;
+   transition: all 0.5s ease;
+}
+
 .mobile-home-option p {
    color: var(--clr-grey-9);
+}
+
+.user-avatar {
+   height: 2.5rem;
+   width: 2.5rem;
+   border-radius: 50%;
 }
 
 .home-option>div div {

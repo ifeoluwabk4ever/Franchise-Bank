@@ -16,8 +16,11 @@ const MobileNavbar = ({ isUser, bankUser }) => {
          <NavItem className="text-white-50 animate2 navList mr-3 text-capitalize">
             <NavLink href="#">{isUser && `${timeOfDay}, ${bankUser.firstName}`}</NavLink>
          </NavItem>
-         <NavItem className="text-white-50 animate2 navList">
+         <NavItem className="text-white-50 animate2 navList mr-3">
             <Logout />
+         </NavItem>
+         <NavItem className="text-white-50 animate2 navList">
+            {isUser && <img src={`/Images/${bankUser.avatar}`} alt={bankUser.firstName} className="user-avatar" />}
          </NavItem>
       </Fragment>
    )

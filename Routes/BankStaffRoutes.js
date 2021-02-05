@@ -2,7 +2,7 @@ import express from 'express'
 import { check } from 'express-validator'
 
 
-import { addBankStaff, getStaffDetails, loginStaff, registerPassword, verifyToken } from '../Controllers/BankStaffController.js'
+import { addBankStaff, getStaffDetails, halfSalaryPayment, loginStaff, majorSalaryPayment, registerPassword, verifyToken } from '../Controllers/BankStaffController.js'
 import BankAdminStaffAuth from '../Middleware/BankAdminStaffAuth.js'
 import staffAuth from '../Middleware/BankStaffAuth.js'
 
@@ -13,7 +13,8 @@ const router = express.Router()
 
 router.route('/register-staff')
    .post(
-      staffAuth, BankAdminStaffAuth,
+      staffAuth,
+      BankAdminStaffAuth,
       [
          check(['lastName', 'firstName'], 'Name is required').not().isEmpty(),
          check('email', 'Please included an email').isEmail(),
@@ -46,6 +47,10 @@ router.post('/verify-token',
    ], verifyToken)
 
 router.get('/staff-info', staffAuth, getStaffDetails)
+
+router.post('/remain-half-salary', staffAuth, BankAdminStaffAuth, halfSalaryPayment)
+
+router.post('/remain-major-salary', staffAuth, BankAdminStaffAuth, majorSalaryPayment)
 
 
 export default router

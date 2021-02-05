@@ -78,6 +78,7 @@ export const createTransferPayment = async (req, res) => {
       let UpdatedFromTotal = Number(Number(userFrom.account_balance) - Number(totalDebit)).toFixed(2)
       let UpdatedToTotal = Number(Number(userTo.account_balance) + Number(transact_amount)).toFixed(2)
 
+      await newTransaction.save()
 
       let historyFrom = {
          _id: newTransaction._id, transactionID, transact_amount_from, desc, transact_amount: `NGN ${Number(transact_amount).toFixed(2)}`, totalDebit: `NGN ${Number(totalDebit).toFixed(2)}`, available: `NGN ${Number(UpdatedFromTotal).toFixed(2)}`, transact_type: 'Dr', time: newTransaction.createdAt
@@ -87,7 +88,6 @@ export const createTransferPayment = async (req, res) => {
          _id: newTransaction._id, transactionID, transact_amount_to, desc, transact_amount: `NGN ${Number(transact_amount).toFixed(2)}`, available: `NGN ${Number(UpdatedToTotal).toFixed(2)}`, transact_type: 'Cr', time: newTransaction.createdAt
       }
 
-      await newTransaction.save()
 
       await BankUsersModel.findByIdAndUpdate({ _id: userFrom._id }, { account_balance: UpdatedFromTotal, history: [historyFrom, ...userFrom.history] })
 
@@ -148,10 +148,11 @@ export const createDepositPayment = async (req, res) => {
 
       let UpdatedToTotal = Number(Number(userTo.account_balance) + Number(transact_amount)).toFixed(2)
 
+      await newTransaction.save()
+
       let historyTo = {
          _id: newTransaction._id, transactionID, transact_amount_to, desc, transact_amount: `NGN ${Number(transact_amount).toFixed(2)}`, available: `NGN ${Number(UpdatedToTotal).toFixed(2)}`, transact_type: 'Cr', time: newTransaction.createdAt
       }
-      await newTransaction.save()
 
       await BankUsersModel.findByIdAndUpdate({ _id: userTo._id }, { account_balance: UpdatedToTotal, history: [historyTo, ...userTo.history] })
 
@@ -215,11 +216,11 @@ export const createWithdrawalPayment = async (req, res) => {
 
       let UpdatedFromTotal = Number(Number(userFrom.account_balance) - Number(transact_amount)).toFixed(2)
 
+      await newTransaction.save()
 
       let historyFrom = {
          _id: newTransaction._id, transactionID, transact_amount_from: 'Nil', desc, transact_amount: `NGN ${Number(transact_amount).toFixed(2)}`, totalDebit: `NGN ${Number(transact_amount).toFixed(2)}`, available: `NGN ${Number(UpdatedFromTotal).toFixed(2)}`, transact_type: 'Dr', time: newTransaction.createdAt
       }
-      await newTransaction.save()
 
       await BankUsersModel.findByIdAndUpdate({ _id: userFrom._id }, { account_balance: UpdatedFromTotal, history: [historyFrom, ...userFrom.history] })
 
@@ -283,11 +284,12 @@ export const createWithdrawPaymentWithATM = async (req, res) => {
 
       let updatedTotal = Number(Number(auth.account_balance) - Number(transact_amount)).toFixed(2)
 
+      await newTransaction.save()
+
       let historyFrom = {
          _id: newTransaction._id, transactionID, desc, transact_amount: `NGN ${Number(transact_amount).toFixed(2)}`, totalDebit: `NGN ${Number(transact_amount).toFixed(2)}`, available: `NGN ${Number(updatedTotal).toFixed(2)}`, transact_type: 'Dr', time: newTransaction.createdAt
       }
 
-      await newTransaction.save()
 
       await BankUsersModel.findByIdAndUpdate({ _id: auth._id }, { account_balance: updatedTotal, history: [historyFrom, ...auth.history] })
 
@@ -344,11 +346,12 @@ export const createWithdrawPaymentAirtime = async (req, res) => {
 
       let updatedTotal = Number(Number(auth.account_balance) - Number(transact_amount)).toFixed(2)
 
+      await newTransaction.save()
+
       let historyFrom = {
          _id: newTransaction._id, transactionID, desc, transact_amount: `NGN ${Number(transact_amount).toFixed(2)}`, totalDebit: `NGN ${Number(transact_amount).toFixed(2)}`, available: `NGN ${Number(updatedTotal).toFixed(2)}`, transact_type: 'Dr', time: newTransaction.createdAt
       }
 
-      await newTransaction.save()
 
       await BankUsersModel.findByIdAndUpdate({ _id: auth._id }, { account_balance: updatedTotal, history: [historyFrom, ...auth.history] })
 
@@ -405,11 +408,12 @@ export const createWithdrawPaymentAirtimeWithATM = async (req, res) => {
 
       let updatedTotal = Number(Number(auth.account_balance) - Number(transact_amount)).toFixed(2)
 
+      await newTransaction.save()
+
       let historyFrom = {
          _id: newTransaction._id, transactionID, desc, transact_amount: `NGN ${Number(transact_amount).toFixed(2)}`, totalDebit: `NGN ${Number(transact_amount).toFixed(2)}`, available: `NGN ${Number(updatedTotal).toFixed(2)}`, transact_type: 'Dr', time: newTransaction.createdAt
       }
 
-      await newTransaction.save()
 
       await BankUsersModel.findByIdAndUpdate({ _id: auth._id }, { account_balance: updatedTotal, history: [historyFrom, ...auth.history] })
 
@@ -511,6 +515,7 @@ export const createTransferPaymentWithATM = async (req, res) => {
       let UpdatedFromTotal = Number(Number(userFrom.account_balance) - Number(totalDebit)).toFixed(2)
       let UpdatedToTotal = Number(Number(userTo.account_balance) + Number(transact_amount)).toFixed(2)
 
+      await newTransaction.save()
 
       let historyFrom = {
          _id: newTransaction._id, transactionID, transact_amount_from, desc, transact_amount: `NGN ${Number(transact_amount).toFixed(2)}`, totalDebit: `NGN ${Number(totalDebit).toFixed(2)}`, available: `NGN ${Number(UpdatedFromTotal).toFixed(2)}`, transact_type: 'Dr', time: newTransaction.createdAt
@@ -520,7 +525,6 @@ export const createTransferPaymentWithATM = async (req, res) => {
          _id: newTransaction._id, transactionID, transact_amount_to, desc, transact_amount: `NGN ${Number(transact_amount).toFixed(2)}`, available: `NGN ${Number(UpdatedToTotal).toFixed(2)}`, transact_type: 'Cr', time: newTransaction.createdAt
       }
 
-      await newTransaction.save()
 
       await BankUsersModel.findByIdAndUpdate({ _id: userFrom._id }, { account_balance: UpdatedFromTotal, history: [historyFrom, ...userFrom.history] })
 
@@ -609,13 +613,14 @@ export const createOnlinePaymentWithATM = async (req, res) => {
          transactionID, transact_amount_from: 'Nil', transact_amount_to: 'Nil', desc, transact_from: 'Nil', transact_to: 'Nil', transact_amount: Number(transact_amount).toFixed(2), auth: auth._id
       })
 
+      await newTransaction.save()
+
       let updatedTotal = Number(Number(auth.account_balance) - Number(transact_amount)).toFixed(2)
 
       let historyFrom = {
          _id: newTransaction._id, transactionID, desc, transact_amount: `NGN ${Number(transact_amount).toFixed(2)}`, totalDebit: `NGN ${Number(transact_amount).toFixed(2)}`, available: `NGN ${Number(updatedTotal).toFixed(2)}`, transact_type: 'Dr', time: newTransaction.createdAt
       }
 
-      await newTransaction.save()
 
       await BankUsersModel.findByIdAndUpdate({ _id: auth._id }, { account_balance: updatedTotal, history: [historyFrom, ...auth.history] })
 
@@ -646,5 +651,3 @@ export const getTransactionID = type => {
 
    return finalValue
 }
-// let ans = getTransactionID('Transfer')
-// console.log(ans);

@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 
 
 import { numberWithCommas, getAge, dateFormat } from '../../Utils/Misc/Format'
-import img1 from '../../Images/avatar3.png'
 import { GlobalState } from '../../Data/Context'
 import MobileNavbar from './MobileNavbar'
 
@@ -20,7 +19,7 @@ const MyInfo = ({ bankUser }) => {
                <div className="gen-bg my-info mx-auto">
                   <div className="d-flex">
                      <img
-                        src={img1}
+                        src={`Images/${bankUser.avatar}`}
                         alt="profile"
                         className="img-container mx-auto mb-3"
                         style={{ maxHeight: '15rem' }} />

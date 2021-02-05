@@ -22,7 +22,6 @@ const DataProvider = ({ children }) => {
    } else {
       timeOfDay = "Good night"
    }
-   console.log(timeOfDay, time);
 
    const state = {
       isMobileScreen, timeOfDay

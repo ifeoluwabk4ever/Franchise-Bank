@@ -9,11 +9,15 @@ import Underline from '../../Utils/Misc/Underline'
 const MyTransactionHistory = ({ bankUser }) => {
 
    const [modal, setModal] = useState(false);
+   const [moreLess, setMoreLess] = useState(false);
    const [detail, setDetail] = useState([]);
    const [detailCheck, setDetailCheck] = useState(false);
 
    const toggle = () => {
       setModal(!modal)
+   }
+   const moreLessToggle = () => {
+      setMoreLess(!moreLess)
    }
 
    const handleDisplayDetail = id => {
@@ -36,22 +40,47 @@ const MyTransactionHistory = ({ bankUser }) => {
                <ul className="list">
                   {bankUser.history.length === 0 ?
                      <h1 className="text-center text-capitalize">No history yet</h1>
-                     : bankUser.history.slice(0, 5).map((item, index) => (
-                        <li
-                           className={`${item.transact_type === 'Cr' ? 'plus' : 'minus'}`}
-                           key={index}
-                           style={{ cursor: 'pointer' }}
-                           onClick={() => handleDisplayDetail(item._id)}
-                        >
-                           <p>
-                              <span>&#8358;{numberWithCommas(Math.abs(item.transact_type === 'Cr' ? item.transact_amount.substr(4) : item.totalDebit.substr(4)))}k--</span>
-                              <span>{item.transact_type}</span>
-                           </p>
-                           <p>Aval: {item.available < 0 && '-'}&#8358;{numberWithCommas(Math.abs(item.available.substr(4)))}k</p>
-                        </li>
-                     ))
+                     : !moreLess ?
+                        bankUser.history.slice(0, 5).map((item, index) => (
+                           <li
+                              className={`${item.transact_type === 'Cr' ? 'plus' : 'minus'}`}
+                              key={index}
+                              style={{ cursor: 'pointer' }}
+                              onClick={() => handleDisplayDetail(item._id)}
+                           >
+                              <p>
+                                 <span>&#8358;{numberWithCommas(Math.abs(item.transact_type === 'Cr' ? item.transact_amount.substr(4) : item.totalDebit.substr(4)))}k--</span>
+                                 <span>{item.transact_type}</span>
+                              </p>
+                              <p>Aval: {item.available < 0 && '-'}&#8358;{numberWithCommas(Math.abs(item.available.substr(4)))}k</p>
+                           </li>
+                        ))
+                        : bankUser.history.map((item, index) => (
+                           <li
+                              className={`${item.transact_type === 'Cr' ? 'plus' : 'minus'}`}
+                              key={index}
+                              style={{ cursor: 'pointer' }}
+                              onClick={() => handleDisplayDetail(item._id)}
+                           >
+                              <p>
+                                 <span>&#8358;{numberWithCommas(Math.abs(item.transact_type === 'Cr' ? item.transact_amount.substr(4) : item.totalDebit.substr(4)))}k--</span>
+                                 <span>{item.transact_type}</span>
+                              </p>
+                              <p>Aval: {item.available < 0 && '-'}&#8358;{numberWithCommas(Math.abs(item.available.substr(4)))}k</p>
+                           </li>
+                        ))
                   }
                </ul>
+               {bankUser.history.length > 5 &&
+                  <div className="d-flex justify-content-end align-items-center">
+                     <button
+                        onClick={moreLessToggle}
+                        className="btn btn-outline-primary text-capitalize"
+                     >
+                        {moreLess ? 'Less >>>' : 'More >>>'}
+                     </button>
+                  </div>
+               }
             </div>
             {detailCheck &&
                detail.map(item => (
@@ -59,7 +88,7 @@ const MyTransactionHistory = ({ bankUser }) => {
                      <ModalHeader
                         className={`${item.transact_type === 'Cr' ? 'list-group-item-success' : 'list-group-item-danger'}`}
                         toggle={toggle}>
-                        <h3> ID: {item.transactionID} </h3>
+                        <strong> ID: {item.transactionID} </strong>
                      </ModalHeader>
                      <ModalBody>
                         <p>

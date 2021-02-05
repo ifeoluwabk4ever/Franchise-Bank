@@ -43,6 +43,19 @@ export const addBankUser = async (req, res) => {
             { msg: `${bvn_number} does not exist...` }
          ]
       })
+
+      if (checkBVN.email !== email) return res.status(400).json({
+         error: [
+            { msg: `${email} does not tally with bvn email` }
+         ]
+      })
+
+      if (checkBVN.telephone !== telephone) return res.status(400).json({
+         error: [
+            { msg: `${telephone} does not tally with bvn telephone` }
+         ]
+      })
+
       let bvn_id = checkBVN._id
 
       let checkType = await AccountTypeModel.findById(account_type)

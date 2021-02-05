@@ -12,24 +12,27 @@ const router = express.Router()
 router.route('/register-user')
    .post(
       [
-         check(['lastName', 'firstName'], 'Name is required').not().isEmpty(),
+         check(['lastName', 'firstName'], 'Name is required').notEmpty(),
          check('email', 'Please included an email').isEmail(),
-         check('telephone', 'Please include user mobile number').not().isEmpty(),
-         check('gender', 'Please specify user gender').not().isEmpty(),
-         check('dob', 'Please specify user date of birth').isDate(),
-         check('address', 'Please include an address').not().isEmpty(),
-         check(['mothers_lastName', 'mothers_firstName'], "Mother's Name is required").not().isEmpty(),
-         check('mothers_telephone', "Mother's mobile number is required").not().isEmpty(),
-         check('avatar', 'Please include a passport photogragh').not().isEmpty(),
-         check('occupation', 'Please specify user occupation').not().isEmpty(),
-         check('account_category', 'Please specify account category').not().isEmpty(),
-         check('account_type', 'Please specify account type').not().isEmpty(),
-         check('bvn_number', 'Please included BVN Number').not().isEmpty()
-      ], bankStaffAuth, addBankUser)
+         check('telephone', 'Please include user mobile number').notEmpty(),
+         check('gender', 'Please specify user gender').notEmpty(),
+         check('dob', 'Please specify user date of birth').toDate(),
+         check('address', 'Please include an address').notEmpty(),
+         check(['mothers_lastName', 'mothers_firstName'], "Mother's Name is required").notEmpty(),
+         check('mothers_telephone', "Mother's mobile number is required").notEmpty(),
+         check('avatar', 'Please include a passport photogragh').notEmpty(),
+         check('occupation', 'Please specify user occupation').notEmpty(),
+         check('account_category', 'Please specify account category').notEmpty(),
+         check('account_type', 'Please specify account type').notEmpty(),
+         check('bvn_number', 'Please included BVN Number').notEmpty()
+      ],
+      bankStaffAuth,
+      addBankUser
+   )
    .patch(
       [
-         check('username', 'Username required').not().isEmpty(),
-         check('account_number', 'Account Number required').not().isEmpty(),
+         check('username', 'Username required').notEmpty(),
+         check('account_number', 'Account Number required').notEmpty(),
          check('password', 'Password too weak, required to be 6 or more').isLength({ min: 6 })
       ], addUserRegister
    )
@@ -49,8 +52,8 @@ router.post('/verify-token',
 
 router.post('/login-user',
    [
-      check('username', 'Username required').not().isEmpty(),
-      check('password', 'Password required').not().isEmpty()
+      check('username', 'Username required').notEmpty(),
+      check('password', 'Password required').notEmpty()
    ], loginUsers)
 
 router.route('/user-info')
