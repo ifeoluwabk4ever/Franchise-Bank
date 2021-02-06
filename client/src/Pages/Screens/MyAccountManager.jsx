@@ -1,18 +1,15 @@
 import React, { Fragment, useContext, useEffect } from 'react'
-import { connect } from 'react-redux'
 
 
-import { getMyManager } from '../../Data/Actions/BankUserAction'
 import Loading from '../../Utils/Misc/Loading'
 import { GlobalState } from '../../Data/Context'
 import MobileNavbar from './MobileNavbar'
 import { Button, Container } from 'reactstrap'
-// import img1 from '../../Images/avatar3.png'
 
 
-const MyAccountManager = ({ isLoading, getMyManager, isManager, manager, isUser }) => {
+const MyAccountManager = () => {
 
-   const { isMobileScreen } = useContext(GlobalState)
+   const { isMobileScreen, isLoading, getMyManager, isManager, manager, isUser } = useContext(GlobalState)
 
    useEffect(() => {
       getMyManager()
@@ -21,7 +18,9 @@ const MyAccountManager = ({ isLoading, getMyManager, isManager, manager, isUser 
    isLoading && <Loading />
    return (
       <Fragment>
-         {isMobileScreen && <MobileNavbar />}
+         <div className="mobile-home-div">
+            {isMobileScreen ? <MobileNavbar /> : <MobileNavbar />}
+         </div>
          <div className={`gen-bg main-view ${isMobileScreen ? 'mobile-height' : 'gen-height'}`}>
             <Container className="py-3">
                <div className="gen-bg my-info mx-auto">
@@ -60,12 +59,5 @@ const MyAccountManager = ({ isLoading, getMyManager, isManager, manager, isUser 
    )
 }
 
-const mapStateToProps = state => ({
-   isLoading: state.users.isLoading,
-   manager: state.users.manager,
-   isManager: state.users.isManager,
-   isUser: state.users.isUser,
-})
 
-
-export default connect(mapStateToProps, { getMyManager })(MyAccountManager)
+export default MyAccountManager

@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
-import { connect } from 'react-redux'
+import React, { useContext, useState } from 'react'
 import { Card } from 'reactstrap'
 import { MoonLoader } from 'react-spinners'
 
 
-import { loginBankStaff } from '../../Data/Actions/BankStaffAction'
-import { Redirect } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
+import { GlobalState } from '../../Data/Context'
 
-const StaffLogin = ({ isLoggedIn, isStaff, loginBankStaff, isLoading }) => {
+const StaffLogin = () => {
+   const { isLoggedInStaff, isStaff, loginBankStaff, isLoadingStaff } = useContext(GlobalState)
 
    const [state, setState] = useState({
       staffID: '',
@@ -32,7 +32,7 @@ const StaffLogin = ({ isLoggedIn, isStaff, loginBankStaff, isLoading }) => {
       setCallbackStaffLogin(true)
    }
 
-   if (isLoggedIn && isStaff && callbackStaffLogin) {
+   if (isLoggedInStaff && isStaff && callbackStaffLogin) {
       console.log('Okay');
       return <Redirect to="/" />
    }
@@ -69,23 +69,23 @@ const StaffLogin = ({ isLoggedIn, isStaff, loginBankStaff, isLoading }) => {
                      />
                      <label htmlFor="password">Password</label>
                   </div>
-                  {isLoading ?
+                  {isLoadingStaff ?
                      <div className="my-3">
                         <MoonLoader size={32} />
                      </div>
                      : <button type="submit" className="btn btn-dark text-capitalize">Login</button>
                   }
                </form>
+               <div className="d-flex justify-content-end">
+                  <Link
+                     to="/staff-register"
+                     className="text-capitalize"
+                  >New staff? Register</Link>
+               </div>
             </Card>
          </main>
       </div>
    )
 }
 
-const mapStateToProps = state => ({
-   isLoggedIn: state.staff.isLoggedIn,
-   isLoading: state.staff.isLoading,
-   isStaff: state.staff.isStaff
-})
-
-export default connect(mapStateToProps, { loginBankStaff })(StaffLogin)
+export default StaffLogin

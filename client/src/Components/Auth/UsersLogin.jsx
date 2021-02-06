@@ -1,16 +1,14 @@
 import React, { Fragment, useContext, useState } from 'react'
 import { Card } from 'reactstrap'
-import { connect } from 'react-redux'
 import { MoonLoader } from 'react-spinners'
-import { Redirect } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 
 
-import { loginBankUser } from '../../Data/Actions/BankUserAction'
 import { GlobalState } from '../../Data/Context'
 import MobileNavbar from '../../Pages/Screens/MobileNavbar'
 
-const UsersLogin = ({ loginBankUser, isLoading, isUser, isLoggedIn }) => {
-   const { isMobileScreen } = useContext(GlobalState)
+const UsersLogin = () => {
+   const { isMobileScreen, loginBankUser, isLoading, isUser, isLoggedIn } = useContext(GlobalState)
 
    const [state, setState] = useState({
       username: '',
@@ -39,7 +37,9 @@ const UsersLogin = ({ loginBankUser, isLoading, isUser, isLoggedIn }) => {
 
    return (
       <Fragment>
-         {isMobileScreen && <MobileNavbar />}
+         <div className="mobile-home-div">
+            {isMobileScreen ? <MobileNavbar /> : <MobileNavbar />}
+         </div>
          <div className={`d-flex align-content-center justify-content-center user-login main-view ${isMobileScreen ? 'mobile-height' : 'gen-height'}`}>
             <main className="m-auto">
                <Card className="shadow p-4">
@@ -78,6 +78,12 @@ const UsersLogin = ({ loginBankUser, isLoading, isUser, isLoggedIn }) => {
                         : <button type="submit" className="btn btn-dark text-capitalize">Login</button>
                      }
                   </form>
+                  <div className="d-flex justify-content-end">
+                     <Link
+                        to="/user-register"
+                        className="text-capitalize"
+                     >New user? Register</Link>
+                  </div>
                </Card>
             </main>
          </div>
@@ -85,10 +91,4 @@ const UsersLogin = ({ loginBankUser, isLoading, isUser, isLoggedIn }) => {
    )
 }
 
-const mapStateToProps = state => ({
-   isLoggedIn: state.users.isLoggedIn,
-   isLoading: state.users.isLoading,
-   isUser: state.users.isUser
-})
-
-export default connect(mapStateToProps, { loginBankUser })(UsersLogin)
+export default UsersLogin

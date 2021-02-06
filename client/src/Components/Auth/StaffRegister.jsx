@@ -1,13 +1,14 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Card, Modal, ModalBody, ModalHeader } from 'reactstrap'
-import { connect } from 'react-redux'
 import { MoonLoader } from 'react-spinners'
 import { Redirect } from 'react-router-dom'
 
+import { GlobalState } from '../../Data/Context'
 
-import { registerPasswordBankStaff, verifyTokenBankUser } from '../../Data/Actions/BankStaffAction'
 
-const StaffRegister = ({ registerPasswordBankStaff, isLoading, isStaff, isVerify, verifyTokenBankUser, isLoggedIn }) => {
+const StaffRegister = () => {
+
+   const { registerPasswordBankStaff, isLoadingStaff, isStaff, isVerifyStaff, verifyTokenBankStaff, isLoggedInStaff } = useContext(GlobalState)
 
    const [state, setState] = useState({
       staffID: '',
@@ -42,7 +43,7 @@ const StaffRegister = ({ registerPasswordBankStaff, isLoading, isStaff, isVerify
       setModal(!modal)
    }
 
-   if (isVerify && callbackStaffRegister) {
+   if (isVerifyStaff && callbackStaffRegister) {
       if (!modal) {
          toggle()
       }
@@ -50,12 +51,12 @@ const StaffRegister = ({ registerPasswordBankStaff, isLoading, isStaff, isVerify
 
    const handleVerifyToken = async e => {
       e.preventDefault()
-      verifyTokenBankUser({ token })
+      verifyTokenBankStaff({ token })
       setCallbackStaffVerifyToken(true)
    }
 
-   if (isLoggedIn && isStaff && callbackStaffVerifyToken) {
-      return <Redirect to="/my-staff-details" />
+   if (isLoggedInStaff && isStaff && callbackStaffVerifyToken) {
+      return <Redirect to="staff-details" />
    }
 
    return (
@@ -90,7 +91,7 @@ const StaffRegister = ({ registerPasswordBankStaff, isLoading, isStaff, isVerify
                      />
                      <label htmlFor="password">Password</label>
                   </div>
-                  {isLoading ?
+                  {isLoadingStaff ?
                      <div className="my-3">
                         <MoonLoader size={32} />
                      </div>
@@ -99,9 +100,7 @@ const StaffRegister = ({ registerPasswordBankStaff, isLoading, isStaff, isVerify
                </form>
             </Card>
             <Modal isOpen={modal}>
-               <ModalHeader toggle={toggle}>
-                  <h1>Verify Token</h1>
-               </ModalHeader>
+               <ModalHeader toggle={toggle}> Verify Token </ModalHeader>
                <ModalBody>
                   <form onSubmit={handleVerifyToken}>
                      <div className="form-floating mb-3">
@@ -116,7 +115,7 @@ const StaffRegister = ({ registerPasswordBankStaff, isLoading, isStaff, isVerify
                         />
                         <label htmlFor="token">Token:</label>
                      </div>
-                     {isLoading ?
+                     {isLoadingStaff ?
                         <div className="my-3">
                            <MoonLoader size={32} />
                         </div>
@@ -130,11 +129,5 @@ const StaffRegister = ({ registerPasswordBankStaff, isLoading, isStaff, isVerify
    )
 }
 
-const mapStateToProps = state => ({
-   isVerify: state.staff.isVerify,
-   isLoggedIn: state.staff.isLoggedIn,
-   isLoading: state.staff.isLoading,
-   isStaff: state.staff.isStaff
-})
 
-export default connect(mapStateToProps, { registerPasswordBankStaff, verifyTokenBankUser })(StaffRegister)
+export default StaffRegister

@@ -1,12 +1,16 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useContext, useState } from 'react'
 import { Navbar, Container, NavbarBrand, NavbarToggler, Collapse, Nav, NavItem, NavLink } from 'reactstrap'
-import { connect } from 'react-redux'
 
 
 import BankingWorldSelect from './BankingWorldSelect'
 import Logout from './Logout'
 import logo from '../Images/Franchise.png'
-const Headers = ({ isUser, isStaff }) => {
+import { GlobalState } from '../Data/Context'
+
+
+const Headers = () => {
+
+   const { isUser, isStaff } = useContext(GlobalState)
 
    const [isOpen, setIsOpen] = useState(false)
 
@@ -45,13 +49,19 @@ const Headers = ({ isUser, isStaff }) => {
             </Fragment>
             : (staffLinks)
          }
-         <NavItem className="text-white-50 text-capitalize animate2 navList">
-            <BankingWorldSelect />
-         </NavItem>
       </Fragment>
    )
 
    const authLinks = (
+      <Fragment>
+         <NavItem className="text-white-50 text-capitalize animate2 navList">
+            <BankingWorldSelect />
+         </NavItem>
+      </Fragment>
+
+   )
+
+   const notAuthLinks = (
       <Fragment>
          <NavItem className="text-white-50 animate2 navList">
             <Logout />
@@ -75,7 +85,8 @@ const Headers = ({ isUser, isStaff }) => {
             </div>
             <Collapse isOpen={isOpen} navbar>
                <Nav className="ml-auto d-flex align-items-center" navbar onClick={toggle}>
-                  {mainLinks}{(isUser || isStaff) ? authLinks : null}
+                  {mainLinks}
+                  {(isUser || isStaff) ? notAuthLinks : authLinks}
                </Nav>
             </Collapse>
          </Container>
@@ -83,10 +94,5 @@ const Headers = ({ isUser, isStaff }) => {
    )
 }
 
-const mapStateToProps = state => ({
-   isUser: state.users.isUser,
-   isStaff: state.staff.isStaff
-})
 
-
-export default connect(mapStateToProps, null)(Headers)
+export default Headers

@@ -16,26 +16,25 @@ router.route('/register-staff')
       staffAuth,
       BankAdminStaffAuth,
       [
-         check(['lastName', 'firstName'], 'Name is required').not().isEmpty(),
+         check(['lastName', 'firstName'], 'Name is required').notEmpty(),
          check('email', 'Please included an email').isEmail(),
-         check('telephone', 'Please include user mobile number').not().isEmpty(),
-         check('gender', 'Please specify user gender').not().isEmpty(),
-         check('dob', 'Please specify user date of birth').not().isDate(),
-         check('address', 'Please include an address').not().isEmpty(),
-         check('avatar', 'Please include a passport photogragh').not().isEmpty(),
-         check('account_number', 'Please specify user account number').not().isEmpty(),
-         check('telephone', 'Please specify user mobile number').not().isEmpty(),
+         check('telephone', 'Please include user mobile number').notEmpty(),
+         check('gender', 'Please specify user gender').notEmpty(),
+         check('dob', 'Please specify user date of birth').isDate(),
+         check('address', 'Please include an address').notEmpty(),
+         check('avatar', 'Please include a passport photogragh').notEmpty(),
+         check('account_number', 'Please specify user account number').notEmpty(),
+         check('telephone', 'Please specify user mobile number').notEmpty(),
       ], addBankStaff)
    .patch(
       [
-         check('staffID', 'Name is required').not().isEmpty(),
+         check('staffID', 'Name is required').notEmpty(),
          check('password', 'Password required, 6 or more characters').isLength({ min: 6 })
       ], registerPassword)
 
-
 router.post('/login',
    [
-      check('staffID', 'Name is required').not().isEmpty(),
+      check('staffID', 'Name is required').notEmpty(),
       check('password', 'Password required, 6 or more characters').isLength({ min: 6 })
    ], loginStaff)
 

@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { BiWalletAlt } from 'react-icons/all'
-import { connect } from 'react-redux'
 import { Modal, ModalBody, ModalHeader, NavLink } from 'reactstrap'
+import { GlobalState } from '../../Data/Context'
 
 
-import { getGeneratedToken } from '../../Data/Actions/BankUserAction';
 
+const MySoftToken = () => {
 
-const MySoftToken = ({ getGeneratedToken, genToken, isTokenGen, isUser }) => {
+   const { getGeneratedToken, genToken, isTokenGen, isUser } = useContext(GlobalState)
 
    const [isOpen, setIsOpen] = useState(false);
 
@@ -43,11 +43,5 @@ const MySoftToken = ({ getGeneratedToken, genToken, isTokenGen, isUser }) => {
       </div>
    )
 }
-const mapStateToProps = state => ({
-   isUser: state.users.isUser,
-   isTokenGen: state.users.isTokenGen,
-   genToken: state.users.genToken,
-})
 
-
-export default connect(mapStateToProps, { getGeneratedToken })(MySoftToken)
+export default MySoftToken

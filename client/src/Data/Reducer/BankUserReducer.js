@@ -132,6 +132,19 @@ export default (state = initialState, action) => {
             isLoading: false
          }
       case AUTH_ERROR:
+         return {
+            ...state,
+            users: null,
+            manager: null,
+            isUser: false,
+            isTransfer: false,
+            isVerify: false,
+            isTokenGen: false,
+            isAirtime: false,
+            isManager: false,
+            genToken: null,
+            isLoading: false
+         }
       case LOGOUT:
          // Remove token in local Storage
          localStorage.removeItem('token')

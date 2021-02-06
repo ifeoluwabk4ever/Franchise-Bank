@@ -1,6 +1,5 @@
 import React, { Fragment, useContext } from 'react'
 import { ButtonGroup, Button, Navbar, Container } from 'reactstrap'
-import { connect } from 'react-redux'
 
 
 import { numberWithCommas, getAge, dateFormat } from '../../Utils/Misc/Format'
@@ -8,12 +7,14 @@ import { GlobalState } from '../../Data/Context'
 import MobileNavbar from './MobileNavbar'
 
 
-const MyInfo = ({ bankUser }) => {
-   const { isMobileScreen } = useContext(GlobalState)
+const MyInfo = () => {
+   const { isMobileScreen, bankUser, nairaSign } = useContext(GlobalState)
 
    return (
       <Fragment>
-         {isMobileScreen && <MobileNavbar />}
+         <div className="mobile-home-div">
+            {isMobileScreen ? <MobileNavbar /> : <MobileNavbar />}
+         </div>
          <div className={`gen-bg main-view ${isMobileScreen ? 'mobile-height' : 'gen-height'}`}>
             <Container className="py-3">
                <div className="gen-bg my-info mx-auto">
@@ -42,7 +43,7 @@ const MyInfo = ({ bankUser }) => {
                   </h6>
                   <h6 className="d-flex justify-content-between align-content-center text-capitalize">
                      <span className="mr-3 text-muted">Account balance:</span>
-                     <span>&#8358;{numberWithCommas(bankUser.account_balance)}k</span>
+                     <span>{nairaSign}{numberWithCommas(bankUser.account_balance)}k</span>
                   </h6>
                   <h6 className="d-flex justify-content-between align-content-center text-capitalize">
                      <span className="mr-3 text-muted">Mobile Number:</span>
@@ -93,8 +94,4 @@ const MyInfo = ({ bankUser }) => {
    )
 }
 
-const mapStateToProps = state => ({
-   bankUser: state.users.users
-})
-
-export default connect(mapStateToProps, null)(MyInfo)
+export default MyInfo

@@ -1,14 +1,14 @@
-import React, { useState, Fragment } from 'react'
+import React, { useState, Fragment, useContext } from 'react'
 import { Container } from 'reactstrap'
-import { connect } from 'react-redux'
 import { DotLoader, MoonLoader } from 'react-spinners'
 import { FaTimes } from 'react-icons/all'
 import { toast } from 'react-toastify'
 import axios from 'axios'
 
 
-import { registerBankUser } from '../../../Data/Actions/BankUserAction'
+import Loading from '../../../Utils/Misc/Loading'
 import { Underline1 } from '../../../Utils/Misc/Underline'
+import { GlobalState } from '../../../Data/Context'
 
 
 
@@ -31,7 +31,12 @@ const initialState = {
 
 
 
-const FullUserRegistration = ({ isLoading, allTypes, allCategory, isAdded, registerBankUser, addedMsg }) => {
+const FullUserRegistration = () => {
+
+   const { isLoading, allTypes, allCategory, isAdded, registerBankUser, addedMsg, isLoadingStaff } = useContext(GlobalState)
+
+   isLoadingStaff && <Loading />
+
    const [data, setData] = useState(initialState);
    const { firstName, lastName, email, telephone, dob, address, occupation, gender, bvn_number, account_category, account_type, mothers_firstName, mothers_lastName, mothers_telephone } = data
    const initAvatar = gender === 'Male' ? 'avatar3.png' : 'avatar6.png'
@@ -119,7 +124,7 @@ const FullUserRegistration = ({ isLoading, allTypes, allCategory, isAdded, regis
          mothers_lastName: '',
          mothers_telephone: '',
       });
-      setAvatar('avatar3.png')
+      setAvatar(initAvatar)
       setImages(false)
       accString = ''
       setCallbackFullUserReg(false)
@@ -157,7 +162,7 @@ const FullUserRegistration = ({ isLoading, allTypes, allCategory, isAdded, regis
                      />
                      <label htmlFor="lastName">Last Name:</label>
                   </div>
-                  <div>
+                  <div className="mb-3">
                      <div className="upload mx-auto position-relative p-2">
                         <input
                            className="upload-file"
@@ -347,11 +352,11 @@ const FullUserRegistration = ({ isLoading, allTypes, allCategory, isAdded, regis
                   {
                      isAdded && callbackFullUserReg &&
                      <Fragment>
+                        <h4 className="my-auto">{accString}</h4>
                         <button type="reset"
                            onClick={clearDefault}
-                           className="btn btn-dark"
+                           className="btn btn-dark my-auto"
                         >Clear</button>
-                        <h4>{accString} </h4>
                      </Fragment>
                   }
                </div>
@@ -361,12 +366,4 @@ const FullUserRegistration = ({ isLoading, allTypes, allCategory, isAdded, regis
    )
 }
 
-const mapStateToProps = state => ({
-   isLoading: state.users.isLoading,
-   isAdded: state.users.isAdded,
-   addedMsg: state.users.addedMsg,
-   allTypes: state.accTypes.acctypes,
-   allCategory: state.accCategory.acccategory
-})
-
-export default connect(mapStateToProps, { registerBankUser })(FullUserRegistration)
+export default FullUserRegistration

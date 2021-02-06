@@ -1,16 +1,14 @@
 import React, { Fragment, useContext, useState } from 'react'
 import { Card, Modal, ModalBody, ModalHeader } from 'reactstrap'
-import { connect } from 'react-redux'
 import { MoonLoader } from 'react-spinners'
 import { Redirect } from 'react-router-dom'
 
 
 import { GlobalState } from '../../Data/Context'
 import MobileNavbar from '../../Pages/Screens/MobileNavbar'
-import { registerPasswordBankUser, verifyTokenBankUser } from '../../Data/Actions/BankUserAction'
 
-const UserRegister = ({ registerPasswordBankUser, isLoading, isUser, isVerify, verifyTokenBankUser, isLoggedIn }) => {
-   const { isMobileScreen } = useContext(GlobalState)
+const UserRegister = () => {
+   const { isMobileScreen, registerPasswordBankUser, isLoading, isUser, isVerify, verifyTokenBankUser, isLoggedIn } = useContext(GlobalState)
 
    const [state, setState] = useState({
       username: '',
@@ -64,7 +62,9 @@ const UserRegister = ({ registerPasswordBankUser, isLoading, isUser, isVerify, v
 
    return (
       <Fragment>
-         {isMobileScreen && <MobileNavbar />}
+         <div className="mobile-home-div">
+            {isMobileScreen ? <MobileNavbar /> : <MobileNavbar />}
+         </div>
          <div className={`d-flex align-content-center justify-content-center user-login main-view ${isMobileScreen ? 'mobile-height' : 'gen-height'}`}>
             <main className="m-auto">
                <Card className="shadow p-4">
@@ -117,9 +117,7 @@ const UserRegister = ({ registerPasswordBankUser, isLoading, isUser, isVerify, v
                   </form>
                </Card>
                <Modal isOpen={modal}>
-                  <ModalHeader toggle={toggle}>
-                     <h1>Verify Token</h1>
-                  </ModalHeader>
+                  <ModalHeader toggle={toggle}> Verify Token </ModalHeader>
                   <ModalBody>
                      <form onSubmit={handleVerifyToken}>
                         <div className="form-floating mb-3">
@@ -149,11 +147,4 @@ const UserRegister = ({ registerPasswordBankUser, isLoading, isUser, isVerify, v
    )
 }
 
-const mapStateToProps = state => ({
-   isVerify: state.users.isVerify,
-   isLoggedIn: state.users.isLoggedIn,
-   isLoading: state.users.isLoading,
-   isUser: state.users.isUser
-})
-
-export default connect(mapStateToProps, { registerPasswordBankUser, verifyTokenBankUser })(UserRegister)
+export default UserRegister

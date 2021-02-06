@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React, { Fragment, useContext, useState } from 'react'
 import { Container } from 'reactstrap'
-import { connect } from 'react-redux'
 import { DotLoader, MoonLoader } from 'react-spinners'
 import { FaTimes } from 'react-icons/all'
 import { toast } from 'react-toastify'
@@ -8,13 +7,43 @@ import axios from 'axios'
 
 
 import { Underline1 } from '../../../Utils/Misc/Underline'
+import Loading from '../../../Utils/Misc/Loading'
+import { GlobalState } from '../../../Data/Context'
 
-const FullStaffRegistration = ({ isLoading }) => {
+const initialState = {
+   firstName: '',
+   lastName: '',
+   email: '',
+   telephone: '',
+   dob: '',
+   address: '',
+   account_number: '',
+   gender: '',
+   bvn_number: '',
+   account_type: '',
+   account_category: '',
+   mothers_firstName: '',
+   mothers_lastName: '',
+   mothers_telephone: '',
+}
+
+const FullStaffRegistration = () => {
+   const { isLoadingStaff, isAddedStaff, addedMsgStaff, registerBankStaff } = useContext(GlobalState)
+
+   isLoadingStaff && <Loading />
+
+   const [data, setData] = useState(initialState);
+   const { firstName, lastName, email, telephone, dob, address, account_number, gender } = data
+   const initAvatar = gender === 'Male' ? 'avatar3.png' : 'avatar6.png'
 
    const [images, setImages] = useState(false)
    let [loading, setLoading] = useState(false)
-   // let [callbackAcadSR, setCallbackAcadSR] = useState(false)
-   let [avatar, setAvatar] = useState('')
+   let [callbackFullAcadSR, setCallbackFullAcadSR] = useState(false)
+   let [avatar, setAvatar] = useState(initAvatar)
+
+   const handleDataChange = input => e => {
+      setData({ ...data, [input]: e.target.value })
+   }
 
    let styleUpload = {
       display: images ? "block" : "none"
@@ -33,7 +62,7 @@ const FullStaffRegistration = ({ isLoading }) => {
          avatar.append('avatar', file)
 
          setLoading(true)
-         const res = await axios.post(`/franchise/upload/profile-picture`, avatar, {
+         const res = await axios.post(`/franchise/upload/staff-picture`, avatar, {
             headers: {
                'content-type': 'multipart/form-data'
             }
@@ -61,6 +90,41 @@ const FullStaffRegistration = ({ isLoading }) => {
       }
    }
 
+   if (isAddedStaff) {
+      var accString = `${lastName} ${firstName} StaffID is:- ${addedMsgStaff}`
+   }
+
+   let clearDefault = () => {
+      setData({
+         ...data,
+         firstName: '',
+         lastName: '',
+         email: '',
+         telephone: '',
+         dob: '',
+         address: '',
+         account_number: '',
+         gender: '',
+         bvn_number: '',
+         account_type: '',
+         account_category: '',
+         mothers_firstName: '',
+         mothers_lastName: '',
+         mothers_telephone: '',
+      });
+      setAvatar(initAvatar)
+      setImages(false)
+      accString = ''
+      setCallbackFullAcadSR(false)
+   }
+
+   let handleSubmit = async e => {
+      e.preventDefault()
+      registerBankStaff({ firstName, lastName, email, telephone, dob, address, account_number, gender, avatar })
+
+      setCallbackFullAcadSR(true)
+   }
+
    return (
       <div className="main-view gen-height">
          <Container className="py-4">
@@ -68,7 +132,7 @@ const FullStaffRegistration = ({ isLoading }) => {
                <h1 className="text-center text-uppercase">Full staff Registration</h1>
                <Underline1 />
             </div>
-            <form>
+            <form onSubmit={handleSubmit}>
                <div className="form-grid">
                   <div className="form-floating mb-3">
                      <input type="text"
@@ -76,6 +140,8 @@ const FullStaffRegistration = ({ isLoading }) => {
                         className="form-control"
                         id="firstName"
                         name="firstName"
+                        value={firstName}
+                        onChange={handleDataChange("firstName")}
                      />
                      <label htmlFor="firstName">First Name:</label>
                   </div>
@@ -85,10 +151,12 @@ const FullStaffRegistration = ({ isLoading }) => {
                         className="form-control"
                         id="lastName"
                         name="lastName"
+                        value={lastName}
+                        onChange={handleDataChange("lastName")}
                      />
                      <label htmlFor="lastName">Last Name:</label>
                   </div>
-                  <div>
+                  <div className="mb-3">
                      <div className="upload mx-auto position-relative p-2">
                         <input
                            className="upload-file"
@@ -100,10 +168,10 @@ const FullStaffRegistration = ({ isLoading }) => {
                         {
                            loading ?
                               <div className="file_img d-flex align-items-center justify-content-center">
-                                 <DotLoader color="#198754" size={24} />
+                                 <DotLoader color="#0d6efd" size={24} />
                               </div>
                               : <div className="file_img" style={styleUpload}>
-                                 <img src={images ? `/Images/${avatar}` : ''} alt="profile_picture" />
+                                 <img src={images ? `/Uploads/${avatar}` : ''} alt="profile_picture" />
                                  <div className="faTimes" onClick={handleProfileDestroy}>
                                     <FaTimes color="red" size={20} />
                                  </div>
@@ -119,6 +187,8 @@ const FullStaffRegistration = ({ isLoading }) => {
                         className="form-control"
                         id="email"
                         name="email"
+                        value={email}
+                        onChange={handleDataChange("email")}
                      />
                      <label htmlFor="email">Email:</label>
                   </div>
@@ -128,6 +198,8 @@ const FullStaffRegistration = ({ isLoading }) => {
                         className="form-control"
                         id="telephone"
                         name="telephone"
+                        value={telephone}
+                        onChange={handleDataChange("telephone")}
                      />
                      <label htmlFor="telephone">Telephone:</label>
                   </div>
@@ -138,6 +210,8 @@ const FullStaffRegistration = ({ isLoading }) => {
                         placeholder="Address"
                         style={{ height: '10rem', resize: 'none', width: '100%' }}
                         className="form-control"
+                        value={address}
+                        onChange={handleDataChange("address")}
                      ></textarea>
                      <label htmlFor="address">Address:</label>
                   </div>
@@ -149,6 +223,8 @@ const FullStaffRegistration = ({ isLoading }) => {
                         className="form-control"
                         id="account_number"
                         name="account_number"
+                        value={account_number}
+                        onChange={handleDataChange("account_number")}
                      />
                      <label htmlFor="account_number">Account Number:</label>
                   </div>
@@ -157,6 +233,8 @@ const FullStaffRegistration = ({ isLoading }) => {
                         name="gender"
                         id="gender"
                         className="form-select form-control"
+                        value={gender}
+                        onChange={handleDataChange("gender")}
                      >
                         <option value="">Choose gender here</option>
                         <option value="Male">Male</option>
@@ -170,28 +248,34 @@ const FullStaffRegistration = ({ isLoading }) => {
                         className="form-control"
                         id="dob"
                         name="dob"
+                        value={dob}
+                        onChange={handleDataChange("dob")}
                      />
                      <label htmlFor="dob">Date of birth:</label>
                   </div>
                </div>
-               {isLoading ?
-                  <div className="my-3">
-                     <button disabled="disabled" className="btn btn-dark text-capitalize">
+               <div className="d-flex align-content-center justify-content-between">
+                  {isLoadingStaff ?
+                     <div className="my-3">
                         <MoonLoader size={32} />
-                     </button>
-                  </div>
-                  : <button type="submit" className="btn btn-dark text-capitalize my-3">register staff</button>
-               }
+                     </div>
+                     : <button type="submit" className="btn btn-dark text-capitalize my-3">register staff</button>
+                  }
+                  {
+                     isAddedStaff && callbackFullAcadSR &&
+                     <Fragment>
+                        <h4 className="my-auto">{accString}</h4>
+                        <button type="reset"
+                           onClick={clearDefault}
+                           className="btn btn-dark my-auto"
+                        >Clear</button>
+                     </Fragment>
+                  }
+               </div>
             </form>
          </Container>
       </div>
    )
 }
 
-const mapStateToProps = state => ({
-   isLoggedIn: state.staff.isLoggedIn,
-   isLoading: state.staff.isLoading,
-   isStaff: state.staff.isStaff
-})
-
-export default connect(mapStateToProps, null)(FullStaffRegistration)
+export default FullStaffRegistration

@@ -9,7 +9,9 @@ const ErrorPage = () => {
    const { isMobileScreen } = useContext(GlobalState)
    return (
       <div className="gen-bg">
-         {isMobileScreen && <MobileNavbar />}
+         <div className="mobile-home-div">
+            {isMobileScreen ? <MobileNavbar /> : <MobileNavbar />}
+         </div>
          <div className={`error-page container d-flex justify-content-center align-content-center ${isMobileScreen ? 'mobile-height' : 'gen-height'}`}>
             <div className="m-auto p-4">
                <h1>404</h1>

@@ -67,7 +67,7 @@ const FranchiseStaffSchema = new mongoose.Schema({
    },
    salary: {
       type: Number,
-      default: 50000
+      default: 150000
    },
    level: {
       type: Number,

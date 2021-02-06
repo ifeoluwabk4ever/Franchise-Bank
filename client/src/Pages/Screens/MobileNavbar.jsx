@@ -1,15 +1,14 @@
 import React, { Fragment, useContext } from 'react'
 import { Container, Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap'
-import { connect } from 'react-redux'
 
 import logo from '../../Images/Franchise.png'
 import Logout from '../../Utils/Logout'
 import { GlobalState } from '../../Data/Context'
 
 
-const MobileNavbar = ({ isUser, bankUser }) => {
+const MobileNavbar = () => {
 
-   const { timeOfDay } = useContext(GlobalState)
+   const { timeOfDay, isUser, bankUser } = useContext(GlobalState)
 
    const authLinks = (
       <Fragment>
@@ -28,7 +27,7 @@ const MobileNavbar = ({ isUser, bankUser }) => {
       <Navbar dark sticky="top" style={{ background: '#063251' }} expand="lg"
          className="shadow">
          <Container>
-            <NavbarBrand href="/">
+            <NavbarBrand href="/my-details">
                <img src={logo} alt="Franchise" className="main-logo" />
             </NavbarBrand>
             <Nav className="d-flex align-items-center flex-row" navbar>
@@ -39,10 +38,5 @@ const MobileNavbar = ({ isUser, bankUser }) => {
    )
 }
 
-const mapStateToProps = state => ({
-   bankUser: state.users.users,
-   isUser: state.users.isUser
-})
 
-
-export default connect(mapStateToProps, null)(MobileNavbar)
+export default MobileNavbar

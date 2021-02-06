@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext, Fragment } from 'react'
 import { Card } from 'reactstrap'
-import { connect } from 'react-redux'
 import { MoonLoader } from 'react-spinners'
 import { Redirect } from 'react-router-dom'
 import axios from 'axios'
@@ -8,12 +7,11 @@ import { toast } from 'react-toastify'
 
 
 import { numberWithCommas } from '../../Utils/Misc/Format'
-import { createUserPayment } from '../../Data/Actions/BankUserAction';
 import { GlobalState } from '../../Data/Context'
 import MobileNavbar from './MobileNavbar'
 
-const MyTransfer = ({ createUserPayment, isLoading, isUser, isTransfer }) => {
-   const { isMobileScreen } = useContext(GlobalState)
+const MyTransfer = () => {
+   const { isMobileScreen, createUserPayment, isLoading, isUser, isTransfer } = useContext(GlobalState)
 
    const [state, setState] = useState({
       transact_to: '',
@@ -86,7 +84,9 @@ const MyTransfer = ({ createUserPayment, isLoading, isUser, isTransfer }) => {
 
    return (
       <Fragment>
-         {isMobileScreen && <MobileNavbar />}
+         <div className="mobile-home-div">
+            {isMobileScreen ? <MobileNavbar /> : <MobileNavbar />}
+         </div>
          <div className={`d-flex align-content-center justify-content-center user-login main-view ${isMobileScreen ? 'mobile-height' : 'gen-height'}`}>
             <main className="m-auto">
                <Card className="shadow p-4">
@@ -131,10 +131,5 @@ const MyTransfer = ({ createUserPayment, isLoading, isUser, isTransfer }) => {
       </Fragment>
    )
 }
-const mapStateToProps = state => ({
-   isLoading: state.users.isLoading,
-   isTransfer: state.users.isTransfer,
-   isUser: state.users.isUser,
-})
 
-export default connect(mapStateToProps, { createUserPayment })(MyTransfer)
+export default MyTransfer

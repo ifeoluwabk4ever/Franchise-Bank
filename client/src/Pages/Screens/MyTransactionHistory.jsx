@@ -6,7 +6,7 @@ import { numberWithCommas } from '../../Utils/Misc/Format'
 import Underline from '../../Utils/Misc/Underline'
 
 
-const MyTransactionHistory = ({ bankUser }) => {
+const MyTransactionHistory = ({ bankUser, nairaSign }) => {
 
    const [modal, setModal] = useState(false);
    const [moreLess, setMoreLess] = useState(false);
@@ -49,10 +49,10 @@ const MyTransactionHistory = ({ bankUser }) => {
                               onClick={() => handleDisplayDetail(item._id)}
                            >
                               <p>
-                                 <span>&#8358;{numberWithCommas(Math.abs(item.transact_type === 'Cr' ? item.transact_amount.substr(4) : item.totalDebit.substr(4)))}k--</span>
+                                 <span>{nairaSign}{numberWithCommas(Math.abs(item.transact_type === 'Cr' ? item.transact_amount.substr(4) : item.totalDebit.substr(4)))}k--</span>
                                  <span>{item.transact_type}</span>
                               </p>
-                              <p>Aval: {item.available < 0 && '-'}&#8358;{numberWithCommas(Math.abs(item.available.substr(4)))}k</p>
+                              <p>Aval: {item.available < 0 && '-'}{nairaSign}{numberWithCommas(Math.abs(item.available.substr(4)))}k</p>
                            </li>
                         ))
                         : bankUser.history.map((item, index) => (
@@ -63,10 +63,10 @@ const MyTransactionHistory = ({ bankUser }) => {
                               onClick={() => handleDisplayDetail(item._id)}
                            >
                               <p>
-                                 <span>&#8358;{numberWithCommas(Math.abs(item.transact_type === 'Cr' ? item.transact_amount.substr(4) : item.totalDebit.substr(4)))}k--</span>
+                                 <span>{nairaSign}{numberWithCommas(Math.abs(item.transact_type === 'Cr' ? item.transact_amount.substr(4) : item.totalDebit.substr(4)))}k--</span>
                                  <span>{item.transact_type}</span>
                               </p>
-                              <p>Aval: {item.available < 0 && '-'}&#8358;{numberWithCommas(Math.abs(item.available.substr(4)))}k</p>
+                              <p>Aval: {item.available < 0 && '-'}{nairaSign}{numberWithCommas(Math.abs(item.available.substr(4)))}k</p>
                            </li>
                         ))
                   }
@@ -92,11 +92,11 @@ const MyTransactionHistory = ({ bankUser }) => {
                      </ModalHeader>
                      <ModalBody>
                         <p>
-                           <span>Amt: &#8358;{numberWithCommas(Math.abs(item.transact_type === 'Cr' ? item.transact_amount.substr(4) : item.totalDebit.substr(4)))}k--</span>
+                           <span>Amt: {nairaSign}{numberWithCommas(Math.abs(item.transact_type === 'Cr' ? item.transact_amount.substr(4) : item.totalDebit.substr(4)))}k--</span>
                            <span>{item.transact_type}</span>
                         </p>
                         <p>Desc: {item.desc}</p>
-                        <p>Aval: {item.available < 0 && '-'}&#8358;{numberWithCommas(Math.abs(item.available.substr(4)))}k</p>
+                        <p>Aval: {item.available < 0 && '-'}{nairaSign}{numberWithCommas(Math.abs(item.available.substr(4)))}k</p>
                      </ModalBody>
                   </Modal>
                ))

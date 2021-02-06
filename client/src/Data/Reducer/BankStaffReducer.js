@@ -8,6 +8,8 @@ const initialState = {
    isLoggedIn: null,
    isDeposit: null,
    isVerify: null,
+   isAdded: null,
+   addedMsg: null,
    bankStaff: null
 }
 
@@ -23,6 +25,19 @@ export default (state = initialState, action) => {
             isLoading: false
          }
       case STAFF_REGISTER_SUCCESS:
+         return {
+            ...state,
+            isLoading: false,
+            isAdded: true,
+            addedMsg: payload
+         }
+      case STAFF_REGISTER_FAIL:
+         return {
+            ...state,
+            isLoading: false,
+            isAdded: false,
+            addedMsg: null
+         }
       case STAFF_LOGIN_SUCCESS:
          // Set token in local Storage
          localStorage.setItem('token', payload.token)
@@ -31,7 +46,6 @@ export default (state = initialState, action) => {
             ...payload,
             isLoggedIn: true
          }
-      case STAFF_REGISTER_FAIL:
       case STAFF_LOGIN_FAIL:
          return {
             ...state,
@@ -70,6 +84,16 @@ export default (state = initialState, action) => {
             isLoading: true
          }
       case STAFF_AUTH_ERROR:
+         return {
+            ...state,
+            bankStaff: null,
+            isStaff: false,
+            isDeposit: false,
+            isVerify: false,
+            isLoading: false,
+            isAdded: false,
+            addedMsg: null
+         }
       case LOGOUT:
          // Remove token in local Storage
          localStorage.removeItem('token')
@@ -81,6 +105,8 @@ export default (state = initialState, action) => {
             isDeposit: false,
             isVerify: false,
             isLoggedIn: false,
+            isAdded: false,
+            addedMsg: null,
             isLoading: false
          }
       default: return state

@@ -16,7 +16,7 @@ router.route('/register-user')
          check('email', 'Please included an email').isEmail(),
          check('telephone', 'Please include user mobile number').notEmpty(),
          check('gender', 'Please specify user gender').notEmpty(),
-         check('dob', 'Please specify user date of birth').toDate(),
+         check('dob', 'Please specify user date of birth').isDate(),
          check('address', 'Please include an address').notEmpty(),
          check(['mothers_lastName', 'mothers_firstName'], "Mother's Name is required").notEmpty(),
          check('mothers_telephone', "Mother's mobile number is required").notEmpty(),

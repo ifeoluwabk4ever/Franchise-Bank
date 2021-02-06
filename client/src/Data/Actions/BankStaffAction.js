@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import setAuthToken from '../../Helpers/SetAuthToken'
-import { STAFF_AUTH_ERROR, STAFF_LOGIN_FAIL, STAFF_LOGIN_SUCCESS, STAFF_REGISTER_FAIL, STAFF_REGISTER_SUCCESS, STAFF_SET_LOADING, STAFF_USER_LOADED, LOGOUT, STAFF_VERIFY_TOKEN, STAFF_VERIFY_TOKEN_FAIL } from './ActionTypes'
+import { STAFF_AUTH_ERROR, STAFF_LOGIN_FAIL, STAFF_LOGIN_SUCCESS, STAFF_REGISTER_FAIL, STAFF_REGISTER_SUCCESS, STAFF_SET_LOADING, STAFF_USER_LOADED, STAFF_VERIFY_TOKEN, STAFF_VERIFY_TOKEN_FAIL } from './ActionTypes'
 
 
 // LoadUser Action
@@ -26,7 +26,7 @@ export let loadBankStaff = () => async dispatch => {
 
 
 // Register Action
-export let registerBankStaff = ({ firstName, lastName, email, telephone, dob, avatar, department, password }) => async dispatch => {
+export let registerBankStaff = ({ firstName, lastName, email, telephone, dob, address, account_number, gender, avatar }) => async dispatch => {
    // Config header for axios
    let config = {
       headers: {
@@ -35,15 +35,14 @@ export let registerBankStaff = ({ firstName, lastName, email, telephone, dob, av
    }
 
    // Set body
-   let body = JSON.stringify({ firstName, lastName, email, telephone, dob, avatar, department, password })
-
+   let body = JSON.stringify({ firstName, lastName, email, telephone, dob, address, account_number, gender, avatar })
    dispatch({ type: STAFF_SET_LOADING })
    try {
       // Response
       let res = await axios.post(`/franchise/staff/register-staff`, body, config)
       dispatch({
          type: STAFF_REGISTER_SUCCESS,
-         payload: res.data
+         payload: res.data.staffID
       })
       dispatch(loadBankStaff())
       toast.success(res.data.msg)
@@ -117,7 +116,7 @@ export let registerPasswordBankStaff = ({ staffID, password }) => async dispatch
 }
 
 // Staff Personal Final Token Verification Action
-export let verifyTokenBankUser = ({ token }) => async dispatch => {
+export let verifyTokenBankStaff = ({ token }) => async dispatch => {
    // Config header for axios
    let config = {
       headers: {
@@ -144,11 +143,4 @@ export let verifyTokenBankUser = ({ token }) => async dispatch => {
 
       dispatch({ type: STAFF_LOGIN_FAIL })
    }
-}
-
-
-// Logout Action
-export let logout = () => async dispatch => {
-   dispatch({ type: LOGOUT })
-   toast.success("Logout success")
 }

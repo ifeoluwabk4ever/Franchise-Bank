@@ -82,7 +82,7 @@ export const addBankStaff = async (req, res) => {
       } while (checkStaffID);
 
 
-      let newBankStaff = new BankStaffModel({ lastName: lastName.toUpperCase(), firstName: firstName.toUpperCase(), dob, email, gender: gender.toLowerCase(), telephone, address, avatar, account_number, fullName: fullName.toUpperCase(), telephone, account_id, staffID, enrolled_by: manager._id })
+      let newBankStaff = new BankStaffModel({ lastName: lastName.toUpperCase(), firstName: firstName.toUpperCase(), dob, email, gender: gender.toLowerCase(), telephone, address, avatar, account_number, fullName: fullName.toUpperCase(), telephone, account_id, staffID, enrolled_by: manager._id, avatar })
 
       await newBankStaff.save()
 

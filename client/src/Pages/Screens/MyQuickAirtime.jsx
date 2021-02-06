@@ -1,16 +1,18 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { BsPhone } from 'react-icons/all'
-import { connect } from 'react-redux'
 import { Modal, ModalBody, ModalHeader, NavLink, Button } from 'reactstrap'
 import { Redirect } from 'react-router-dom'
 import { MoonLoader } from 'react-spinners'
 
 
+import { GlobalState } from '../../Data/Context'
+import { numberWithCommas } from '../../Utils/Misc/Format'
 
-import { loadUserAirtime } from '../../Data/Actions/BankUserAction';
 
 
-const MyQuickAirtime = ({ loadUserAirtime, isAirtime, isUser, isLoading }) => {
+const MyQuickAirtime = () => {
+
+   const { loadUserAirtime, isAirtime, isUser, isLoading, bankUser } = useContext(GlobalState)
 
    const [isOpen, setIsOpen] = useState(false);
    const [transact_amount, setTransact_amount] = useState('');
@@ -21,8 +23,9 @@ const MyQuickAirtime = ({ loadUserAirtime, isAirtime, isUser, isLoading }) => {
 
    const handleAirtimeRecharge = e => {
       e.preventDefault()
-
-      loadUserAirtime({ transact_amount })
+      if (window.confirm(`Do you want to load ${numberWithCommas(transact_amount)} on ${bankUser.telephone}?`)) {
+         loadUserAirtime({ transact_amount })
+      }
    }
 
    if (isUser && isAirtime) {
@@ -68,11 +71,5 @@ const MyQuickAirtime = ({ loadUserAirtime, isAirtime, isUser, isLoading }) => {
       </div>
    )
 }
-const mapStateToProps = state => ({
-   isUser: state.users.isUser,
-   isAirtime: state.users.isAirtime,
-   isLoading: state.users.isLoading,
-})
 
-
-export default connect(mapStateToProps, { loadUserAirtime })(MyQuickAirtime)
+export default MyQuickAirtime
