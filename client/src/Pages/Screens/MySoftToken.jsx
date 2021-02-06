@@ -35,7 +35,7 @@ const MySoftToken = () => {
             </div>
          </NavLink>
          <Modal isOpen={isOpen}>
-            <ModalHeader toggle={toggle} className="text-capitalize"> soft token </ModalHeader>
+            <ModalHeader toggle={toggle} className="text-capitalize list-group-item-primary"> soft token </ModalHeader>
             <ModalBody>
                <p>Your one-time soft token is:- <b>{genToken}</b></p>
             </ModalBody>

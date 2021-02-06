@@ -19,6 +19,7 @@ import FullUserRegistration from './Components/Auth/Authentication/FullUserRegis
 import FullStaffRegistration from './Components/Auth/Authentication/FullStaffRegistration'
 import MyAccountManager from './Pages/Screens/MyAccountManager'
 import MyStaffInfo from './Pages/Views/MyStaffInfo'
+import CheckedUser from './Components/StaffActivity/CheckedUser'
 
 
 const Routes = () => {
@@ -43,6 +44,7 @@ const Routes = () => {
             <Route exact path="/my-details" component={isUser ? MyDetails : ErrorPage} />
             <Route exact path="/my-account-manager" component={isUser ? MyAccountManager : ErrorPage} />
             <Route exact path="/staff-details" component={!isMobileScreen && isStaff ? MyStaffInfo : ErrorPage} />
+            <Route exact path="/checked-user" component={!isMobileScreen && isStaff ? CheckedUser : ErrorPage} />
             <Route component={ErrorPage} />
          </Switch>
          <div className="desktop-home-div">

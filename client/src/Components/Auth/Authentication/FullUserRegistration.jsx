@@ -135,7 +135,7 @@ const FullUserRegistration = () => {
       <div className="main-view gen-height">
          <Container className="py-4">
             <div className="mb-5">
-               <h1 className="text-center text-uppercase">Full User Registration</h1>
+               <h1 className="text-center text-uppercase title-color">Full User Registration</h1>
                <Underline1 />
             </div>
             <form onSubmit={handleSubmit}>

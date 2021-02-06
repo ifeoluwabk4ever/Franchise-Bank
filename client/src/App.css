@@ -193,6 +193,10 @@ html,
    background: var(--clr-primary-1);
 }
 
+.title-color {
+   color: var(--clr-primary-1);
+}
+
 @media screen and (max-width: 991px) {
 
    .user-login main,

@@ -40,7 +40,7 @@ const MyQuickAirtime = () => {
             </div>
          </NavLink>
          <Modal isOpen={isOpen}>
-            <ModalHeader toggle={toggle} className="text-capitalize">airtime recharge </ModalHeader>
+            <ModalHeader toggle={toggle} className="text-capitalize list-group-item-primary">airtime recharge </ModalHeader>
             <ModalBody>
                <form onSubmit={handleAirtimeRecharge}>
                   <div className="form-floating mb-3">

@@ -69,7 +69,7 @@ const UserRegister = () => {
             <main className="m-auto">
                <Card className="shadow p-4">
                   <div className="my-5">
-                     <h2 className="text-center">Welcome</h2>
+                     <h2 className="text-uppercase text-decoration-underline text-center title-color">Welcome</h2>
                   </div>
                   <form onSubmit={handleSubmit}>
                      <div className="form-floating mb-3">
@@ -117,7 +117,7 @@ const UserRegister = () => {
                   </form>
                </Card>
                <Modal isOpen={modal}>
-                  <ModalHeader toggle={toggle}> Verify Token </ModalHeader>
+                  <ModalHeader toggle={toggle} className="list-group-item-primary"> Verify Token </ModalHeader>
                   <ModalBody>
                      <form onSubmit={handleVerifyToken}>
                         <div className="form-floating mb-3">
@@ -134,9 +134,9 @@ const UserRegister = () => {
                         </div>
                         {isLoading ?
                            <div className="my-3">
-                              <MoonLoader size={32} />
+                              <MoonLoader size={32} color="#0d6efd" />
                            </div>
-                           : <button type="submit" className="btn btn-dark text-capitalize">verify</button>
+                           : <button type="submit" className="btn btn-primary text-capitalize">verify</button>
                         }
                      </form>
                   </ModalBody>

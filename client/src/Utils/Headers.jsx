@@ -6,6 +6,7 @@ import BankingWorldSelect from './BankingWorldSelect'
 import Logout from './Logout'
 import logo from '../Images/Franchise.png'
 import { GlobalState } from '../Data/Context'
+import CheckUserModal from '../Components/StaffActivity/CheckUserModal'
 
 
 const Headers = () => {
@@ -28,7 +29,7 @@ const Headers = () => {
             <NavLink href="/full-staff-register">staff registration</NavLink>
          </NavItem>
          <NavItem className="text-white-50 text-capitalize animate2 navList">
-            <NavLink href="/check user">check user</NavLink>
+            <CheckUserModal />
          </NavItem>
       </Fragment>
    )

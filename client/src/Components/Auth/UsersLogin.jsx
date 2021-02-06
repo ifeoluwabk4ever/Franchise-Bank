@@ -44,7 +44,7 @@ const UsersLogin = () => {
             <main className="m-auto">
                <Card className="shadow p-4">
                   <div className="my-5">
-                     <h2 className="text-center">Welcome</h2>
+                     <h2 className="text-uppercase text-decoration-underline text-center title-color">Welcome</h2>
                   </div>
                   <form onSubmit={handleSubmit}>
                      <div className="form-floating mb-3">
