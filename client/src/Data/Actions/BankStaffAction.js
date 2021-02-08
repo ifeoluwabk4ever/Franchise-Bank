@@ -9,6 +9,7 @@ export let loadBankStaff = () => async dispatch => {
    if (localStorage.token) {
       setAuthToken(localStorage.token)
    }
+   dispatch({ type: STAFF_SET_LOADING })
 
    try {
       let res = await axios.get(`/franchise/staff/staff-info`)

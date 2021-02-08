@@ -9,6 +9,7 @@ import { toast } from 'react-toastify'
 import { numberWithCommas } from '../../Utils/Misc/Format'
 import { GlobalState } from '../../Data/Context'
 import MobileNavbar from './MobileNavbar'
+import Loading from '../../Utils/Misc/Loading'
 
 const MyTransfer = () => {
    const { isMobileScreen, createUserPayment, isLoading, isUser, isTransfer } = useContext(GlobalState)
@@ -76,6 +77,8 @@ const MyTransfer = () => {
       }
       setLoading(false)
    }
+
+   if (isLoading) return <Loading />
 
    if (isUser && isTransfer && callbackUserTransfer) {
       return <Redirect to="/my-details" />

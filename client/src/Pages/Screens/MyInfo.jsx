@@ -5,10 +5,13 @@ import { ButtonGroup, Button, Navbar, Container } from 'reactstrap'
 import { numberWithCommas, getAge, dateFormat } from '../../Utils/Misc/Format'
 import { GlobalState } from '../../Data/Context'
 import MobileNavbar from './MobileNavbar'
+import Loading from '../../Utils/Misc/Loading'
 
 
 const MyInfo = () => {
-   const { isMobileScreen, bankUser, nairaSign } = useContext(GlobalState)
+   const { isMobileScreen, bankUser, nairaSign, isLoading } = useContext(GlobalState)
+
+   if (isLoading) return <Loading />
 
    return (
       <Fragment>

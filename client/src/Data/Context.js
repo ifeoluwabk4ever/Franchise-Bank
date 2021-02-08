@@ -7,7 +7,7 @@ import { loginBankStaff, registerPasswordBankStaff, verifyTokenBankStaff, regist
 
 export const GlobalState = createContext()
 
-const DataProvider = ({ children, isStaff, bankStaff, isUser, isLoadingStaff, isAddedStaff, addedMsgStaff, isLoading, isAdded, addedMsg, allTypes, allCategory, registerBankUser, isLoggedInStaff, loginBankStaff, isVerifyStaff, registerPasswordBankUser, verifyTokenBankUser, isLoggedIn, loginBankUser, bankUser, isManager, manager, getMyManager, isAirtime, loadUserAirtime, isTokenGen, genToken, getGeneratedToken, isTransfer, createUserPayment, registerPasswordBankStaff, verifyTokenBankStaff, registerBankStaff }) => {
+const DataProvider = ({ children, isStaff, bankStaff, isUser, isLoadingStaff, isAddedStaff, addedMsgStaff, isLoading, isAdded, addedMsg, allTypes, allCategory, registerBankUser, isLoggedInStaff, loginBankStaff, isVerifyStaff, registerPasswordBankUser, verifyTokenBankUser, isLoggedIn, loginBankUser, bankUser, isManager, manager, getMyManager, isAirtime, loadUserAirtime, isTokenGen, genToken, getGeneratedToken, isTransfer, createUserPayment, registerPasswordBankStaff, verifyTokenBankStaff, registerBankStaff, isVerify }) => {
    var isMobile = /iPhone| iPod| iPad| Andriod | Mobile/i.test(navigator.userAgent)
 
    var isMobileWidth = window.innerWidth < 768
@@ -42,7 +42,7 @@ const DataProvider = ({ children, isStaff, bankStaff, isUser, isLoadingStaff, is
       isStaff, isLoadingStaff, isAddedStaff, addedMsgStaff, isLoggedInStaff, loginBankStaff, isVerifyStaff, registerPasswordBankStaff, verifyTokenBankStaff, registerBankStaff, bankStaff,
 
       isLoading, isAdded, addedMsg, isUser,
-      registerBankUser, registerPasswordBankUser, verifyTokenBankUser, isLoggedIn, loginBankUser, bankUser, isManager, manager, getMyManager, isAirtime, loadUserAirtime, isTokenGen, genToken, getGeneratedToken, isTransfer, createUserPayment,
+      registerBankUser, registerPasswordBankUser, verifyTokenBankUser, isLoggedIn, loginBankUser, bankUser, isManager, manager, getMyManager, isAirtime, loadUserAirtime, isTokenGen, genToken, getGeneratedToken, isTransfer, createUserPayment, isVerify,
 
       allTypes, allCategory,
    }
@@ -63,6 +63,7 @@ const mapStateToProps = state => ({
    isLoggedInStaff: state.staff.isLoggedIn,
    isVerifyStaff: state.staff.isVerify,
 
+   isVerify: state.users.isVerify,
    isUser: state.users.isUser,
    isLoading: state.users.isLoading,
    isAdded: state.users.isAdded,

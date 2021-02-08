@@ -3,10 +3,17 @@ import { Link } from 'react-router-dom'
 
 
 import { GlobalState } from '../../Data/Context'
+import Loading from '../../Utils/Misc/Loading'
 import MobileNavbar from '../Screens/MobileNavbar'
 
 const ErrorPage = () => {
-   const { isMobileScreen } = useContext(GlobalState)
+
+   const { isMobileScreen, isLoading, isLoadingStaff } = useContext(GlobalState)
+
+   var loading = isLoading || isLoadingStaff
+
+   if (loading) return <Loading />
+
    return (
       <div className="gen-bg">
          <div className="mobile-home-div">

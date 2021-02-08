@@ -6,12 +6,14 @@ import MyQuickHandle from './MyQuickHandle'
 import MyTransactionHistory from './MyTransactionHistory'
 import { GlobalState } from '../../Data/Context'
 import MobileNavbar from './MobileNavbar'
+import Loading from '../../Utils/Misc/Loading'
 
 
 const MyDetails = () => {
 
-   const { isMobileScreen, bankUser, nairaSign } = useContext(GlobalState)
+   const { isMobileScreen, bankUser, nairaSign, isLoading } = useContext(GlobalState)
 
+   if (isLoading) return <Loading />
 
    return (
       <Fragment>

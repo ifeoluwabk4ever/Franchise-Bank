@@ -39,6 +39,11 @@ const Headers = () => {
          <NavItem className="text-white-50 text-capitalize animate2 navList">
             <NavLink href="/">Home</NavLink>
          </NavItem>
+         {isUser &&
+            <NavItem className="text-white-50 text-capitalize animate2 navList">
+               <NavLink href="/my-details">My Profile</NavLink>
+            </NavItem>
+         }
          {!isStaff ?
             <Fragment>
                <NavItem className="text-white-50 text-capitalize animate2 navList">
@@ -77,10 +82,10 @@ const Headers = () => {
          <Container>
             <NavbarToggler onClick={toggle} />
             <div className="d-flex align-items-center">
-               <NavbarBrand href="/">
+               <NavbarBrand href={`${isUser ? '/my-details' : '/'}`}>
                   <img src={logo} alt="Franchise" className="main-logo" />
                </NavbarBrand>
-               <NavbarBrand href="/" className="d-none d-lg-block">
+               <NavbarBrand href={`${isUser ? '/my-details' : '/'}`} className="d-none d-lg-block">
                   <h2 className="text-capitalize animate2" style={{ fontFamily: 'MV Boli,cursive' }}><span className="text-primary">Franchise</span>Bank</h2>
                </NavbarBrand>
             </div>

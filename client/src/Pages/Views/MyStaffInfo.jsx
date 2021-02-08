@@ -3,11 +3,15 @@ import { Container } from 'reactstrap'
 
 import { GlobalState } from '../../Data/Context'
 import { dateFormat, getAge, numberWithCommas } from '../../Utils/Misc/Format'
+import Loading from '../../Utils/Misc/Loading'
 
 
 const MyStaffInfo = () => {
 
-   const { bankStaff, nairaSign } = useContext(GlobalState)
+   const { bankStaff, nairaSign, isLoadingStaff } = useContext(GlobalState)
+
+   if (isLoadingStaff) return <Loading />
+
 
    return (
       <div className="gen-bg main-view gen-height">

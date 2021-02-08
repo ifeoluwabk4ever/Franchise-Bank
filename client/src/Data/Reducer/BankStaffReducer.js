@@ -24,6 +24,13 @@ export default (state = initialState, action) => {
             isStaff: true,
             isLoading: false
          }
+      case STAFF_AUTH_ERROR:
+         return {
+            ...state,
+            bankStaff: null,
+            isStaff: false,
+            isLoading: false,
+         }
       case STAFF_REGISTER_SUCCESS:
          return {
             ...state,
@@ -82,17 +89,6 @@ export default (state = initialState, action) => {
          return {
             ...state,
             isLoading: true
-         }
-      case STAFF_AUTH_ERROR:
-         return {
-            ...state,
-            bankStaff: null,
-            isStaff: false,
-            isDeposit: false,
-            isVerify: false,
-            isLoading: false,
-            isAdded: false,
-            addedMsg: null
          }
       case LOGOUT:
          // Remove token in local Storage

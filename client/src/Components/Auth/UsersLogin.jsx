@@ -10,6 +10,7 @@ import MobileNavbar from '../../Pages/Screens/MobileNavbar'
 const UsersLogin = () => {
    const { isMobileScreen, loginBankUser, isLoading, isUser, isLoggedIn } = useContext(GlobalState)
 
+
    const [state, setState] = useState({
       username: '',
       password: ''
@@ -31,6 +32,7 @@ const UsersLogin = () => {
       loginBankUser({ username, password })
       setCallbackUserLogin(true)
    }
+
    if (isLoggedIn && isUser && callbackUserLogin) {
       return <Redirect to="/my-details" />
    }

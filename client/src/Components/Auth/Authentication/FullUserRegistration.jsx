@@ -6,7 +6,6 @@ import { toast } from 'react-toastify'
 import axios from 'axios'
 
 
-import Loading from '../../../Utils/Misc/Loading'
 import { Underline1 } from '../../../Utils/Misc/Underline'
 import { GlobalState } from '../../../Data/Context'
 
@@ -33,9 +32,8 @@ const initialState = {
 
 const FullUserRegistration = () => {
 
-   const { isLoading, allTypes, allCategory, isAdded, registerBankUser, addedMsg, isLoadingStaff } = useContext(GlobalState)
+   const { isLoading, allTypes, allCategory, isAdded, registerBankUser, addedMsg } = useContext(GlobalState)
 
-   isLoadingStaff && <Loading />
 
    const [data, setData] = useState(initialState);
    const { firstName, lastName, email, telephone, dob, address, occupation, gender, bvn_number, account_category, account_type, mothers_firstName, mothers_lastName, mothers_telephone } = data

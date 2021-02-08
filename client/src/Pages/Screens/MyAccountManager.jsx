@@ -13,9 +13,11 @@ const MyAccountManager = () => {
 
    useEffect(() => {
       getMyManager()
+      // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [])
 
-   isLoading && <Loading />
+   if (isLoading) return <Loading />
+
    return (
       <Fragment>
          <div className="mobile-home-div">

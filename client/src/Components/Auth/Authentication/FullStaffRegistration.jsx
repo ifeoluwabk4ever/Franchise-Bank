@@ -7,7 +7,6 @@ import axios from 'axios'
 
 
 import { Underline1 } from '../../../Utils/Misc/Underline'
-import Loading from '../../../Utils/Misc/Loading'
 import { GlobalState } from '../../../Data/Context'
 
 const initialState = {
@@ -30,7 +29,6 @@ const initialState = {
 const FullStaffRegistration = () => {
    const { isLoadingStaff, isAddedStaff, addedMsgStaff, registerBankStaff } = useContext(GlobalState)
 
-   isLoadingStaff && <Loading />
 
    const [data, setData] = useState(initialState);
    const { firstName, lastName, email, telephone, dob, address, account_number, gender } = data
@@ -124,6 +122,7 @@ const FullStaffRegistration = () => {
 
       setCallbackFullAcadSR(true)
    }
+
 
    return (
       <div className="main-view gen-height">

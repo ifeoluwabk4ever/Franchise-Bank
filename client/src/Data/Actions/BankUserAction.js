@@ -9,6 +9,7 @@ export let loadBankUser = () => async dispatch => {
    if (localStorage.token) {
       setAuthToken(localStorage.token)
    }
+   dispatch({ type: SET_LOADING })
 
    try {
       let res = await axios.get(`/franchise/account-user/user-info`)
@@ -208,6 +209,8 @@ export let loadUserAirtime = ({ transact_amount }) => async dispatch => {
 
 // User Generate Token Action
 export let getGeneratedToken = () => async dispatch => {
+   dispatch({ type: SET_LOADING })
+
    try {
       let res = await axios.get(`/franchise/account-user/soft-token`)
       dispatch({
@@ -223,6 +226,8 @@ export let getGeneratedToken = () => async dispatch => {
 }
 // User Gets Manager Action
 export let getMyManager = () => async dispatch => {
+   dispatch({ type: SET_LOADING })
+
    try {
       let res = await axios.get(`/franchise/account-user/my-manager`)
       dispatch({
@@ -241,5 +246,4 @@ export let getMyManager = () => async dispatch => {
 // Logout Action
 export let logout = () => async dispatch => {
    dispatch({ type: LOGOUT })
-   toast.success("Logout success")
 }

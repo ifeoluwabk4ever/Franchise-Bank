@@ -3,6 +3,30 @@ import { BounceLoader, DotLoader, PropagateLoader, RingLoader, ScaleLoader } fro
 
 const Loading = () => {
    return (
+      <div className="load-page d-flex justify-content-center align-items-center">
+         <div className="loader">
+            <div>
+               <div>
+                  <div>
+                     <div>
+                        <div>
+                           <div>
+                              <div>
+                                 <div></div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   )
+}
+
+export const Loader = () => {
+   return (
       <div className="d-flex justify-content-center flex-column loaders">
          <h1 className="text-center">Loading...</h1>
          <div className="d-flex mx-auto my-5">
