@@ -25,6 +25,7 @@ const MySoftToken = () => {
       if (isUser && isTokenGen) {
          toggle()
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [genToken, isTokenGen])
 
    return (
