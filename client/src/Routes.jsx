@@ -9,7 +9,7 @@ import UsersLogin from './Components/Auth/UsersLogin'
 import MyDetails from './Pages/Screens/MyDetails'
 import MyTransfer from './Pages/Screens/MyTransfer'
 import ErrorPage from './Pages/Views/404Page'
-import Home from './Pages/Views/Home'
+import Home, { MainHome } from './Pages/Views/Home'
 import Headers from './Utils/Headers'
 import UserRegister from './Components/Auth/UserRegister'
 import MyInfo from './Pages/Screens/MyInfo'
@@ -20,6 +20,7 @@ import FullStaffRegistration from './Components/Auth/Authentication/FullStaffReg
 import MyAccountManager from './Pages/Screens/MyAccountManager'
 import MyStaffInfo from './Pages/Views/MyStaffInfo'
 import CheckedUser from './Components/StaffActivity/CheckedUser'
+import MobileHome from './Pages/Views/MobileHome'
 
 
 const Routes = () => {
@@ -30,12 +31,12 @@ const Routes = () => {
 
    return (
       <div className="main-bg">
-         <div className="desktop-home-div">
-            {!isMobileScreen ? <Headers /> : <Headers />}
-         </div>
+         {!isMobileScreen && <Headers />}
          <ToastContainer />
          <Switch>
             <Route exact path="/" component={Home} />
+            <Route exact path="/home/default" component={MainHome} />
+            <Route exact path="/home/mobile" component={MobileHome} />
             <Route exact path="/user-login" component={UsersLogin} />
             <Route exact path="/user-register" component={UserRegister} />
             <Route exact path="/full-user-register" component={mobileStaff ? FullUserRegistration : ErrorPage} />
@@ -50,9 +51,7 @@ const Routes = () => {
             <Route exact path="/checked-user" component={mobileStaff ? CheckedUser : ErrorPage} />
             <Route component={ErrorPage} />
          </Switch>
-         <div className="desktop-home-div">
-            {!isMobileScreen ? <Footer /> : <Footer />}
-         </div>
+         {!isMobileScreen && <Footer />}
       </div>
    )
 }

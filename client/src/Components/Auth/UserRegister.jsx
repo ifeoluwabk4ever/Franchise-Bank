@@ -62,9 +62,7 @@ const UserRegister = () => {
 
    return (
       <Fragment>
-         <div className="mobile-home-div">
-            {isMobileScreen ? <MobileNavbar /> : <MobileNavbar />}
-         </div>
+         {isMobileScreen && <MobileNavbar />}
          <div className={`d-flex align-content-center justify-content-center user-login main-view ${isMobileScreen ? 'mobile-height' : 'gen-height'}`}>
             <main className="m-auto">
                <Card className="shadow p-4">

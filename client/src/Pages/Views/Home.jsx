@@ -1,19 +1,24 @@
-import React, { Fragment, useContext } from 'react'
+import React, { useContext } from 'react'
+import { Redirect } from 'react-router-dom'
 import HomeBanner from '../../Components/Home/HomeBanner'
 import { GlobalState } from '../../Data/Context'
-import MobileHome from './MobileHome'
 
 const Home = () => {
    const { isMobileScreen } = useContext(GlobalState)
+
+   if (isMobileScreen) return <Redirect to="/home/mobile" />
+   else return <Redirect to="/home/default" />
+}
+
+export const MainHome = () => {
+   const { isMobileScreen } = useContext(GlobalState)
+
+   if (isMobileScreen) return <Redirect to="/home/mobile" />
+
    return (
-      <Fragment>
-         <div className="home-panel desktop-home-div">
-            {isMobileScreen ? <HomeBanner /> : <HomeBanner />}
-         </div>
-         <div className="mobile-home-div">
-            <MobileHome />
-         </div>
-      </Fragment>
+      <div className="home-panel">
+         <HomeBanner />
+      </div>
    )
 }
 

@@ -17,9 +17,7 @@ const MyDetails = () => {
 
    return (
       <Fragment>
-         <div className="mobile-home-div">
-            {isMobileScreen ? <MobileNavbar /> : <MobileNavbar />}
-         </div>
+         {isMobileScreen && <MobileNavbar />}
          <div style={{ overflowY: 'auto' }} className={`gen-bg ${isMobileScreen ? 'mobile-height' : 'gen-height'}`}>
             <div className={`py-3 ${isMobileScreen ? 'px-5' : 'container'} main-view`}>
                <div className="d-flex justify-content-end align-content-center mb-3">

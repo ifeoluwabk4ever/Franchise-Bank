@@ -15,9 +15,7 @@ const MyInfo = () => {
 
    return (
       <Fragment>
-         <div className="mobile-home-div">
-            {isMobileScreen ? <MobileNavbar /> : <MobileNavbar />}
-         </div>
+         {isMobileScreen && <MobileNavbar />}
          <div className={`gen-bg main-view ${isMobileScreen ? 'mobile-height' : 'gen-height'}`}>
             <Container className="py-3">
                <div className="gen-bg my-info mx-auto">

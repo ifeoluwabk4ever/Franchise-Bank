@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { Redirect } from 'react-router-dom'
 
 
 import MyHomePage from '../Screens/MyHomePage'
@@ -8,7 +9,9 @@ import { GlobalState } from '../../Data/Context'
 
 const MobileHome = () => {
 
-   const { timeOfDay } = useContext(GlobalState)
+   const { timeOfDay, isMobileScreen } = useContext(GlobalState)
+
+   if (!isMobileScreen) return <Redirect to="/home/default" />
 
    return (
       <div className="mobile-home-height main-view text-center">

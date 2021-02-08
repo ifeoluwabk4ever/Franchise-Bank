@@ -19,7 +19,9 @@ const MobileNavbar = () => {
             <Logout />
          </NavItem>
          <NavItem className="text-white-50 animate2 navList">
-            {isUser && <img src={`/Images/${bankUser.avatar}`} alt={bankUser.firstName} className="user-avatar" />}
+            <NavLink href="/my-user-info">
+               {isUser && <img src={`/Images/${bankUser.avatar}`} alt={bankUser.firstName} className="user-avatar" />}
+            </NavLink>
          </NavItem>
       </Fragment>
    )
